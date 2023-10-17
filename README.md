@@ -513,7 +513,7 @@ A continuación se van a presentar imágenes y bocetos de los elementos del vide
 
 **Pociones:** Trabajo extraído de la biblioteca de assets Itch.io, realizado por el usuario o\_lobster.
 
-![Image text]()
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/AssetsGDD/prisoner.png)
 
 *Figura 25 - Esqueleto*
 
