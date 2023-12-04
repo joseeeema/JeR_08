@@ -1,10 +1,11 @@
 class SceneMenu extends Phaser.Scene {
-    
+    wake = false;
+    cursors;
     constructor ()
     {
         super({ key: 'SceneMenu' });
     }
-    cursors;
+    
     preload ()
     {
     
@@ -32,12 +33,12 @@ class SceneMenu extends Phaser.Scene {
 
         }, this);
         */
-        this.enter=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
         this.scene.sleep('SceneGame');
     }
 
   
     update(){
+
         if (this.cursors.down.isDown && this.pointer.y == 348)
         {   
         this.pointer.y += 40;
@@ -47,12 +48,15 @@ class SceneMenu extends Phaser.Scene {
         this.pointer.y -= 40;
         }
         
-        if (this.enter.isDown)
-        {
-            
-            this.scene.wake('SceneGame');
-            this.scene.start('SceneGame');
-        }
+        
+        this.input.keyboard.on('keydown_ENTER', () =>{ 
+            if(!this.wake){
+                this.scene.wake('SceneGame');
+                this.scene.start('SceneGame');
+                this.wake = true;
+            }
+
+        });
         
     }
    

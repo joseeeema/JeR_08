@@ -16,10 +16,12 @@ class SceneGame extends Phaser.Scene {
         this.load.tilemapTiledJSON('mapa', 'Assets/mapa.json');
         this.load.image('Riddle', 'Assets/Riddle.png');
         this.load.image('Wiggle', 'Assets/Wiggle.png');
+        this.load.image('sky', 'Assets/Fondo_Black.jpg');
     }
 
     create (data)
     {
+        this.add.image(400, 300, 'sky').setScale(10);//JUANADA 
         //Este código nos crea una configuración de botones predefinida dónde el jugador se mueve con las flechas
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -54,6 +56,22 @@ class SceneGame extends Phaser.Scene {
         //Escalamos los sprites
         this.Riddle.setScale(0.15);
         this.Wiggle.setScale(0.2);
+
+/*
+                // CAMERA 1
+                var camera1 = this.cameras.add(0, 0, 400, 800);
+                camera1.setZoom(2); // Ajusta el valor según sea necesario
+                camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+                camera1.setBounds(0,0,400,800);
+                camera1.startFollow(this.Wiggle);
+        
+                // CAMERA 2
+                var camera2 = this.cameras.add(400, 0, 400, 800);
+                camera2.setZoom(2); // Ajusta el valor según sea necesario
+                camera2.centerOn(this.Riddle.x, this.Riddle.y);
+                camera2.setBounds(400,0,400,800);
+                camera2.startFollow(this.Riddle);
+*/
     }
 
     update ()
