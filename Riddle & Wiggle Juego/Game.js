@@ -24,17 +24,17 @@ class SceneGame extends Phaser.Scene {
         const tileset = map.addTilesetImage('Tilemap Dungeon original size','tiles');
 
         //creamos las capas del mapa
-        map.createStaticLayer('suelo', tileset)
-        const walls= map.createStaticLayer(0, tileset, 0, 0);
+        const suelo= map.createStaticLayer('suelo', tileset)
+        const walls = map.createStaticLayer('walls', tileset, 0, 0);
         
-        walls.setCollisionByProperty({collides:true})
+        walls.setCollisionByProperty({ collide: true });
 
-        const debugGraphics = this.add.graphics().setAlpha(0.7)
+        const debugGraphics = this.add.graphics().setAlpha(0.75);
         walls.renderDebug(debugGraphics, {
             tileColor: null,
-            collidingTileColor: new Phaser.Display.Color (243, 234, 48,),
+            collidingTileColor: new Phaser.Display.Color (243, 234, 48, 255),
                 faceColor: new Phaser.Display.Color(40, 39, 37, 255)
-        })
+        });
     }
 
 }
