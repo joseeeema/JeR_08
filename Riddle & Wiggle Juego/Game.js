@@ -25,9 +25,15 @@ class SceneGame extends Phaser.Scene {
 
         //creamos las capas del mapa
         const layer = map.createStaticLayer(0, tileset, 0, 0);
-    
+        
+        layer.setCollisionByProperty({collides:true})
 
-    
+        const debugGraphics = this.add.graphics().setAlpha(0.7)
+        layer.renderDebug(debugGraphics, {
+            tileColor: null,
+            collidingTileColor: new Phaser.Display.Color (243, 234, 48,),
+                faceColor: new Phaser.Display.Color(40, 39, 37, 255)
+        })
     }
 
 }
