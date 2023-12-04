@@ -11,9 +11,7 @@ class SceneGame extends Phaser.Scene {
 
     preload ()
     {
-        //cursors = this.input.keyboard.createCursorKeys();
-
-        
+  
         this.load.image('tiles', 'Assets/Tilemap Dungeon original size.png');
         this.load.tilemapTiledJSON('mapa', 'Assets/mapa.json');
         this.load.image('Riddle', 'Assets/Riddle.png');
@@ -51,8 +49,8 @@ class SceneGame extends Phaser.Scene {
         });
 
         //Añadimos unas coordenadas de aparición para los personajes
-        this.Riddle = this.add.image(400, 300, 'Riddle');
-        this.Wiggle = this.add.image(0, 0, 'Wiggle');
+        this.Riddle = this.add.image(600, 300, 'Riddle');
+        this.Wiggle = this.add.image(200, 300, 'Wiggle');
         //Escalamos los sprites
         this.Riddle.setScale(0.15);
         this.Wiggle.setScale(0.2);
@@ -60,6 +58,7 @@ class SceneGame extends Phaser.Scene {
 
     update ()
     {
+        
         //Controles Riddle
         //Movimiento horizontal
         if (this.cursors.left.isDown)
@@ -80,7 +79,7 @@ class SceneGame extends Phaser.Scene {
         {
             this.Riddle.y--;
         }
-
+        
         //Controles Wiggle
         //Movimiento horizontal
          if (this.left.isDown)
