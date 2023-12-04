@@ -16,7 +16,7 @@ class SceneMenu extends Phaser.Scene {
 
     create (data)
     {
-        this.titlescreen = this.add.image(400, 300, 'titlescreen').setScale(0.55);
+        this.titlescreen = this.add.image(400, 300, 'titlescreen').setScale(0.58);
         this.pointer = this.add.image(110, 348, 'pointer').setScale(0.55);
 
         this.add.text(120, 340, 'NUEVA PARTIDA', { fontFamily: 'Times, serif',color: 'silver'});
