@@ -11,6 +11,7 @@ class SceneMenu extends Phaser.Scene {
     
         this.load.image('titlescreen', 'Assets/title screen 2.png');
         this.load.image('pointer', 'Assets/pointer.png');
+        this.load.image('exit', 'Assets/Fondo_Black.jpg');
 
     }
 
@@ -50,10 +51,15 @@ class SceneMenu extends Phaser.Scene {
         
         
         this.input.keyboard.on('keydown_ENTER', () =>{ 
-            if(!this.wake){
+            if(!this.wake && this.pointer.y == 348){
                 this.scene.wake('SceneGame');
                 this.scene.start('SceneGame');
                 this.wake = true;
+            }else 
+            {
+                //window.close();
+                this.exit = this.add.image(400, 300, 'exit').setScale(1.5);
+                this.scene.stop('SceneMenu');
             }
 
         });
