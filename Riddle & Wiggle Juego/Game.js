@@ -41,14 +41,7 @@ class SceneGame extends Phaser.Scene {
         const suelo= map.createStaticLayer('suelo', tileset)
         const walls = map.createStaticLayer('walls', tileset, 0, 0);
         
-        walls.setCollisionByProperty({ collide: true });
-
-        const debugGraphics = this.add.graphics().setAlpha(0.75);
-        walls.renderDebug(debugGraphics, {
-            tileColor: null,
-            collidingTileColor: new Phaser.Display.Color (243, 234, 48, 255),
-                faceColor: new Phaser.Display.Color(40, 39, 37, 255)
-        });
+        this.physics.add.collider(this.Riddle,this.Wiggle,walls)
 
         //Añadimos unas coordenadas de aparición para los personajes
         this.Riddle = this.add.image(600, 300, 'Riddle');
