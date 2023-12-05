@@ -40,16 +40,22 @@ class SceneGame extends Phaser.Scene {
         //creamos las capas del mapa
         const suelo= map.createStaticLayer('suelo', tileset)
         const walls = map.createStaticLayer('walls', tileset, 0, 0);
+        walls.setCollideWorldBounds(true);
 
         walls.setCollisionByProperty({ collide: true });
+        
         //Añadimos unas coordenadas de aparición para los personajes
         this.Riddle = this.add.image(600, 300, 'Riddle');
         this.Wiggle = this.add.image(200, 300, 'Wiggle');
         
-        
+        const body = new Phaser.Physics.Arcade.Body(walls, this.Riddle);
         //Escalamos los sprites
         this.Riddle.setScale(0.15)
         this.Wiggle.setScale(0.2)
+
+       const collider = this.physics.add.collider(this.Riddle, walls);
+        
+
 
                 
 
