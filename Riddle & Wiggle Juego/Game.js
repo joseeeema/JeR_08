@@ -12,8 +12,8 @@ class SceneGame extends Phaser.Scene {
     preload ()
     {
   
-        this.load.image('tiles', 'Assets/Tilemap Dungeon original size.png');
-        this.load.tilemapTiledJSON('mapa', 'Assets/mapa.json');
+        this.load.image('tiles', 'Assets/full tilemap.png');
+        this.load.tilemapTiledJSON('mapa', 'Assets/mapa2.json');
         this.load.image('Riddle', 'Assets/Riddle.png');
         this.load.image('Wiggle', 'Assets/Wiggle.png');
         this.load.image('sky', 'Assets/Fondo_Black.jpg');
@@ -35,7 +35,7 @@ class SceneGame extends Phaser.Scene {
         const map= this.make.tilemap({ key: 'mapa' });
 
         // Asocia el tileset al mapa
-        const tileset = map.addTilesetImage('Tilemap Dungeon original size','tiles');
+        const tileset = map.addTilesetImage('full tilemap','tiles');
 
         //creamos las capas del mapa
         const suelo= map.createStaticLayer('suelo', tileset)
