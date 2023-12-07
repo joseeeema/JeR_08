@@ -18,6 +18,9 @@ class SceneGame extends Phaser.Scene {
         this.load.image('Riddle', 'Assets/Riddle.png');
         this.load.image('Wiggle', 'Assets/Wiggle.png');
         this.load.image('sky', 'Assets/Fondo_Black.jpg');
+        this.load.image('pause', 'Assets/menu pausa.png')
+        this.load.image('pointer', 'Assets/pointer.png');
+
     }
 
     create (data)
@@ -73,7 +76,14 @@ class SceneGame extends Phaser.Scene {
 
     update ()
     {
-        
+        /*
+        //Menu PAUSA
+        this.input.keyboard.on('keydown_TAB', () =>{ 
+           this.scene
+
+        });
+        */
+
         //Controles Riddle
         //Movimiento horizontal
         if (this.cursors.left.isDown)
