@@ -29,6 +29,21 @@ class SceneGame extends Phaser.Scene {
     rosaRoja;
     cuadro1;
     cuadro2;
+    puertaC;
+    muebleCocina;
+    puertaD;
+    simboloPared;
+    puertaAlmacen;
+    comodaGatos;
+    comodaMensaje;
+    estanteria3;
+    estanteria4;
+    caldero1rubi;
+    caldero2rubi;
+    caldero1zafiro;
+    caldero2zafiro;
+    nevera1;
+    nevera2;
     // Variables encargadas del sistema de diálogos y texto J1
     cajaTexto; // Imagen del cuadro de texto
     mostrandoTexto = false; // Controla que no se superpongan los textos
@@ -113,6 +128,10 @@ class SceneGame extends Phaser.Scene {
         velasEncendidas = [false, false, false, false, false];
         llamasFelinas = false;
         mensajeGatosMostrado = false;
+        puertaBibliotecaRiddle;
+        puertaBibliotecaWiggle;
+        puertaLaboratorioRiddle;
+        puertaLaboratorioWiggle;
         estanteria3_interactuada = false;
         estanteria4_interactuada = false;
         elixirRubi = false;
@@ -532,6 +551,64 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.puertaAlmacen);
         this.physics.add.collider(this.Wiggle, this.puertaAlmacen);
 
+        // Cómoda con las estatuas de gato
+        this.comodaGatos = this.physics.add.staticGroup().create(230,58, 'comodaGatos').setScale(0.35,0.22).refreshBody();
+        this.comodaGatos.interactuar = function () {
+            return "comodaGatos";
+        }
+        this.objetosInteractuables.push(this.comodaGatos);
+        this.physics.add.collider(this.Riddle, this.comodaGatos);
+        this.physics.add.collider(this.Wiggle, this.comodaGatos);
+        this.gatoAzul = this.add.image(214, 40, 'gatoAzul').setScale(0.03);
+        this.gatoNaranja = this.add.image(222, 40, 'gatoNaranja').setScale(0.03);
+        this.gatoBlanco = this.add.image(230, 40, 'gatoBlanco').setScale(0.03);
+        this.gatoRojo = this.add.image(238, 40, 'gatoRojo').setScale(0.03);
+        this.gatoVerde = this.add.image(246, 40, 'gatoVerde').setScale(0.03);
+        
+        // Cómoda con el mensaje de los gatos
+        this.comodaMensaje = this.physics.add.staticGroup().create(303,53, 'comodaMensaje').setScale(0.25).refreshBody();
+        this.comodaMensaje.interactuar = function () {
+            return "comodaMensaje";
+        }
+        this.objetosInteractuables.push(this.comodaMensaje);
+        this.physics.add.collider(this.Riddle, this.comodaMensaje);
+        this.physics.add.collider(this.Wiggle, this.comodaMensaje);
+
+        // Puerta biblioteca Riddle
+        this.puertaBibliotecaRiddle = this.physics.add.staticGroup().create(643,200,'puerta2').setScale(0.56).refreshBody();
+        this.puertaBibliotecaRiddle.interactuar = function () {
+            return "puertaBR";
+        }
+        this.objetosInteractuables.push(this.puertaBibliotecaRiddle);
+        this.physics.add.collider(this.Riddle, this.puertaBibliotecaRiddle);
+        this.physics.add.collider(this.Wiggle, this.puertaBibliotecaRiddle);
+
+        // Puerta biblioteca Wiggle
+        this.puertaBibliotecaWiggle = this.physics.add.staticGroup().create(128,63,'puerta').setScale(0.7).refreshBody();
+        this.puertaBibliotecaWiggle.interactuar = function () {
+            return "puertaBW";
+        }
+        this.objetosInteractuables.push(this.puertaBibliotecaWiggle);
+        this.physics.add.collider(this.Riddle, this.puertaBibliotecaWiggle);
+        this.physics.add.collider(this.Wiggle, this.puertaBibliotecaWiggle);
+
+        // Puerta laboratorio Riddle
+        this.puertaLaboratorioRiddle = this.physics.add.staticGroup().create(544,367,'puerta').setScale(0.7,0.7).refreshBody();
+        this.puertaLaboratorioRiddle.interactuar = function () {
+            return "puertaLR";
+        }
+        this.objetosInteractuables.push(this.puertaLaboratorioRiddle);
+        this.physics.add.collider(this.Riddle, this.puertaLaboratorioRiddle);
+        this.physics.add.collider(this.Wiggle, this.puertaLaboratorioRiddle);
+
+        // Puerta laboratorio Wiggle
+        this.puertaLaboratorioWiggle = this.physics.add.staticGroup().create(544,367,'puerta').setScale(0.7,0.7).refreshBody();
+        this.puertaLaboratorioWiggle.interactuar = function () {
+            return "puertaLW";
+        }
+        this.objetosInteractuables.push(this.puertaLaboratorioWiggle);
+        this.physics.add.collider(this.Riddle, this.puertaLaboratorioWiggle);
+        this.physics.add.collider(this.Wiggle, this.puertaLaboratorioWiggle);
 
         // CREACIÓN DE LAS CAJA DE TEXTO Y DE SUS EVENTOS ASOCIADOS
         this.cajaTexto = this.add.image(630,530,'textBox').setScale(0.7);
@@ -581,230 +658,230 @@ class SceneGame extends Phaser.Scene {
         this.puzleGatos1.visible = false;
         this.puzleGatos2 = this.add.image(200,300, 'puzle gatos 2').setScale(0.175);
         this.puzleGatos2.visible = false;
-        this.vela1AE = this.add.image(100, 257, 'velaEncendida').setScale(0.3);
+        this.vela1AE = this.add.image(500, 257, 'velaEncendida').setScale(0.3);
         this.vela1AE.visible = false;
-        this.vela2AE = this.add.image(155, 257, 'velaEncendida').setScale(0.3);
+        this.vela2AE = this.add.image(555, 257, 'velaEncendida').setScale(0.3);
         this.vela2AE.visible = false;
-        this.vela3AE = this.add.image(210, 257, 'velaEncendida').setScale(0.3);
+        this.vela3AE = this.add.image(610, 257, 'velaEncendida').setScale(0.3);
         this.vela3AE.visible = false;
-        this.vela4AE = this.add.image(270, 257, 'velaEncendida').setScale(0.3);
+        this.vela4AE = this.add.image(670, 257, 'velaEncendida').setScale(0.3);
         this.vela4AE.visible = false;
-        this.vela5AE = this.add.image(330, 257, 'velaEncendida').setScale(0.3);
+        this.vela5AE = this.add.image(730, 257, 'velaEncendida').setScale(0.3);
         this.vela5AE.visible = false;
-        this.vela1AN = this.add.image(100, 257, 'velaApagada').setScale(0.3);
+        this.vela1AN = this.add.image(500, 257, 'velaApagada').setScale(0.3);
         this.vela1AN.visible = false;
-        this.vela2AN = this.add.image(155, 257, 'velaApagada').setScale(0.3);
+        this.vela2AN = this.add.image(555, 257, 'velaApagada').setScale(0.3);
         this.vela2AN.visible = false;
-        this.vela3AN = this.add.image(210, 257, 'velaApagada').setScale(0.3);
+        this.vela3AN = this.add.image(610, 257, 'velaApagada').setScale(0.3);
         this.vela3AN.visible = false;
-        this.vela4AN = this.add.image(270, 257, 'velaApagada').setScale(0.3);
+        this.vela4AN = this.add.image(670, 257, 'velaApagada').setScale(0.3);
         this.vela4AN.visible = false;
-        this.vela5AN = this.add.image(330, 257, 'velaApagada').setScale(0.3);
+        this.vela5AN = this.add.image(730, 257, 'velaApagada').setScale(0.3);
         this.vela5AN.visible = false;
-        this.vela1BE = this.add.image(500, 257, 'velaEncendida').setScale(0.3);
+        this.vela1BE = this.add.image(100, 257, 'velaEncendida').setScale(0.3);
         this.vela1BE.visible = false;
-        this.vela2BE = this.add.image(555, 257, 'velaEncendida').setScale(0.3);
+        this.vela2BE = this.add.image(155, 257, 'velaEncendida').setScale(0.3);
         this.vela2BE.visible = false;
-        this.vela3BE = this.add.image(610, 257, 'velaEncendida').setScale(0.3);
+        this.vela3BE = this.add.image(210, 257, 'velaEncendida').setScale(0.3);
         this.vela3BE.visible = false;
-        this.vela4BE = this.add.image(670, 257, 'velaEncendida').setScale(0.3);
+        this.vela4BE = this.add.image(270, 257, 'velaEncendida').setScale(0.3);
         this.vela4BE.visible = false;
-        this.vela5BE = this.add.image(730, 257, 'velaEncendida').setScale(0.3);
+        this.vela5BE = this.add.image(330, 257, 'velaEncendida').setScale(0.3);
         this.vela5BE.visible = false;
-        this.vela1BN = this.add.image(500, 257, 'velaApagada').setScale(0.3);
+        this.vela1BN = this.add.image(100, 257, 'velaApagada').setScale(0.3);
         this.vela1BN.visible = false;
-        this.vela2BN = this.add.image(555, 257, 'velaApagada').setScale(0.3);
+        this.vela2BN = this.add.image(155, 257, 'velaApagada').setScale(0.3);
         this.vela2BN.visible = false;
-        this.vela3BN = this.add.image(610, 257, 'velaApagada').setScale(0.3);
+        this.vela3BN = this.add.image(210, 257, 'velaApagada').setScale(0.3);
         this.vela3BN.visible = false;
-        this.vela4BN = this.add.image(670, 257, 'velaApagada').setScale(0.3);
+        this.vela4BN = this.add.image(270, 257, 'velaApagada').setScale(0.3);
         this.vela4BN.visible = false;
-        this.vela5BN = this.add.image(730, 257, 'velaApagada').setScale(0.3);
+        this.vela5BN = this.add.image(330, 257, 'velaApagada').setScale(0.3);
         this.vela5BN.visible = false;
-        this.mensajeGatos1 = this.add.image(200,250, 'mensaje1').setScale(0.75);
+        this.mensajeGatos1 = this.add.image(600,250, 'mensaje1').setScale(0.75);
         this.mensajeGatos1.visible = false;
-        this.mensajeGatos2 = this.add.image(600,250, 'mensaje2').setScale(0.75);
+        this.mensajeGatos2 = this.add.image(200,250, 'mensaje2').setScale(0.75);
         this.mensajeGatos2.visible = false;
-        this.ingredientesNeveraR1 = this.add.image(200,300, 'ingredientesNeveraR1').setScale(0.165);
+        this.ingredientesNeveraR1 = this.add.image(600,300, 'ingredientesNeveraR1').setScale(0.165);
         this.ingredientesNeveraR1.visible = false;
-        this.ingredientesNeveraR2 = this.add.image(200,300, 'ingredientesNeveraR2').setScale(0.165);
+        this.ingredientesNeveraR2 = this.add.image(600,300, 'ingredientesNeveraR2').setScale(0.165);
         this.ingredientesNeveraR2.visible = false;
-        this.ingredientesNeveraW1 = this.add.image(600,300, 'ingredientesNeveraW1').setScale(0.165);
+        this.ingredientesNeveraW1 = this.add.image(200,300, 'ingredientesNeveraW1').setScale(0.165);
         this.ingredientesNeveraW1.visible = false;
-        this.ingredientesNeveraW2 = this.add.image(600,300, 'ingredientesNeveraW2').setScale(0.165);
+        this.ingredientesNeveraW2 = this.add.image(200,300, 'ingredientesNeveraW2').setScale(0.165);
         this.ingredientesNeveraW2.visible = false;
-        this.iconosNevera1[0] = this.add.image(160,255, 'icono').setScale(0.05);
+        this.iconosNevera1[0] = this.add.image(568,255, 'icono').setScale(0.05);
         this.iconosNevera1[0].visible = false;
-        this.iconosNevera1[1] = this.add.image(160,267, 'icono').setScale(0.05);
+        this.iconosNevera1[1] = this.add.image(568,267, 'icono').setScale(0.05);
         this.iconosNevera1[1].visible = false;
-        this.iconosNevera1[2] = this.add.image(160,279, 'icono').setScale(0.05);
+        this.iconosNevera1[2] = this.add.image(568,279, 'icono').setScale(0.05);
         this.iconosNevera1[2].visible = false;
-        this.iconosNevera1[3] = this.add.image(160,291, 'icono').setScale(0.05);
+        this.iconosNevera1[3] = this.add.image(568,291, 'icono').setScale(0.05);
         this.iconosNevera1[3].visible = false;
-        this.iconosNevera1[4] = this.add.image(160,303, 'icono').setScale(0.05);
+        this.iconosNevera1[4] = this.add.image(568,303, 'icono').setScale(0.05);
         this.iconosNevera1[4].visible = false;
-        this.iconosNevera1[5] = this.add.image(160,315, 'icono').setScale(0.05);
+        this.iconosNevera1[5] = this.add.image(568,315, 'icono').setScale(0.05);
         this.iconosNevera1[5].visible = false;
-        this.iconosNevera1[6] = this.add.image(160,327, 'icono').setScale(0.05);
+        this.iconosNevera1[6] = this.add.image(568,327, 'icono').setScale(0.05);
         this.iconosNevera1[6].visible = false;
-        this.iconosNevera2[0] = this.add.image(568,255, 'icono').setScale(0.05);
+        this.iconosNevera2[0] = this.add.image(160,255, 'icono').setScale(0.05);
         this.iconosNevera2[0].visible = false;
-        this.iconosNevera2[1] = this.add.image(568,267, 'icono').setScale(0.05);
+        this.iconosNevera2[1] = this.add.image(160,267, 'icono').setScale(0.05);
         this.iconosNevera2[1].visible = false;
-        this.iconosNevera2[2] = this.add.image(568,279, 'icono').setScale(0.05);
+        this.iconosNevera2[2] = this.add.image(160,279, 'icono').setScale(0.05);
         this.iconosNevera2[2].visible = false;
-        this.iconosNevera2[3] = this.add.image(568,291, 'icono').setScale(0.05);
+        this.iconosNevera2[3] = this.add.image(160,291, 'icono').setScale(0.05);
         this.iconosNevera2[3].visible = false;
-        this.iconosNevera2[4] = this.add.image(568,303, 'icono').setScale(0.05);
+        this.iconosNevera2[4] = this.add.image(160,303, 'icono').setScale(0.05);
         this.iconosNevera2[4].visible = false;
-        this.iconosNevera2[5] = this.add.image(568,315, 'icono').setScale(0.05);
+        this.iconosNevera2[5] = this.add.image(160,315, 'icono').setScale(0.05);
         this.iconosNevera2[5].visible = false;
-        this.iconosNevera2[6] = this.add.image(568,327, 'icono').setScale(0.05);
+        this.iconosNevera2[6] = this.add.image(160,327, 'icono').setScale(0.05);
         this.iconosNevera2[6].visible = false;
-        this.ingredientesCaldero1 = this.add.image(200,300, 'ingredientesCaldero1').setScale(0.165);
-        this.ingredientesCaldero1.visible = false;
-        this.ingrediente1A = this.add.text(45, 258, 'Ingrediente 1', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente1A.setText('');
-        this.iconosCaldero1[0] = this.add.image(45,258,'icono').setScale(0.05);
-        this.iconosCaldero1[0].visible = false;
-        this.arrayIngredientesRiddle[0] = this.ingrediente1A;
-        this.ingrediente2A = this.add.text(45, 270, 'Ingrediente 2', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente2A.setText('');
-        this.iconosCaldero1[1] = this.add.image(45,270,'icono').setScale(0.05);
-        this.iconosCaldero1[1].visible = false;
-        this.arrayIngredientesRiddle[1] = this.ingrediente2A;
-        this.ingrediente3A = this.add.text(45, 282, 'Ingrediente 3', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente3A.setText('');
-        this.iconosCaldero1[2] = this.add.image(45,282,'icono').setScale(0.05);
-        this.iconosCaldero1[2].visible = false;
-        this.arrayIngredientesRiddle[2] = this.ingrediente3A;
-        this.ingrediente4A = this.add.text(45, 294, 'Ingrediente 4', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente4A.setText('');
-        this.iconosCaldero1[3] = this.add.image(45,294,'icono').setScale(0.05);
-        this.iconosCaldero1[3].visible = false;
-        this.arrayIngredientesRiddle[3] = this.ingrediente4A;
-        this.ingrediente5A = this.add.text(45, 306, 'Ingrediente 5', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente5A.setText('');
-        this.iconosCaldero1[4] = this.add.image(45,306,'icono').setScale(0.05);
-        this.iconosCaldero1[4].visible = false;
-        this.arrayIngredientesRiddle[4] = this.ingrediente5A;
-        this.ingrediente6A = this.add.text(45, 318, 'Ingrediente 6', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente6A.setText('');
-        this.iconosCaldero1[5] = this.add.image(45,318,'icono').setScale(0.05);
-        this.iconosCaldero1[5].visible = false;
-        this.arrayIngredientesRiddle[5] = this.ingrediente6A;
-        this.ingrediente7A = this.add.text(45, 330, 'Ingrediente 7', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente7A.setText('');
-        this.iconosCaldero1[6] = this.add.image(45,330,'icono').setScale(0.05);
-        this.iconosCaldero1[6].visible = false;
-        this.arrayIngredientesRiddle[6] = this.ingrediente7A;
-        this.ingrediente8A = this.add.text(170, 258, 'Ingrediente 8', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente8A.setText('');
-        this.iconosCaldero1[7] = this.add.image(170,258,'icono').setScale(0.05);
-        this.iconosCaldero1[7].visible = false;
-        this.arrayIngredientesRiddle[7] = this.ingrediente8A;
-        this.ingrediente9A = this.add.text(170, 270, 'Ingrediente 9', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente9A.setText('');
-        this.iconosCaldero1[8] = this.add.image(170,270,'icono').setScale(0.05);
-        this.iconosCaldero1[8].visible = false;
-        this.arrayIngredientesRiddle[8] = this.ingrediente9A;
-        this.ingrediente10A = this.add.text(170, 282, 'Ingrediente 10', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente10A.setText('');
-        this.iconosCaldero1[9] = this.add.image(170,282,'icono').setScale(0.05);
-        this.iconosCaldero1[9].visible = false;
-        this.arrayIngredientesRiddle[9] = this.ingrediente10A;
-        this.ingrediente11A = this.add.text(170, 294, 'Ingrediente 11', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente11A.setText('');
-        this.iconosCaldero1[10] = this.add.image(170,294,'icono').setScale(0.05);
-        this.iconosCaldero1[10].visible = false;
-        this.arrayIngredientesRiddle[10] = this.ingrediente11A;
-        this.ingrediente12A = this.add.text(170, 306, 'Ingrediente 12', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente12A.setText('');
-        this.iconosCaldero1[11] = this.add.image(170,306,'icono').setScale(0.05);
-        this.iconosCaldero1[11].visible = false;
-        this.arrayIngredientesRiddle[11] = this.ingrediente12A;
-        this.ingrediente13A = this.add.text(170, 318, 'Ingrediente 13', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente13A.setText('');
-        this.iconosCaldero1[12] = this.add.image(170,318,'icono').setScale(0.05);
-        this.iconosCaldero1[12].visible = false;
-        this.arrayIngredientesRiddle[12] = this.ingrediente13A;
-        this.ingrediente14A = this.add.text(170, 330, 'Ingrediente 14', { fontSize: '10px', fill: '#ffffff' });
-        this.ingrediente14A.setText('');
-        this.iconosCaldero1[13] = this.add.image(170,330,'icono').setScale(0.05);
-        this.iconosCaldero1[13].visible = false;
-        this.arrayIngredientesRiddle[13] = this.ingrediente14A;
-        this.ingredientesCaldero2 = this.add.image(600,300, 'ingredientesCaldero2').setScale(0.165);
+        this.ingredientesCaldero2 = this.add.image(200,300, 'ingredientesCaldero2').setScale(0.165);
         this.ingredientesCaldero2.visible = false;
-        this.ingrediente1B = this.add.text(445, 258, 'Ingrediente 1', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente1B = this.add.text(45, 258, 'Ingrediente 1', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente1B.setText('');
-        this.iconosCaldero2[0] = this.add.image(445,258,'icono').setScale(0.05);;
+        this.iconosCaldero2[0] = this.add.image(45,258,'icono').setScale(0.05);
         this.iconosCaldero2[0].visible = false;
         this.arrayIngredientesWiggle[0] = this.ingrediente1B;
-        this.ingrediente2B = this.add.text(445, 270, 'Ingrediente 2', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente2B = this.add.text(45, 270, 'Ingrediente 2', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente2B.setText('');
-        this.iconosCaldero2[1] = this.add.image(445,270,'icono').setScale(0.05);;
+        this.iconosCaldero2[1] = this.add.image(45,270,'icono').setScale(0.05);
         this.iconosCaldero2[1].visible = false;
         this.arrayIngredientesWiggle[1] = this.ingrediente2B;
-        this.ingrediente3B = this.add.text(445, 282, 'Ingrediente 3', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente3B = this.add.text(45, 282, 'Ingrediente 3', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente3B.setText('');
-        this.iconosCaldero2[2] = this.add.image(445,282,'icono').setScale(0.05);;
+        this.iconosCaldero2[2] = this.add.image(45,282,'icono').setScale(0.05);
         this.iconosCaldero2[2].visible = false;
         this.arrayIngredientesWiggle[2] = this.ingrediente3B;
-        this.ingrediente4B = this.add.text(445, 294, 'Ingrediente 4', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente4B = this.add.text(45, 294, 'Ingrediente 4', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente4B.setText('');
-        this.iconosCaldero2[3] = this.add.image(445,294,'icono').setScale(0.05);;
+        this.iconosCaldero2[3] = this.add.image(45,294,'icono').setScale(0.05);
         this.iconosCaldero2[3].visible = false;
         this.arrayIngredientesWiggle[3] = this.ingrediente4B;
-        this.ingrediente5B = this.add.text(445, 306, 'Ingrediente 5', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente5B = this.add.text(45, 306, 'Ingrediente 5', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente5B.setText('');
-        this.iconosCaldero2[4] = this.add.image(445,306,'icono').setScale(0.05);;
+        this.iconosCaldero2[4] = this.add.image(45,306,'icono').setScale(0.05);
         this.iconosCaldero2[4].visible = false;
         this.arrayIngredientesWiggle[4] = this.ingrediente5B;
-        this.ingrediente6B = this.add.text(445, 318, 'Ingrediente 6', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente6B = this.add.text(45, 318, 'Ingrediente 6', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente6B.setText('');
-        this.iconosCaldero2[5] = this.add.image(445,318,'icono').setScale(0.05);;
+        this.iconosCaldero2[5] = this.add.image(45,318,'icono').setScale(0.05);
         this.iconosCaldero2[5].visible = false;
-        this.arrayIngredientesWiggle[5] = this.ingrediente6B;
-        this.ingrediente7B = this.add.text(445, 330, 'Ingrediente 7', { fontSize: '10px', fill: '#ffffff' });
+        this.arrayIngredientesWiggle[5] = this.ingrediente6A;
+        this.ingrediente7B = this.add.text(45, 330, 'Ingrediente 7', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente7B.setText('');
-        this.iconosCaldero2[6] = this.add.image(445,330,'icono').setScale(0.05);;
+        this.iconosCaldero2[6] = this.add.image(45,330,'icono').setScale(0.05);
         this.iconosCaldero2[6].visible = false;
         this.arrayIngredientesWiggle[6] = this.ingrediente7B;
-        this.ingrediente8B = this.add.text(570, 258, 'Ingrediente 8', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente8B = this.add.text(170, 258, 'Ingrediente 8', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente8B.setText('');
-        this.iconosCaldero2[7] = this.add.image(570,258,'icono').setScale(0.05);;
+        this.iconosCaldero2[7] = this.add.image(170,258,'icono').setScale(0.05);
         this.iconosCaldero2[7].visible = false;
         this.arrayIngredientesWiggle[7] = this.ingrediente8B;
-        this.ingrediente9B = this.add.text(570, 270, 'Ingrediente 9', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente9B = this.add.text(170, 270, 'Ingrediente 9', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente9B.setText('');
-        this.iconosCaldero2[8] = this.add.image(570,270,'icono').setScale(0.05);;
+        this.iconosCaldero2[8] = this.add.image(170,270,'icono').setScale(0.05);
         this.iconosCaldero2[8].visible = false;
         this.arrayIngredientesWiggle[8] = this.ingrediente9B;
-        this.ingrediente10B = this.add.text(570, 282, 'Ingrediente 10', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente10B = this.add.text(170, 282, 'Ingrediente 10', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente10B.setText('');
-        this.iconosCaldero2[9] = this.add.image(570,281,'icono').setScale(0.05);;
+        this.iconosCaldero2[9] = this.add.image(170,282,'icono').setScale(0.05);
         this.iconosCaldero2[9].visible = false;
         this.arrayIngredientesWiggle[9] = this.ingrediente10B;
-        this.ingrediente11B = this.add.text(570, 294, 'Ingrediente 11', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente11B = this.add.text(170, 294, 'Ingrediente 11', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente11B.setText('');
-        this.iconosCaldero2[10] = this.add.image(570,294,'icono').setScale(0.05);;
+        this.iconosCaldero2[10] = this.add.image(170,294,'icono').setScale(0.05);
         this.iconosCaldero2[10].visible = false;
         this.arrayIngredientesWiggle[10] = this.ingrediente11B;
-        this.ingrediente12B = this.add.text(570, 306, 'Ingrediente 12', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente12B = this.add.text(170, 306, 'Ingrediente 12', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente12B.setText('');
-        this.iconosCaldero2[11] = this.add.image(570,306,'icono').setScale(0.05);;
+        this.iconosCaldero2[11] = this.add.image(170,306,'icono').setScale(0.05);
         this.iconosCaldero2[11].visible = false;
         this.arrayIngredientesWiggle[11] = this.ingrediente12B;
-        this.ingrediente13B = this.add.text(570, 318, 'Ingrediente 13', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente13B = this.add.text(170, 318, 'Ingrediente 13', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente13B.setText('');
-        this.iconosCaldero2[12] = this.add.image(570,318,'icono').setScale(0.05);;
+        this.iconosCaldero2[12] = this.add.image(170,318,'icono').setScale(0.05);
         this.iconosCaldero2[12].visible = false;
         this.arrayIngredientesWiggle[12] = this.ingrediente13B;
-        this.ingrediente14B = this.add.text(570, 330, 'Ingrediente 14', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente14B = this.add.text(170, 330, 'Ingrediente 14', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente14B.setText('');
-        this.iconosCaldero2[13] = this.add.image(570,330,'icono').setScale(0.05);;
+        this.iconosCaldero2[13] = this.add.image(170,330,'icono').setScale(0.05);
         this.iconosCaldero2[13].visible = false;
         this.arrayIngredientesWiggle[13] = this.ingrediente14B;
+        this.ingredientesCaldero1 = this.add.image(600,300, 'ingredientesCaldero1').setScale(0.165);
+        this.ingredientesCaldero1.visible = false;
+        this.ingrediente1A = this.add.text(445, 258, 'Ingrediente 1', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente1A.setText('');
+        this.iconosCaldero1[0] = this.add.image(445,258,'icono').setScale(0.05);
+        this.iconosCaldero1[0].visible = false;
+        this.arrayIngredientesRiddle[0] = this.ingrediente1A;
+        this.ingrediente2A = this.add.text(445, 270, 'Ingrediente 2', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente2A.setText('');
+        this.iconosCaldero1[1] = this.add.image(445,270,'icono').setScale(0.05);
+        this.iconosCaldero1[1].visible = false;
+        this.arrayIngredientesRiddle[1] = this.ingrediente2A;
+        this.ingrediente3A = this.add.text(445, 282, 'Ingrediente 3', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente3A.setText('');
+        this.iconosCaldero1[2] = this.add.image(445,282,'icono').setScale(0.05);
+        this.iconosCaldero1[2].visible = false;
+        this.arrayIngredientesRiddle[2] = this.ingrediente3A;
+        this.ingrediente4A = this.add.text(445, 294, 'Ingrediente 4', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente4A.setText('');
+        this.iconosCaldero1[3] = this.add.image(445,294,'icono').setScale(0.05);
+        this.iconosCaldero1[3].visible = false;
+        this.arrayIngredientesRiddle[3] = this.ingrediente4A;
+        this.ingrediente5A = this.add.text(445, 306, 'Ingrediente 5', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente5A.setText('');
+        this.iconosCaldero1[4] = this.add.image(445,306,'icono').setScale(0.05);
+        this.iconosCaldero1[4].visible = false;
+        this.arrayIngredientesRiddle[4] = this.ingrediente5A;
+        this.ingrediente6A = this.add.text(445, 318, 'Ingrediente 6', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente6A.setText('');
+        this.iconosCaldero1[5] = this.add.image(445,318,'icono').setScale(0.05);
+        this.iconosCaldero1[5].visible = false;
+        this.arrayIngredientesRiddle[5] = this.ingrediente6A;
+        this.ingrediente7A = this.add.text(445, 330, 'Ingrediente 7', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente7A.setText('');
+        this.iconosCaldero1[6] = this.add.image(445,330,'icono').setScale(0.05);
+        this.iconosCaldero1[6].visible = false;
+        this.arrayIngredientesRiddle[6] = this.ingrediente7A;
+        this.ingrediente8A = this.add.text(570, 258, 'Ingrediente 8', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente8A.setText('');
+        this.iconosCaldero1[7] = this.add.image(570,258,'icono').setScale(0.05);
+        this.iconosCaldero1[7].visible = false;
+        this.arrayIngredientesRiddle[7] = this.ingrediente8A;
+        this.ingrediente9A = this.add.text(570, 270, 'Ingrediente 9', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente9A.setText('');
+        this.iconosCaldero1[8] = this.add.image(570,270,'icono').setScale(0.05);
+        this.iconosCaldero1[8].visible = false;
+        this.arrayIngredientesRiddle[8] = this.ingrediente9A;
+        this.ingrediente10A = this.add.text(570, 282, 'Ingrediente 10', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente10A.setText('');
+        this.iconosCaldero1[9] = this.add.image(570,281,'icono').setScale(0.05);
+        this.iconosCaldero1[9].visible = false;
+        this.arrayIngredientesRiddle[9] = this.ingrediente10A;
+        this.ingrediente11A = this.add.text(570, 294, 'Ingrediente 11', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente11A.setText('');
+        this.iconosCaldero1[10] = this.add.image(570,294,'icono').setScale(0.05);
+        this.iconosCaldero1[10].visible = false;
+        this.arrayIngredientesRiddle[10] = this.ingrediente11A;
+        this.ingrediente12A = this.add.text(570, 306, 'Ingrediente 12', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente12A.setText('');
+        this.iconosCaldero1[11] = this.add.image(570,306,'icono').setScale(0.05);
+        this.iconosCaldero1[11].visible = false;
+        this.arrayIngredientesRiddle[11] = this.ingrediente12A;
+        this.ingrediente13A = this.add.text(570, 318, 'Ingrediente 13', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente13A.setText('');
+        this.iconosCaldero1[12] = this.add.image(570,318,'icono').setScale(0.05);
+        this.iconosCaldero1[12].visible = false;
+        this.arrayIngredientesRiddle[12] = this.ingrediente13A;
+        this.ingrediente14A = this.add.text(570, 330, 'Ingrediente 14', { fontSize: '10px', fill: '#ffffff' });
+        this.ingrediente14A.setText('');
+        this.iconosCaldero1[13] = this.add.image(570,330,'icono').setScale(0.05);
+        this.iconosCaldero1[13].visible = false;
+        this.arrayIngredientesRiddle[13] = this.ingrediente14A;
 
         // TEXTO SOBRE EL PUZLE DE LAS FLORES
         this.plantaA1 = this.add.text(650, 250, 'Flor 1', { fontSize: '12px', fill: '#ffffff' });
@@ -1625,6 +1702,17 @@ class SceneGame extends Phaser.Scene {
                 }
             }
         });
+
+        // Temporizadores para más texto con las fórmulas de los elixires
+        this.formulaRubi1 = this.time.addEvent({ delay: 10800, callback: this.MostrarTextoRubi1, callbackScope: this});
+        this.formulaRubi1.paused = true;
+        this.formulaZafiro1 = this.time.addEvent({ delay: 10800, callback: this.MostrarTextoZafiro1, callbackScope: this});
+        this.formulaZafiro1.paused = true;
+        this.formulaRubi2 = this.time.addEvent({ delay: 10800, callback: this.MostrarTextoRubi2, callbackScope: this});
+        this.formulaRubi2.paused = true;
+        this.formulaZafiro2 = this.time.addEvent({ delay: 10800, callback: this.MostrarTextoZafiro2, callbackScope: this});
+        this.formulaZafiro2.paused = true;
+
         // COMBOS Y CONTRASEÑAS
         this.comboPiano = this.input.keyboard.createCombo('102365', {resetOnWrongKey: true, deleteOnMatch: true});
 
@@ -1642,6 +1730,8 @@ class SceneGame extends Phaser.Scene {
 
         //Controles Riddle
         //Movimiento horizontal
+        if(!this.juegoDetenidoRiddle) {
+
             if (this.cursors.left.isDown)
                 {
                     this.Riddle.setVelocityX(-40);
@@ -1666,18 +1756,28 @@ class SceneGame extends Phaser.Scene {
                     this.Riddle.setVelocityX(0);
                     this.Riddle.setVelocityY(0);
             }
+        }
 
-            this.input.keyboard.on('keydown_W', () =>{ 
-                    this.Wiggle.setVelocityY(-40);
+
+            this.input.keyboard.on('keydown_W', () =>{
+                    if(!this.juegoDetenidoWiggle) {
+                        this.Wiggle.setVelocityY(-40);
+                    } 
                  });
             this.input.keyboard.on('keydown_A', () =>{ 
+                if(!this.juegoDetenidoWiggle) {
                     this.Wiggle.setVelocityX(-40);
+                } 
                  });
             this.input.keyboard.on('keydown_S', () =>{ 
+                if(!this.juegoDetenidoWiggle) {
                     this.Wiggle.setVelocityY(40);
+                } 
                  });
             this.input.keyboard.on('keydown_D', () =>{ 
+                if(!this.juegoDetenidoWiggle) {
                     this.Wiggle.setVelocityX(40);
+                } 
                  });
 
             this.input.keyboard.on('keyup_W', () =>{ 
@@ -1776,6 +1876,67 @@ class SceneGame extends Phaser.Scene {
                         this.juegoDetenidoWiggle = false;
                     this.OcultarPuzleContraseña2(); });
                 }
+                if(this.puzleGatos1.visible) {
+                    this.juegoDetenidoRiddle = true;
+                    this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                        this.juegoDetenidoRiddle = false;
+                    this.OcultarPuzleGatos1(); });
+                }
+                if(this.puzleGatos2.visible) {
+                    this.juegoDetenidoWiggle = true;
+                    this.input.keyboard.on('keydown_ENTER', () =>{ 
+                        this.juegoDetenidoWiggle = false;
+                    this.OcultarPuzleGatos2(); });
+                }
+                if(this.mensajeGatos1.visible) {
+                    this.juegoDetenidoRiddle = true;
+                    this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                        this.juegoDetenidoRiddle = false;
+                    this.OcultarMensajeGatos1(); });
+                }
+                if(this.mensajeGatos2.visible) {
+                    this.juegoDetenidoWiggle = true;
+                    this.input.keyboard.on('keydown_ENTER', () =>{ 
+                        this.juegoDetenidoWiggle = false;
+                    this.OcultarMensajeGatos2(); });
+                }
+
+                if(this.ingredientesNeveraR1.visible) {
+                    this.juegoDetenidoRiddle = true;
+                    this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                        this.juegoDetenidoRiddle = false;
+                    this.OcultarIngredientesNeveraR1(); });
+                }
+                if(this.ingredientesNeveraR2.visible) {
+                    this.juegoDetenidoRiddle = true;
+                    this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                        this.juegoDetenidoRiddle = false;
+                    this.OcultarIngredientesNeveraR2(); });
+                }
+                if(this.ingredientesNeveraW1.visible) {
+                    this.juegoDetenidoWiggle = true;
+                    this.input.keyboard.on('keydown_ENTER', () =>{ 
+                        this.juegoDetenidoWiggle= false;
+                    this.OcultarIngredientesNeveraW1(); });
+                }
+                if(this.ingredientesNeveraW2.visible) {
+                    this.juegoDetenidoRiddle = true;
+                    this.input.keyboard.on('keydown_ENTER', () =>{ 
+                        this.juegoDetenidoRiddle = false;
+                    this.OcultarIngredientesNeveraW2(); });
+                }
+                if(this.ingredientesCaldero1.visible) {
+                    this.juegoDetenidoRiddle = true;
+                    this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                        this.juegoDetenidoRiddle = false;
+                    this.OcultarIngredientesCaldero1(); });
+                }
+                if(this.ingredientesCaldero2.visible) {
+                    this.juegoDetenidoWiddle = true;
+                    this.input.keyboard.on('keydown_ENTER', () =>{ 
+                        this.juegoDetenidoWiggle = false;
+                    this.OcultarIngredientesCaldero2(); });
+                }
 
                 this.input.keyboard.on('keycombomatch', event =>
                 {
@@ -1787,6 +1948,8 @@ class SceneGame extends Phaser.Scene {
         this.JardinEnArmoniaResuelto();
         this.SecretoEnLosFogonesResuelto();
         this.EnigmaAlmacenResuelto();
+        this.LlamasFelinasResuelto();
+        this.ComprobarMaestroMezclas();
     }
 
     CrearColisionParedes() {
@@ -2355,6 +2518,10 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto(frase);
                     }
+                    if(objeto==="puertaBR"||objeto==="puertaBW"||objeto==="puertaLR"||objeto==="puertaLW") {
+                        var frase = "No tenemos la llave para abrir esta puerta...";
+                        this.MostrarTexto(frase);
+                    }
                 }
                 // WIGGLE
                 InteraccionJugador2(objeto) {
@@ -2697,6 +2864,10 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto2(frase);
                     }
+                    if(objeto==="puertaBR"||objeto==="puertaBW"||objeto==="puertaLR"||objeto==="puertaLW") {
+                        var frase = "No tenemos la llave para abrir esta puerta...";
+                        this.MostrarTexto2(frase);
+                    }
                 }
     
         ///////////////////////////// CONTROL DE FLUJO DEL JUEGO Y DE LOS PUZLES
@@ -2983,5 +3154,701 @@ class SceneGame extends Phaser.Scene {
                 this.inventarioRiddle.push("Candelabro");
             }
         }
+        PrepararVelasRiddle() {
+            this.puzleGatos1.visible = true;
+            if(this.velasEncendidas[0]) {
+                this.vela1AE.visible = true;
+            }
+            if(!this.velasEncendidas[0]) {
+                this.vela1AN.visible = true;
+            }
+            if(this.velasEncendidas[1]) {
+                this.vela2AE.visible = true;
+            }
+            if(!this.velasEncendidas[1]) {
+                this.vela2AN.visible = true;
+            }
+            if(this.velasEncendidas[2]) {
+                this.vela3AE.visible = true;
+            }
+            if(!this.velasEncendidas[2]) {
+                this.vela3AN.visible = true;
+            }
+            if(this.velasEncendidas[3]) {
+                this.vela4AE.visible = true;
+            }
+            if(!this.velasEncendidas[3]) {
+                this.vela4AN.visible = true;
+            }
+            if(this.velasEncendidas[4]) {
+                this.vela5AE.visible = true;
+            }
+            if(!this.velasEncendidas[4]) {
+                this.vela5AN.visible = true;
+            }
+        }
+
+        PrepararVelasWiggle() {
+            this.puzleGatos2.visible = true;
+            if(this.velasEncendidas[0]) {
+                this.vela1BE.visible = true;
+            }
+            if(!this.velasEncendidas[0]) {
+                this.vela1BN.visible = true;
+            }
+            if(this.velasEncendidas[1]) {
+                this.vela2BE.visible = true;
+            }
+            if(!this.velasEncendidas[1]) {
+                this.vela2BN.visible = true;
+            }
+            if(this.velasEncendidas[2]) {
+                this.vela3BE.visible = true;
+            }
+            if(!this.velasEncendidas[2]) {
+                this.vela3BN.visible = true;
+            }
+            if(this.velasEncendidas[3]) {
+                this.vela4BE.visible = true;
+            }
+            if(!this.velasEncendidas[3]) {
+                this.vela4BN.visible = true;
+            }
+            if(this.velasEncendidas[4]) {
+                this.vela5BE.visible = true;
+            }
+            if(!this.velasEncendidas[4]) {
+                this.vela5BN.visible = true;
+            }
+        }
+
+        OcultarPuzleGatos1() {
+            this.puzleGatos1.visible = false;
+            this.vela1AE.visible = false;
+            this.vela1AN.visible = false;
+            this.vela2AE.visible = false;
+            this.vela2AN.visible = false;
+            this.vela3AE.visible = false;
+            this.vela3AN.visible = false;
+            this.vela4AE.visible = false;
+            this.vela4AN.visible = false;
+            this.vela5AE.visible = false;
+            this.vela5AN.visible = false;
+        }
+
+        OcultarPuzleGatos2() {
+            this.puzleGatos2.visible = false;
+            this.vela1BE.visible = false;
+            this.vela1BN.visible = false;
+            this.vela2BE.visible = false;
+            this.vela2BN.visible = false;
+            this.vela3BE.visible = false;
+            this.vela3BN.visible = false;
+            this.vela4BE.visible = false;
+            this.vela4BN.visible = false;
+            this.vela5BE.visible = false;
+            this.vela5BN.visible = false;
+        }
+
+        ComprobarVelasEncendidas() {
+            if(
+                !this.velasEncendidas[0]&&
+                !this.velasEncendidas[1]&&
+                this.velasEncendidas[2]&&
+                !this.velasEncendidas[3]&&
+                this.velasEncendidas[4]
+            ) {
+                this.llamasFelinas = true;
+            }
+        }
+
+        OcultarMensajeGatos1() {
+            this.mensajeGatos1.visible = false;
+        }
+
+        OcultarMensajeGatos2() {
+            this.mensajeGatos2.visible = false;
+        }
+
+        LlamasFelinasResuelto() {
+            if(this.llamasFelinas&&!this.mensajeGatosMostrado) {
+                this.puzleGatos1.visible = false;
+                this.puzleGatos2.visible = false;
+                this.juegoDetenidoRiddle = false;
+                this.juegoDetenidoWiggle = false;
+                this.vela1AE.visible = false;
+                this.vela1AN.visible = false;
+                this.vela2AE.visible = false;
+                this.vela2AN.visible = false;
+                this.vela3AE.visible = false;
+                this.vela3AN.visible = false;
+                this.vela4AE.visible = false;
+                this.vela4AN.visible = false;
+                this.vela5AE.visible = false;
+                this.vela5AN.visible = false;
+                this.vela1BE.visible = false;
+                this.vela1BN.visible = false;
+                this.vela2BE.visible = false;
+                this.vela2BN.visible = false;
+                this.vela3BE.visible = false;
+                this.vela3BN.visible = false;
+                this.vela4BE.visible = false;
+                this.vela4BN.visible = false;
+                this.vela5BE.visible = false;
+                this.vela5BN.visible = false;
+
+                var candelabroWiggle = false;
+                for(var i=0; i<this.inventarioWiggle.length; i++) {
+                    if(this.inventarioWiggle[i]==="Candelabro") {
+                        candelabroWiggle = true;
+                    }
+                }
+                var frase = "He debido de acertar, porque se ha escuchado un ruido y, ¡he visto abrirse el resto de puertas!";
+                if(candelabroWiggle) {
+                    this.MostrarTexto2(frase);
+                }
+                else {
+                    this.MostrarTexto(frase);
+                }
+                this.mensajeGatosMostrado = true;
+
+                // Abrir todas las puertas
+                this.puertaBibliotecaRiddle.disableBody(true,true);
+                this.puertaBibliotecaWiggle.disableBody(true,true);
+                this.puertaLaboratorioRiddle.disableBody(true,true);
+                this.puertaLaboratorioWiggle.disableBody(true,true);
+
+            }
+        }
+
+        MostrarTextoRubi1() {
+            var frase = "Parece la fórmula del elixir rojo que necesitamos para salir. Hay que buscar los ingredientes.";
+            this.MostrarTexto(frase);
+            this.formulaRubi1.paused = true;
+        }
+
+        MostrarTextoRubi2() {
+            var frase = "Parece la fórmula del elixir rojo que necesitamos para salir. Hay que buscar los ingredientes.";
+            this.MostrarTexto2(frase);
+            this.formulaRubi2.paused = true;
+        }
+
+        MostrarTextoZafiro1() {
+            var frase = "Parece la fórmula del elixir azul que necesitamos para salir. Hay que buscar los ingredientes.";
+            this.MostrarTexto(frase);
+            this.formulaZafiro1.paused = true;
+        }
+
+        MostrarTextoZafiro2() {
+            var frase = "Parece la fórmula del elixir azul que necesitamos para salir. Hay que buscar los ingredientes.";
+            this.MostrarTexto2(frase);
+            this.formulaZafiro2.paused = true;
+        }
+
+        OcultarIngredientesNeveraR1() {
+            this.ingredientesNeveraR1.visible = false;
+            for(var i=0; i<this.iconosNevera1.length; i++) {
+                this.iconosNevera1[i].visible = false;
+            }
+        }
+
+        OcultarIngredientesNeveraR2() {
+            this.ingredientesNeveraR2.visible = false;
+            for(var i=0; i<this.iconosNevera2.length; i++) {
+                this.iconosNevera2[i].visible = false;
+            }
+        }
+
+        OcultarIngredientesNeveraW1() {
+            this.ingredientesNeveraW1.visible = false;
+            for(var i=0; i<this.iconosNevera1.length; i++) {
+                this.iconosNevera1[i].visible = false;
+            }
+        }
+
+        OcultarIngredientesNeveraW2() {
+            this.ingredientesNeveraW2.visible = false;
+            for(var i=0; i<this.iconosNevera2.length; i++) {
+                this.iconosNevera2[i].visible = false;
+            }
+        }
+
+        OcultarIngredientesCaldero1() {
+            this.ingredientesCaldero1.visible = false;
+            for(var i=0; i<this.arrayIngredientesRiddle.length; i++) {
+                this.arrayIngredientesRiddle[i].setText('');
+            }
+            for(var i=0; i<this.iconosCaldero1.length;i++) {
+                this.iconosCaldero1[i].visible = false;
+            }
+            for(var i=0; i<this.ingredientesIntroducidosCaldero1.length;i++) {
+                    this.ingredientesIntroducidosCaldero1[i] = 0;
+                }
+        }
+
+        OcultarIngredientesCaldero2() {
+            this.ingredientesCaldero2.visible = false;
+            for(var i=0; i<this.arrayIngredientesWiggle.length; i++) {
+                this.arrayIngredientesWiggle[i].setText('');
+            }
+            for(var i=0; i<this.iconosCaldero2.length;i++) {
+                this.iconosCaldero2[i].visible = false;
+            }
+            for(var i=0; i<this.ingredientesIntroducidosCaldero2.length;i++) {
+                    this.ingredientesIntroducidosCaldero2[i] = 0;
+                }
+        }
+
+        ComprobarInventarioRiddle1() {
+            for(var i=0; i<this.inventarioRiddle.length;i++) {
+                if(this.inventarioRiddle[i]==="Pitahayas") {
+                    this.ingredientesRiddle1[0] = true;
+                }
+                if(this.inventarioRiddle[i]==="Uvas") {
+                    this.ingredientesRiddle1[1] = true;
+                }
+                if(this.inventarioRiddle[i]==="Zumo de tomate") {
+                    this.ingredientesRiddle1[2] = true;
+                }
+                if(this.inventarioRiddle[i]==="Manzana") {
+                    this.ingredientesRiddle1[3] = true;
+                }
+                if(this.inventarioRiddle[i]==="Pomelo") {
+                    this.ingredientesRiddle1[4] = true;
+                }
+                if(this.inventarioRiddle[i]==="Calabaza") {
+                    this.ingredientesRiddle1[5] = true;
+                }
+                if(this.inventarioRiddle[i]==="Zumo de piña") {
+                    this.ingredientesRiddle1[6] = true;
+                }
+            }
+            for(var i=0; i<this.ingredientesRiddle1.length;i++) {
+                if(this.ingredientesRiddle1[i]) {
+                    this.iconosNevera1[i].visible = true;
+                }
+            }
+        }
+
+        ComprobarInventarioRiddle2() {
+            for(var i=0; i<this.inventarioRiddle.length;i++) {
+                if(this.inventarioRiddle[i]==="Coco helado") {
+                    this.ingredientesRiddle2[0] = true;
+                }
+                if(this.inventarioRiddle[i]==="Cerezas") {
+                    this.ingredientesRiddle2[1] = true;
+                }
+                if(this.inventarioRiddle[i]==="Zumo de arandanos") {
+                    this.ingredientesRiddle2[2] = true;
+                }
+                if(this.inventarioRiddle[i]==="Zumo de naranja") {
+                    this.ingredientesRiddle2[3] = true;
+                }
+                if(this.inventarioRiddle[i]==="Limon") {
+                    this.ingredientesRiddle2[4] = true;
+                }
+                if(this.inventarioRiddle[i]==="Sandia") {
+                    this.ingredientesRiddle2[5] = true;
+                }
+                if(this.inventarioRiddle[i]==="Melon") {
+                    this.ingredientesRiddle2[6] = true;
+                }
+            }
+            for(var i=0; i<this.ingredientesRiddle2.length;i++) {
+                if(this.ingredientesRiddle2[i]) {
+                    this.iconosNevera1[i].visible = true;
+                }
+            }
+        }
+
+        ComprobarInventarioWiggle1() {
+            for(var i=0; i<this.inventarioWiggle.length;i++) {
+                if(this.inventarioWiggle[i]==="Pitahayas") {
+                    this.ingredientesWiggle1[0] = true;
+                }
+                if(this.inventarioWiggle[i]==="Uvas") {
+                    this.ingredientesWiggle1[1] = true;
+                }
+                if(this.inventarioWiggle[i]==="Zumo de tomate") {
+                    this.ingredientesWiggle1[2] = true;
+                }
+                if(this.inventarioWiggle[i]==="Manzana") {
+                    this.ingredientesWiggle1[3] = true;
+                }
+                if(this.inventarioWiggle[i]==="Pomelo") {
+                    this.ingredientesWiggle1[4] = true;
+                }
+                if(this.inventarioWiggle[i]==="Calabaza") {
+                    this.ingredientesWiggle1[5] = true;
+                }
+                if(this.inventarioWiggle[i]==="Zumo de piña") {
+                    this.ingredientesWiggle1[6] = true;
+                }
+            }
+            for(var i=0; i<this.ingredientesWiggle1.length;i++) {
+                if(this.ingredientesWiggle1[i]) {
+                    this.iconosNevera2[i].visible = true;
+                }
+            }
+        }
+
+        ComprobarInventarioWiggle2() {
+            for(var i=0; i<this.inventarioWiggle.length;i++) {
+                if(this.inventarioWiggle[i]==="Coco helado") {
+                    this.ingredientesWiggle2[0] = true;
+                }
+                if(this.inventarioWiggle[i]==="Cerezas") {
+                    this.ingredientesWiggle2[1] = true;
+                }
+                if(this.inventarioWiggle[i]==="Zumo de arandanos") {
+                    this.ingredientesWiggle2[2] = true;
+                }
+                if(this.inventarioWiggle[i]==="Zumo de naranja") {
+                    this.ingredientesWiggle2[3] = true;
+                }
+                if(this.inventarioWiggle[i]==="Limon") {
+                    this.ingredientesWiggle2[4] = true;
+                }
+                if(this.inventarioWiggle[i]==="Sandia") {
+                    this.ingredientesWiggle2[5] = true;
+                }
+                if(this.inventarioWiggle[i]==="Melon") {
+                    this.ingredientesWiggle2[6] = true;
+                }
+            }
+            for(var i=0; i<this.ingredientesWiggle2.length;i++) {
+                if(this.ingredientesWiggle2[i]) {
+                    this.iconosNevera2[i].visible = true;
+                }
+            }
+        }
+
+        PrepararIngredientesZafiro() {
+            var indice = 0;
+            var clave = indice+1;
+            for(var i=0; i<this.ingredientesRiddle1.length*2;i++) {
+                if(i<7) {
+                    if(this.ingredientesRiddle1[i]) {
+                        switch(i) {
+                            case 0:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Pitahayas");
+                                break;
+                            case 1:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Uvas");
+                                break;
+                            case 2:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Zumo de tomate");
+                                break;
+                            case 3:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Manzana");
+                                break;
+                            case 4:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Pomelo");
+                                break;
+                            case 5:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Calabaza");
+                                break;
+                            case 6:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Zumo de piña");
+                                break;
+                        }
+                        indice++;
+                        this.numeroIngredientesCaldero1++;
+                        if(indice<9) {
+                            clave = indice+1;
+                        }
+                        if(indice==9) {
+                            clave = "A";
+                        }
+                        if(indice==10) {
+                            clave = "B";
+                        }
+                        if(indice==11) {
+                            clave = "C";
+                        }
+                        if(indice==12) {
+                            clave = "D";
+                        }
+                        if(indice==13) {
+                            clave = "E";
+                        }
+                    }
+                }
+                else {
+                    if(this.ingredientesRiddle2[i-this.ingredientesRiddle1.length]) {
+                        switch(i-this.ingredientesRiddle1.length) {
+                            case 0:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Coco helado");
+                                break;
+                            case 1:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Cerezas");
+                                break;
+                            case 2:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Zumo de arándanos");
+                                break;
+                            case 3:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Zumo de naranja");
+                                break;
+                            case 4:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Limón");
+                                break;
+                            case 5:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Sandía");
+                                break;
+                            case 6:
+                                this.arrayIngredientesRiddle[indice].setText((clave)+"- Melón");
+                                break;
+                        }
+                        indice++;
+                        this.numeroIngredientesCaldero1++;
+                        if(indice<9) {
+                            clave = indice+1;
+                        }
+                        if(indice==9) {
+                            clave = "A";
+                        }
+                        if(indice==10) {
+                            clave = "B";
+                        }
+                        if(indice==11) {
+                            clave = "C";
+                        }
+                        if(indice==12) {
+                            clave = "D";
+                        }
+                        if(indice==13) {
+                            clave = "E";
+                        }
+                    }
+                }
+            }
+        }
+
+        PrepararIngredientesRubi() {
+            var indice = 0;
+            var clave = indice+1;
+            for(var i=0; i<this.ingredientesWiggle1.length*2;i++) {
+                if(i<7) {
+                    if(this.ingredientesWiggle1[i]) {
+                        switch(i) {
+                            case 0:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Pitahayas");
+                                break;
+                            case 1:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Uvas");
+                                break;
+                            case 2:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Zumo de tomate");
+                                break;
+                            case 3:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Manzana");
+                                break;
+                            case 4:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Pomelo");
+                                break;
+                            case 5:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Calabaza");
+                                break;
+                            case 6:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Zumo de piña");
+                                break;
+                        }
+                        indice++;
+                        this.numeroIngredientesCaldero2++;
+                        if(indice<9) {
+                            clave = indice+1;
+                        }
+                        if(indice==9) {
+                            clave = "A";
+                        }
+                        if(indice==10) {
+                            clave = "B";
+                        }
+                        if(indice==11) {
+                            clave = "C";
+                        }
+                        if(indice==12) {
+                            clave = "D";
+                        }
+                        if(indice==13) {
+                            clave = "E";
+                        }
+                    }
+                }
+                else {
+                    if(this.ingredientesWiggle2[i-this.ingredientesWiggle1.length]) {
+                        switch(i-this.ingredientesWiggle1.length) {
+                            case 0:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Coco helado");
+                                break;
+                            case 1:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Cerezas");
+                                break;
+                            case 2:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Zumo de arándanos");
+                                break;
+                            case 3:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Zumo de naranja");
+                                break;
+                            case 4:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Limón");
+                                break;
+                            case 5:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Sandía");
+                                break;
+                            case 6:
+                                this.arrayIngredientesWiggle[indice].setText((clave)+"- Melón");
+                                break;
+                        }
+                        indice++;
+                        this.numeroIngredientesCaldero2++;
+                        if(indice<9) {
+                            clave = indice+1;
+                        }
+                        if(indice==9) {
+                            clave = "A";
+                        }
+                        if(indice==10) {
+                            clave = "B";
+                        }
+                        if(indice==11) {
+                            clave = "C";
+                        }
+                        if(indice==12) {
+                            clave = "D";
+                        }
+                        if(indice==13) {
+                            clave = "E";
+                        }
+                    }
+                }
+            }
+        }
+
+        AñadirIngredienteZafiro(indice) {
+            var contador = 0;
+            var idIngrediente = 0;
+            for(var i=0; i<this.ingredientesRiddle1.length*2;i++) {
+                if(i<7) {
+                    if(this.ingredientesRiddle1[i]) {
+                        contador++;
+                    }
+                }
+                else {
+                    if(this.ingredientesRiddle2[i-this.ingredientesRiddle1.length]) {
+                        contador++;
+                    }
+                }
+                if(contador==indice&&idIngrediente==0) {
+                    idIngrediente = i+1;
+                }
+            }
+            this.ingredientesIntroducidosCaldero1[this.numeroIngredientesIntroducidos1] = idIngrediente;
+        }
+
+        AñadirIngredienteRubi(indice) {
+            var contador = 0;
+            var idIngrediente = 0;
+            for(var i=0; i<this.ingredientesWiggle1.length*2;i++) {
+                if(i<7) {
+                    if(this.ingredientesWiggle1[i]) {
+                        contador++;
+                    }
+                }
+                else {
+                    if(this.ingredientesWiggle2[i-this.ingredientesWiggle1.length]) {
+                        contador++;
+                    }
+                }
+                if(contador==indice&&idIngrediente==0) {
+                    idIngrediente = i+1;
+                }
+            }
+            this.ingredientesIntroducidosCaldero2[this.numeroIngredientesIntroducidos2] = idIngrediente;
+        }
+
+        ComprobarFormulaZafiro() {
+            var frase;
+            // Los identificadores de los ingredientes que tienen que estar en los introducidos son: 5, 8, 10 (Pomelo, coco helado y zumo de arándanos)
+            var id5 = false;
+            var id8 = false;
+            var id10 = false;
+            for(var i=0; i<this.ingredientesIntroducidosCaldero1.length;i++) {
+                if(this.ingredientesIntroducidosCaldero1[i]==5) {
+                    id5 = true;
+                }
+                if(this.ingredientesIntroducidosCaldero1[i]==8) {
+                    id8 = true;
+                }
+                if(this.ingredientesIntroducidosCaldero1[i]==10) {
+                    id10 = true;
+                }
+            }
+            if(id5&&id8&&id10) {
+                // Cambiar icono caldero azul
+                this.caldero1zafiro.visible = false;
+                this.caldero2zafiro.visible = true;
+                this.elixirZafiro = true;
+                if(this.elixirRubi) {
+                    this.maestroMezclas = true;
+                }
+                else{
+                    frase = "El contenido del caldero se ha teñido de azul, ¡he acertado! Solo queda que Wiggle haga lo suyo.";
+                }
+            }
+            else {
+                frase = "He debido de equivocarme en algo, revisaré bien la fórmula y los detalles de cada ingrediente.";
+
+            }
+            this.OcultarIngredientesCaldero1();
+            this.MostrarTexto(frase);
+        }
+
+        ComprobarFormulaRubi() {
+            var frase;
+            // Los identificadores de los ingredientes que tienen que estar en los introducidos son: 1, 3, 9 (Pitahayas, zumo de tomate y cerezas)
+            var id1 = false;
+            var id3 = false;
+            var id9 = false;
+            for(var i=0; i<this.ingredientesIntroducidosCaldero2.length;i++) {
+                if(this.ingredientesIntroducidosCaldero2[i]==1) {
+                    id1 = true;
+                }
+                if(this.ingredientesIntroducidosCaldero2[i]==3) {
+                    id3 = true;
+                }
+                if(this.ingredientesIntroducidosCaldero2[i]==9) {
+                    id9 = true;
+                }
+            }
+            if(id1&&id3&&id9) {                       
+                // Cambiar icono caldero rojo
+                this.caldero1rubi.visible = false;
+                this.caldero2rubi.visible = true;
+                this.elixirRubi = true;
+                if(this.elixirZafiro) {
+                    this.maestroMezclas = true;
+                }
+                else{
+                    frase = "El contenido del caldero se ha teñido de rojo, ¡he acertado! Solo queda que Riddle haga lo suyo.";
+                }
+            }
+            else {
+                frase = "He debido de equivocarme en algo, revisaré bien la fórmula y los detalles de cada ingrediente."
+            }
+            this.OcultarIngredientesCaldero2();
+            this.MostrarTexto2(frase);
+        }
+
+        ComprobarMaestroMezclas() {
+            if(this.maestroMezclas&&!this.finalMostrado) {
+                var frase = "Los dos elixires están empezando a crear un portal... ¡Por fin saldremos de aquí!";
+                this.MostrarTexto(frase);
+                this.MostrarTexto2(frase);
+                this.finalMostrado = true;
+                // TRANSICIÓN A ESCENA DE VICTORIA
+            }
+        }
+
 }
 export default SceneGame;
