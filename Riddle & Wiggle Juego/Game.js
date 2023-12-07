@@ -11,7 +11,8 @@ class SceneGame extends Phaser.Scene {
 
     preload ()
     {
-  
+        this.load.image('Mapa', 'Assets/Mapa en condiciones.png');
+        this.load.image('Plataforma', 'Assets/platform.png');
         this.load.image('tiles', 'Assets/full tilemap.png');
         this.load.tilemapTiledJSON('mapa', 'Assets/mapa2.json');
         this.load.image('Riddle', 'Assets/Riddle.png');
@@ -31,30 +32,24 @@ class SceneGame extends Phaser.Scene {
         this.up=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W)
         this.down=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
 
-        //crea el mapa depués del JSON
-        const map= this.make.tilemap({ key: 'mapa' });
-
-        // Asocia el tileset al mapa
-        const tileset = map.addTilesetImage('full tilemap','tiles');
-
-        //creamos las capas del mapa
-        const suelo= map.createStaticLayer('suelo', tileset)
-        const walls = map.createStaticLayer('walls', tileset, 0, 0);
-        //walls.setCollideWorldBounds(true);
-
-        //walls.setCollisionByProperty({ collide: true });
+        this.mapa = this.physics.add.staticGroup();
+        this.mapa.create(400, 300, 'Plataforma').setScale(0.8);
         
+
         //Añadimos unas coordenadas de aparición para los personajes
-        this.Riddle = this.add.image(600, 300, 'Riddle');
-        this.Wiggle = this.add.image(200, 300, 'Wiggle');
-        
-        //const body = new Phaser.Physics.Arcade.Body(walls, this.Riddle);
+        this.Riddle = this.physics.add.sprite(100, 200, 'Riddle');
+        this.Riddle.setCollideWorldBounds(true);
+        this.Riddle.setBounce(0.2);
+        this.Wiggle = this.physics.add.sprite(700, 200, 'Wiggle');
+        this.Wiggle.setCollideWorldBounds(true);
+        this.Wiggle.setBounce(0.2);
         //Escalamos los sprites
         this.Riddle.setScale(0.15)
         this.Wiggle.setScale(0.2)
-
-      // const collider = this.physics.add.collider(this.Riddle, walls);
-        
+        this.physics.add.collider(this.Riddle, this.mapa);
+        this.physics.add.collider(this.Wiggle, this.mapa);
+      
+    
 
 
                 
