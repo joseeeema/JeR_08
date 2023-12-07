@@ -5,10 +5,10 @@ class SceneMenu extends Phaser.Scene {
     {
         super({ key: 'SceneMenu' });
     }
-    
+
     preload ()
     {
-    
+
         this.load.image('titlescreen', 'Assets/title screen 2.png');
         this.load.image('pointer', 'Assets/pointer.png');
         this.load.image('exit', 'Assets/Fondo_Black.jpg');
@@ -34,26 +34,27 @@ class SceneMenu extends Phaser.Scene {
 
         }, this);
         */
-        this.scene.sleep('SceneGame');
+        this.scene.sleep('SceneIntr');
     }
 
-  
+
     update(){
 
         if (this.cursors.down.isDown && this.pointer.y == 348)
-        {   
+        {
         this.pointer.y += 40;
         }
         else if (this.cursors.up.isDown && this.pointer.y == 388)
-        {   
+        {
         this.pointer.y -= 40;
         }
-        
-        
+
+
         this.input.keyboard.on('keydown_ENTER', () =>{ 
             if(!this.wake && this.pointer.y == 348){
                 this.scene.wake('SceneGame');
                 this.scene.start('SceneGame');
+                this.scene.stop('SceneMenu');
                 this.wake = true;
             }else 
             {
@@ -63,12 +64,11 @@ class SceneMenu extends Phaser.Scene {
             }
 
         });
-        
+
     }
-   
+
 }
 export default SceneMenu;
-
 
 
 
