@@ -286,6 +286,7 @@ class SceneGame extends Phaser.Scene {
         this.load.image('nevera', 'assets/nevera.png');
         this.load.image('Riddle', 'assets/Riddle.png');
         this.load.image('Wiggle', 'assets/Wiggle.png');
+        this.load.image('estanteria2', 'assets/estanteria2.png')
         // Sistema de texto
         this.load.image('textBox', 'assets/textbox.png');
         // Imágenes
@@ -313,6 +314,9 @@ class SceneGame extends Phaser.Scene {
         this.load.image('icono', 'assets/conseguido.png');
         this.load.image('ingredientesCaldero1', 'assets/ingredientes caldero zafiro.png');
         this.load.image('ingredientesCaldero2', 'assets/ingredientes caldero rubi.png');
+
+        // Elementos de adorno
+        this.load.image('vater', 'assets/vater.png');
 
     }
 
@@ -517,7 +521,7 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.puertaC2);
         this.physics.add.collider(this.Wiggle, this.puertaC2);
         // Mueble cocina
-        this.muebleCocina = this.physics.add.staticGroup().create(513,60,'muebleCocina').setScale(0.7).refreshBody();
+        this.muebleCocina = this.physics.add.staticGroup().create(513,60,'muebleCocina').setScale(0.7,0.35).refreshBody().setScale(0.7,0.7);
         this.muebleCocina.interactuar = function () {
             return "muebleCocina";
         }
@@ -525,7 +529,9 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.muebleCocina);
         this.physics.add.collider(this.Wiggle, this.muebleCocina);
 
-        this.muebleCocina2 = this.physics.add.staticGroup().create(70,360,'muebleCocina2').setScale(0.65).refreshBody();
+        this.muebleCocina2 = this.physics.add.staticGroup().create(70,360,'muebleCocina2').setScale(0.6).refreshBody().setScale(0.65);
+        this.physics.add.collider(this.Riddle, this.muebleCocina2);
+        this.physics.add.collider(this.Wiggle, this.muebleCocina2);
 
         // Puerta D - Baño Wiggle
         this.puertaD = this.physics.add.staticGroup().create(127,310,'puerta').setScale(0.7,0.4).refreshBody();
@@ -609,6 +615,72 @@ class SceneGame extends Phaser.Scene {
         this.objetosInteractuables.push(this.puertaLaboratorioWiggle);
         this.physics.add.collider(this.Riddle, this.puertaLaboratorioWiggle);
         this.physics.add.collider(this.Wiggle, this.puertaLaboratorioWiggle);
+
+        // Estanteria 3 - Biblioteca Riddle
+        this.estanteria3 = this.physics.add.staticGroup().create(495,290,'estanteria2').setScale(0.7,0.7).refreshBody();
+        this.estanteria3.interactuar = function() {
+            return "estanteria3";
+        }
+        this.objetosInteractuables.push(this.estanteria3);
+        this.physics.add.collider(this.Riddle, this.estanteria3);
+        this.physics.add.collider(this.Wiggle, this.estanteria3);
+
+        // Estantería 4 - Biblioteca Wiggle
+        this.estanteria4 = this.physics.add.staticGroup().create(50,50,'estanteria2').setScale(0.7,0.7).refreshBody();
+        this.estanteria4.interactuar = function() {
+            return "estanteria4";
+        }
+        this.objetosInteractuables.push(this.estanteria4);
+        this.physics.add.collider(this.Riddle, this.estanteria4);
+        this.physics.add.collider(this.Wiggle, this.estanteria4);
+
+        // Caldero rubí (Wiggle)
+        this.caldero1rubi = this.physics.add.staticGroup().create(365, 90, 'caldero1rubi').setScale(0.05).refreshBody();
+        this.caldero2rubi = this.physics.add.staticGroup().create(365, 90, 'caldero2rubi').setScale(0.05).refreshBody();
+        this.caldero2rubi.visible = false;
+        this.caldero1rubi.interactuar = function() {
+            return "calderoRubi";
+        }
+        this.objetosInteractuables.push(this.caldero1rubi);
+        this.physics.add.collider(this.Riddle, this.caldero1rubi);
+        this.physics.add.collider(this.Wiggle, this.caldero1rubi);
+        this.physics.add.collider(this.Riddle, this.caldero2rubi);
+        this.physics.add.collider(this.Wiggle, this.caldero2rubi);
+        // Caldero zafiro (Riddle)
+        this.caldero1zafiro = this.physics.add.staticGroup().create(640, 65, 'caldero1zafiro').setScale(0.05).refreshBody();
+        this.caldero2zafiro = this.physics.add.staticGroup().create(640, 65, 'caldero2zafiro').setScale(0.05).refreshBody();
+        this.caldero2zafiro.visible = false;
+        this.caldero1zafiro.interactuar = function() {
+            return "calderoZafiro";
+        }
+        this.objetosInteractuables.push(this.caldero1zafiro);
+        this.physics.add.collider(this.Riddle, this.caldero1zafiro);
+        this.physics.add.collider(this.Wiggle, this.caldero1zafiro);
+        this.physics.add.collider(this.Riddle, this.caldero2zafiro);
+        this.physics.add.collider(this.Wiggle, this.caldero2zafiro);
+
+        // Nevera 1
+        this.nevera1 = this.physics.add.staticGroup().create(60,362, 'nevera').setScale(0.8).refreshBody();
+        this.nevera1.interactuar = function() {
+            return "nevera1";
+        }
+        this.objetosInteractuables.push(this.nevera1);
+        this.physics.add.collider(this.Riddle, this.nevera1);
+        this.physics.add.collider(this.Wiggle, this.nevera1);
+
+        // Nevera 2
+        this.nevera2 = this.physics.add.staticGroup().create(463, 58, 'nevera').setScale(0.8).refreshBody();
+        this.nevera2.interactuar = function() {
+            return "nevera2";
+        }
+        this.objetosInteractuables.push(this.nevera2);
+        this.physics.add.collider(this.Riddle, this.nevera2);
+        this.physics.add.collider(this.Wiggle, this.nevera2);
+
+        /// Elementos de decoración
+        this.vater = this.physics.add.staticGroup().create(80, 310, 'vater').setScale(0.1).refreshBody();
+        this.physics.add.collider(this.Riddle, this.vater);
+        this.physics.add.collider(this.Wiggle, this.vater);
 
         // CREACIÓN DE LAS CAJA DE TEXTO Y DE SUS EVENTOS ASOCIADOS
         this.cajaTexto = this.add.image(630,530,'textBox').setScale(0.7);
@@ -1486,106 +1558,110 @@ class SceneGame extends Phaser.Scene {
 
             if(this.ingredientesCaldero1.visible) {
                 if(this.numeroIngredientesIntroducidos1<3) {
-                    switch(event.key) {
-                        case '1':
-                            if(event.key<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[0].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(1);
-                            }
-                            break;
-                        case '2':
-                            if(event.key<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[1].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(2);
-                            }
-                            break;
-                        case '3':
-                            if(event.key<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[2].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(3);
-                            }
-                            break;
-                        case '4':
-                            if(event.key<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[3].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(4);
-                            }
-                            break;
-                        case '5':
-                            if(event.key<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[4].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(5);
-                            }
-                            break;
-                        case '6':
-                            if(event.key<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[5].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(6);
-                            }
-                            break;
-                        case '7':
-                            if(event.key<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[6].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(7);
-                            }
-                            break;
-                        case '8':
-                            if(event.key<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[7].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(8);
-                            }
-                            break;
-                        case '9':
-                            if(event.key<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[8].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(9);
-                            }
-                            break;
-                        case 'a':
-                            if(10<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[9].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(10);
-                            }
-                            break;
-                        case 'b':
-                            if(11<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[10].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(11);
-                            }
-                            break;
-                        case 'c':
-                            if(12<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[11].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(12);
-                            }
-                            break;
-                         case 'd':
-                            if(13<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[12].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(13);
-                            }
-                            break;
-                        case 'e':
-                            if(14<=this.numeroIngredientesCaldero1) {
-                                this.iconosCaldero1[13].visible = true;
-                                this.numeroIngredientesIntroducidos1++;
-                                this.AñadirIngredienteZafiro(14);
-                            }
-                            break;
+                    if(this.nuevoIntento) {
+                        switch(event.key) {
+                            case '1':
+                                if(event.key<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[0].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(1);
+                                }
+                                break;
+                            case '2':
+                                if(event.key<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[1].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(2);
+                                }
+                                break;
+                            case '3':
+                                if(event.key<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[2].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(3);
+                                }
+                                break;
+                            case '4':
+                                if(event.key<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[3].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(4);
+                                }
+                                break;
+                            case '5':
+                                if(event.key<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[4].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(5);
+                                }
+                                break;
+                            case '6':
+                                if(event.key<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[5].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(6);
+                                }
+                                break;
+                            case '7':
+                                if(event.key<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[6].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(7);
+                                }
+                                break;
+                            case '8':
+                                if(event.key<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[7].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(8);
+                                }
+                                break;
+                            case '9':
+                                if(event.key<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[8].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(9);
+                                }
+                                break;
+                            case 'a':
+                                if(10<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[9].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(10);
+                                }
+                                break;
+                            case 'b':
+                                if(11<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[10].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(11);
+                                }
+                                break;
+                            case 'c':
+                                if(12<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[11].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(12);
+                                }
+                                break;
+                             case 'd':
+                                if(13<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[12].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(13);
+                                }
+                                break;
+                            case 'e':
+                                if(14<=this.numeroIngredientesCaldero1) {
+                                    this.iconosCaldero1[13].visible = true;
+                                    this.numeroIngredientesIntroducidos1++;
+                                    this.AñadirIngredienteZafiro(14);
+                                }
+                                break;
+                        }
                     }
+                    this.nuevoIntento = false;
+                    this.temporizadorNuevoIntento.paused = false;
                 }
                 if(this.numeroIngredientesIntroducidos1 == 3) {
                     this.ComprobarFormulaZafiro();
@@ -1595,106 +1671,110 @@ class SceneGame extends Phaser.Scene {
 
             if(this.ingredientesCaldero2.visible) {
                 if(this.numeroIngredientesIntroducidos2<3) {
-                    switch(event.key) {
-                        case '1':
-                            if(event.key<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[0].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(1);
-                            }
-                            break;
-                        case '2':
-                            if(event.key<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[1].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(2);
-                            }
-                            break;
-                        case '3':
-                            if(event.key<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[2].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(3);
-                            }
-                            break;
-                        case '4':
-                            if(event.key<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[3].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(4);
-                            }
-                            break;
-                        case '5':
-                            if(event.key<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[4].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(5);
-                            }
-                            break;
-                        case '6':
-                            if(event.key<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[5].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(6);
-                            }
-                            break;
-                        case '7':
-                            if(event.key<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[6].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(7);
-                            }
-                            break;
-                        case '8':
-                            if(event.key<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[7].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(8);
-                            }
-                            break;
-                        case '9':
-                            if(event.key<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[8].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(9);
-                            }
-                            break;
-                        case 'a':
-                            if(10<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[9].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(10);
-                            }
-                            break;
-                        case 'b':
-                            if(11<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[10].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(11);
-                            }
-                            break;
-                        case 'c':
-                            if(12<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[11].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(12);
-                            }
-                            break;
-                         case 'd':
-                            if(13<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[12].visible = true;
-                                this.numeroIngredientesIntroducidos2++;
-                                this.AñadirIngredienteRubi(13);
-                            }
-                            break;
-                        case 'e':
-                            if(14<=this.numeroIngredientesCaldero2) {
-                                this.iconosCaldero2[13].visible = true;
-                                this.numeroIngredientesIntroducido2s++;
-                                this.AñadirIngredienteRubi(14); 
-                            }
-                            break;
+                    if(this.nuevoIntento) {
+                        switch(event.key) {
+                            case '1':
+                                if(event.key<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[0].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(1);
+                                }
+                                break;
+                            case '2':
+                                if(event.key<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[1].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(2);
+                                }
+                                break;
+                            case '3':
+                                if(event.key<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[2].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(3);
+                                }
+                                break;
+                            case '4':
+                                if(event.key<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[3].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(4);
+                                }
+                                break;
+                            case '5':
+                                if(event.key<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[4].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(5);
+                                }
+                                break;
+                            case '6':
+                                if(event.key<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[5].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(6);
+                                }
+                                break;
+                            case '7':
+                                if(event.key<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[6].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(7);
+                                }
+                                break;
+                            case '8':
+                                if(event.key<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[7].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(8);
+                                }
+                                break;
+                            case '9':
+                                if(event.key<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[8].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(9);
+                                }
+                                break;
+                            case 'a':
+                                if(10<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[9].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(10);
+                                }
+                                break;
+                            case 'b':
+                                if(11<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[10].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(11);
+                                }
+                                break;
+                            case 'c':
+                                if(12<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[11].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(12);
+                                }
+                                break;
+                             case 'd':
+                                if(13<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[12].visible = true;
+                                    this.numeroIngredientesIntroducidos2++;
+                                    this.AñadirIngredienteRubi(13);
+                                }
+                                break;
+                            case 'e':
+                                if(14<=this.numeroIngredientesCaldero2) {
+                                    this.iconosCaldero2[13].visible = true;
+                                    this.numeroIngredientesIntroducido2s++;
+                                    this.AñadirIngredienteRubi(14); 
+                                }
+                                break;
+                        }
                     }
+                    this.nuevoIntento = false;
+                    this.temporizadorNuevoIntento.paused = false;
                 }
                 if(this.numeroIngredientesIntroducidos2 == 3) {
                     this.ComprobarFormulaRubi();
@@ -3355,14 +3435,14 @@ class SceneGame extends Phaser.Scene {
         OcultarIngredientesNeveraR2() {
             this.ingredientesNeveraR2.visible = false;
             for(var i=0; i<this.iconosNevera2.length; i++) {
-                this.iconosNevera2[i].visible = false;
+                this.iconosNevera1[i].visible = false;
             }
         }
 
         OcultarIngredientesNeveraW1() {
             this.ingredientesNeveraW1.visible = false;
             for(var i=0; i<this.iconosNevera1.length; i++) {
-                this.iconosNevera1[i].visible = false;
+                this.iconosNevera2[i].visible = false;
             }
         }
 
