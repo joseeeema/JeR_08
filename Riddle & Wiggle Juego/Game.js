@@ -1,6 +1,6 @@
 var tiempo = {
     minutos:'00',
-    segundos: '20'
+    segundos: '08'
 }
 class SceneGame extends Phaser.Scene {
 
@@ -360,8 +360,8 @@ class SceneGame extends Phaser.Scene {
         // Colisiones
         //this.physics.add.collider(this.Riddle, this.muros);
         //this.physics.add.collider(this.Wiggle, this.muros);
-        /*             
-        // CAMERA 1
+                  
+        //CAMERA 1
         var camera1 = this.cameras.add(0, 0, 400, 800);
         camera1.setZoom(3); // Ajusta el valor según sea necesario
         camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
@@ -374,7 +374,7 @@ class SceneGame extends Phaser.Scene {
         camera2.centerOn(this.Riddle.x, this.Riddle.y);
         camera2.setBounds(400,0,400,800);
         camera2.startFollow(this.Riddle);
-        */
+        
         //////////////// CREACIÓN DE LOS ELEMENTOS INTERACTUABLES ////////////////
         // Caja
         this.caja = this.physics.add.staticGroup().create(120,225,'caja').setScale(2).refreshBody();
@@ -1818,7 +1818,11 @@ class SceneGame extends Phaser.Scene {
         //this.input.keyboard.on('keycombomatch', function (event) {
         //tiempo.minutos++;
         //});
-
+       if(tiempo.segundos==2 && tiempo.minutos== 0){
+        callback: () => {
+            this.finJuego();
+        }
+       }
 
     }
 
@@ -2060,7 +2064,10 @@ class SceneGame extends Phaser.Scene {
 
         if(this.tp.isDown){
             this.IntercambiarPosiciones();
-        }  
+        } 
+        if(tiempo.segundos==2 && tiempo.minutos==0){
+            this.finJuego();
+        } 
     }
 
     CrearColisionParedes() {
@@ -3979,16 +3986,25 @@ class SceneGame extends Phaser.Scene {
         
             this.Wiggle.x = tempX;
             this.Wiggle.y = tempY;
+
+            //CAMERA 1
+        var camera1 = this.cameras.add(0, 0, 400, 800);
+        camera1.setZoom(3); // Ajusta el valor según sea necesario
+        camera1.centerOn(this.Riddle.x, this.Riddle.y);
+        camera1.setBounds(0,0,400,800);
+        camera1.startFollow(this.Riddle);
+
+        // CAMERA 2
+        var camera2 = this.cameras.add(400, 0, 400, 800);
+        camera2.setZoom(3); // Ajusta el valor según sea necesario
+        camera2.centerOn(this.Wiggle.x, this.Wiggle.y);
+        camera2.setBounds(400,0,400,800);
+        camera2.startFollow(this.Wiggle);
             
         }
         finJuego(){
-            if(tiempo.segundos==0 && tiempo.minutos==0){
-                this.scene.wake('SceneFin');
-                this.scene.start('SceneFin');
-                this.scene.stop('SceneGame');
-                this.wake = true;
-            }
-        }
-
+            
+            this.add.image('GameOver', 'assets/GameOver.png');
+    }
 }
 export default SceneGame;
