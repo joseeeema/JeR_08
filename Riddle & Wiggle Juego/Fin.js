@@ -25,6 +25,7 @@ class SceneFin extends Phaser.Scene {
 
 
     update(){
+        
             if(finJuego){
                 this.scene.wake('SceneFin');
                 this.scene.start('SceneFin');

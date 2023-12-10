@@ -9,6 +9,7 @@ class SceneGame extends Phaser.Scene {
     cursors;
     muros;
     wake=false;
+    finJuego;
     // Control del juego
     juegoDetenidoRiddle = false;
     juegoDetenidoWiggle = false;
@@ -1818,12 +1819,7 @@ class SceneGame extends Phaser.Scene {
         //this.input.keyboard.on('keycombomatch', function (event) {
         //tiempo.minutos++;
         //});
-       if(tiempo.segundos==2 && tiempo.minutos== 0){
-        callback: () => {
-            this.finJuego();
-        }
-       }
-
+        
     }
 
     update ()
@@ -2064,10 +2060,7 @@ class SceneGame extends Phaser.Scene {
 
         if(this.tp.isDown){
             this.IntercambiarPosiciones();
-        } 
-        if(tiempo.segundos==2 && tiempo.minutos==0){
-            this.finJuego();
-        } 
+        }
     }
 
     CrearColisionParedes() {
@@ -3988,23 +3981,22 @@ class SceneGame extends Phaser.Scene {
             this.Wiggle.y = tempY;
 
             //CAMERA 1
-        var camera1 = this.cameras.add(0, 0, 400, 800);
-        camera1.setZoom(3); // Ajusta el valor según sea necesario
-        camera1.centerOn(this.Riddle.x, this.Riddle.y);
-        camera1.setBounds(0,0,400,800);
-        camera1.startFollow(this.Riddle);
+            var camera1 = this.cameras.add(0, 0, 400, 800);
+            camera1.setZoom(3); // Ajusta el valor según sea necesario
+            camera1.centerOn(this.Riddle.x, this.Riddle.y);
+            camera1.setBounds(0,0,400,800);
+            camera1.startFollow(this.Riddle);
 
-        // CAMERA 2
-        var camera2 = this.cameras.add(400, 0, 400, 800);
-        camera2.setZoom(3); // Ajusta el valor según sea necesario
-        camera2.centerOn(this.Wiggle.x, this.Wiggle.y);
-        camera2.setBounds(400,0,400,800);
-        camera2.startFollow(this.Wiggle);
+            // CAMERA 2
+            var camera2 = this.cameras.add(400, 0, 400, 800);
+            camera2.setZoom(3); // Ajusta el valor según sea necesario
+            camera2.centerOn(this.Wiggle.x, this.Wiggle.y);
+            camera2.setBounds(400,0,400,800);
+            camera2.startFollow(this.Wiggle);
             
         }
-        finJuego(){
-            
-            this.add.image('GameOver', 'assets/GameOver.png');
+        finalJuego(){
+
     }
 }
 export default SceneGame;
