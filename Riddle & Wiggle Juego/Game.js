@@ -1,9 +1,14 @@
+var tiempo = {
+    minutos:'00',
+    segundos: '20'
+}
 class SceneGame extends Phaser.Scene {
 
     Riddle;
     Wiggle;
     cursors;
     muros;
+    wake=false;
     // Control del juego
     juegoDetenidoRiddle = false;
     juegoDetenidoWiggle = false;
@@ -229,6 +234,8 @@ class SceneGame extends Phaser.Scene {
     ingredientesNeveraW2;
     ingredientesCaldero1;
     ingredientesCaldero2;
+    timedEvent;
+    textoTemp;
     // Inventarios
     inventarioRiddle = new Array(100);
     inventarioWiggle = new Array(100);
@@ -314,6 +321,7 @@ class SceneGame extends Phaser.Scene {
         this.load.image('icono', 'assets/conseguido.png');
         this.load.image('ingredientesCaldero1', 'assets/ingredientes caldero zafiro.png');
         this.load.image('ingredientesCaldero2', 'assets/ingredientes caldero rubi.png');
+        this.load.image('GameOver', 'assets/GameOver.png');
 
         // Elementos de adorno
         this.load.image('vater', 'assets/vater.png');
@@ -325,6 +333,7 @@ class SceneGame extends Phaser.Scene {
         this.add.image(400, 300, 'sky').setScale(10);
         //Este código nos crea una configuración de botones predefinida dónde el jugador se mueve con las flechas
         this.cursors = this.input.keyboard.createCursorKeys();
+        this.tp=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)
        
         //Con este código se crea el movimiento derecha, izquierda, arriba, abajo, asignando la tecla que queramos, en este caso D,A,W,S.
         this.right=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
@@ -1795,11 +1804,29 @@ class SceneGame extends Phaser.Scene {
 
         // COMBOS Y CONTRASEÑAS
         this.comboPiano = this.input.keyboard.createCombo('102365', {resetOnWrongKey: true, deleteOnMatch: true});
+        //TEMPORIZADOR
+        this.textoTemp = this.add.text(32, 32);
+
+        this.time.addEvent({
+            delay: 3000,
+            loop: true,
+            callback: () => {
+                this.actualizarContador();
+            }
+        })
+        //const combo = this.input.keyboard.createCombo('MORE');
+        //this.input.keyboard.on('keycombomatch', function (event) {
+        //tiempo.minutos++;
+        //});
+
 
     }
 
     update ()
     {
+
+        //TEXTO TEMPORIZADOR
+        this.textoTemp.setText('Tiempo: ' +tiempo.minutos + ':' +tiempo.segundos);
         /*
         //Menu PAUSA
         this.input.keyboard.on('keydown_TAB', () =>{ 
@@ -2030,6 +2057,10 @@ class SceneGame extends Phaser.Scene {
         this.EnigmaAlmacenResuelto();
         this.LlamasFelinasResuelto();
         this.ComprobarMaestroMezclas();
+
+        if(this.tp.isDown){
+            this.IntercambiarPosiciones();
+        }  
     }
 
     CrearColisionParedes() {
@@ -3927,6 +3958,35 @@ class SceneGame extends Phaser.Scene {
                 this.MostrarTexto2(frase);
                 this.finalMostrado = true;
                 // TRANSICIÓN A ESCENA DE VICTORIA
+            }
+        }
+        actualizarContador(){
+            tiempo.segundos--;
+            tiempo.segundos = (tiempo.segundos>=10)? tiempo.segundos: '0' + tiempo.segundos;
+            if(tiempo.segundos==0){
+                tiempo.segundos = '59'
+                tiempo.minutos--;
+                tiempo.minutos = (tiempo.minutos>=10)? tiempo.minutos: '0' + tiempo.minutos;
+            }
+        }
+        IntercambiarPosiciones(player, player2) {
+            // Intercambiar las posiciones x e y de los objetos
+            var tempX = this.Riddle.x;
+            var tempY = this.Riddle.y;
+        
+            this.Riddle.x = this.Wiggle.x;
+            this.Riddle.y = this.Wiggle.y;
+        
+            this.Wiggle.x = tempX;
+            this.Wiggle.y = tempY;
+            
+        }
+        finJuego(){
+            if(tiempo.segundos==0 && tiempo.minutos==0){
+                this.scene.wake('SceneFin');
+                this.scene.start('SceneFin');
+                this.scene.stop('SceneGame');
+                this.wake = true;
             }
         }
 
