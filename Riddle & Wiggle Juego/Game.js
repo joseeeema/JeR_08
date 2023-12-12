@@ -189,6 +189,29 @@ class SceneGame extends Phaser.Scene {
         ingredientesIntroducidosCaldero2 = new Array(3);
         finalMostrado = false;
     // Variables encargadas de mostrar imágenes
+    libroPianoVisibleRiddle = false;
+    libroPianoVisibleWiggle = false;
+    puzlePianoVisible = false;
+    puzleFloresRiddleVisible1 = false;
+    puzleFloresRiddleVisible2 = false;
+    puzleFloresWiggleVisible1 = false;
+    puzleFloresWiggleVisible2 = false;
+    puzleSimbolosRiddleVisible = false;
+    puzleSimbolosWiggleVisible = false;
+    panelContraseñaRiddleVisible = false;
+    panelContraseñaWiggleVisible = false;
+    puzleGatosVisibleRiddle = false;
+    puzleGatosVisibleWiggle = false;
+    mensajeGatosVisibleRiddle = false;
+    mensajeGatosVisibleWiggle = false;
+    ingredientesNeveraRiddleVisible1 = false;
+    ingredientesNeveraRiddleVisible2 = false;
+    ingredientesNeveraWiggleVisible1 = false;
+    ingredientesNeveraWiggleVisible2 = false;
+    puzleCalderoRiddleVisible = false;
+    puzleCalderoWiggleVisible = false;
+
+
     libroPiano1;
     libroPiano2;
     puzlePiano;
@@ -254,6 +277,7 @@ class SceneGame extends Phaser.Scene {
         this.load.image('Riddle', 'Assets/Riddle.png');
         this.load.image('Wiggle', 'Assets/Wiggle.png');
         this.load.image('sky', 'Assets/Fondo_Black.jpg');
+        this.load.image('fondo', 'Assets/fondo.png');
         this.load.image('pause', 'Assets/menu pausa.png')
         this.load.image('pointer', 'Assets/pointer.png');
         this.load.image('plataforma', 'Assets/platform.png');
@@ -294,7 +318,7 @@ class SceneGame extends Phaser.Scene {
         this.load.image('nevera', 'assets/nevera.png');
         this.load.image('Riddle', 'assets/Riddle.png');
         this.load.image('Wiggle', 'assets/Wiggle.png');
-        this.load.image('estanteria2', 'assets/estanteria2.png')
+        this.load.image('estanteria2', 'assets/estanteria2.png');
         // Sistema de texto
         this.load.image('textBox', 'assets/textbox.png');
         // Imágenes
@@ -359,22 +383,21 @@ class SceneGame extends Phaser.Scene {
         this.Wiggle.setScale(0.085);
         
         // Colisiones
-        //this.physics.add.collider(this.Riddle, this.muros);
-        //this.physics.add.collider(this.Wiggle, this.muros);
+        this.physics.add.collider(this.Riddle, this.muros);
+        this.physics.add.collider(this.Wiggle, this.muros);
                   
         //CAMERA 1
-        var camera1 = this.cameras.add(0, 0, 400, 800);
-        camera1.setZoom(3); // Ajusta el valor según sea necesario
-        camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
-        camera1.setBounds(0,0,400,800);
-        camera1.startFollow(this.Wiggle);
+        this.camera1 = this.cameras.add(0, 0, 400, 800);
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
 
         // CAMERA 2
-        var camera2 = this.cameras.add(400, 0, 400, 800);
-        camera2.setZoom(3); // Ajusta el valor según sea necesario
-        camera2.centerOn(this.Riddle.x, this.Riddle.y);
-        camera2.setBounds(400,0,400,800);
-        camera2.startFollow(this.Riddle);
+        this.camera2 = this.cameras.add(400, 0, 400, 800);
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
+        
         
         //////////////// CREACIÓN DE LOS ELEMENTOS INTERACTUABLES ////////////////
         // Caja
@@ -618,7 +641,7 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Wiggle, this.puertaLaboratorioRiddle);
 
         // Puerta laboratorio Wiggle
-        this.puertaLaboratorioWiggle = this.physics.add.staticGroup().create(544,367,'puerta').setScale(0.7,0.7).refreshBody();
+        this.puertaLaboratorioWiggle = this.physics.add.staticGroup().create(322,82,'puerta').setScale(0.7,0.5).refreshBody();
         this.puertaLaboratorioWiggle.interactuar = function () {
             return "puertaLW";
         }
@@ -692,6 +715,11 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.vater);
         this.physics.add.collider(this.Wiggle, this.vater);
 
+        this.fondoWiggle = this.add.image(200, 300, 'fondo').setScale(0.5, 1.5);
+        this.fondoWiggle.visible = false;
+        this.fondoRiddle = this.add.image(600, 300, 'fondo').setScale(0.5, 1.5);
+        this.fondoRiddle.visible = false;
+
         // CREACIÓN DE LAS CAJA DE TEXTO Y DE SUS EVENTOS ASOCIADOS
         this.cajaTexto = this.add.image(630,530,'textBox').setScale(0.7);
         this.cajaTexto.visible = false;
@@ -702,14 +730,14 @@ class SceneGame extends Phaser.Scene {
         this.eventoTiempo2 = this.time.addEvent({ delay: this.tiempoTexto2, callback: this.DesaparecerCuadro2, callbackScope: this});
         this.eventoTiempo2.paused = true;
         this.letra = this.time.addEvent({ delay: this.tiempoCaracter, callback: this.MostrarCaracteres, callbackScope: this});
-        this.dialogo = this.add.text(505, 505, '', { fontSize: '12px', fill: '#ffffff' });
-        this.dialogoB = this.add.text(505, 520, '', { fontSize: '12px', fill: '#ffffff' });
-        this.dialogoC = this.add.text(505, 535, '', { fontSize: '12px', fill: '#ffffff' });
+        this.dialogo = this.add.text(505, 505, '', { fontSize: '23px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        this.dialogoB = this.add.text(505, 520, '', { fontSize: '23px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        this.dialogoC = this.add.text(505, 535, '', { fontSize: '23px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         this.letra.paused = true;
         this.letra2 = this.time.addEvent({ delay: this.tiempoCaracter, callback: this.MostrarCaracteres2, callbackScope: this});
-        this.dialogo2 = this.add.text(45, 505, '', { fontSize: '12px', fill: '#ffffff' });
-        this.dialogo2B = this.add.text(45, 520, '', { fontSize: '12px', fill: '#ffffff' });
-        this.dialogo2C = this.add.text(45, 535, '', { fontSize: '12px', fill: '#ffffff' });
+        this.dialogo2 = this.add.text(45, 505, '', { fontSize: '23px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        this.dialogo2B = this.add.text(45, 520, '', { fontSize: '23px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        this.dialogo2C = this.add.text(45, 535, '', { fontSize: '23px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         this.letra2.paused = true;
 
         // CREACIÓN DE LAS IMÁGENES
@@ -964,6 +992,11 @@ class SceneGame extends Phaser.Scene {
         this.iconosCaldero1[13] = this.add.image(570,330,'icono').setScale(0.05);
         this.iconosCaldero1[13].visible = false;
         this.arrayIngredientesRiddle[13] = this.ingrediente14A;
+
+        // COMBOS Y CONTRASEÑAS
+        this.comboPiano = "102365";
+        this.claveIntroducida = "";
+        this.numeroTeclas = 0;
 
         // TEXTO SOBRE EL PUZLE DE LAS FLORES
         this.plantaA1 = this.add.text(650, 250, 'Flor 1', { fontSize: '12px', fill: '#ffffff' });
@@ -1791,6 +1824,26 @@ class SceneGame extends Phaser.Scene {
                     this.numeroIngredientesIntroducidos2 = 0;
                 }
             }
+
+            if(this.puzlePiano.visible) {
+                if(this.nuevoIntento) {
+                    if(event.key>=0&&event.key<=9) {
+                        this.numeroTeclas++;
+                        this.claveIntroducida+= event.key;
+                    }
+                    if(this.numeroTeclas==6) {
+                        if(this.claveIntroducida === this.comboPiano) {
+                            this.ComprobarComboPiano();
+                        }
+                        else {
+                            this.numeroTeclas = 0;
+                            this.claveIntroducida = "";
+                        }
+                    }
+                }
+                this.nuevoIntento = false;
+                this.temporizadorNuevoIntento.paused = false;
+            }
         });
 
         // Temporizadores para más texto con las fórmulas de los elixires
@@ -1803,8 +1856,8 @@ class SceneGame extends Phaser.Scene {
         this.formulaZafiro2 = this.time.addEvent({ delay: 10800, callback: this.MostrarTextoZafiro2, callbackScope: this});
         this.formulaZafiro2.paused = true;
 
-        // COMBOS Y CONTRASEÑAS
-        this.comboPiano = this.input.keyboard.createCombo('102365', {resetOnWrongKey: true, deleteOnMatch: true});
+
+        //this.comboPiano = this.input.keyboard.createCombo('102365', {resetOnWrongKey: true, deleteOnMatch: true});
         //TEMPORIZADOR
         this.textoTemp = this.add.text(32, 32);
 
@@ -2048,9 +2101,166 @@ class SceneGame extends Phaser.Scene {
                 this.input.keyboard.on('keycombomatch', event =>
                 {
                     this.ComprobarComboPiano();
-                });    
+                });   
+                
+
+                if(this.libroPianoVisibleRiddle&&!this.mostrandoTexto) {
+                    this.camera2.stopFollow();
+                    this.camera2.centerOn(600,300);
+                    this.camera2.setZoom(1);
+                    this.fondoRiddle.visible = true;
+                    this.libroPiano1.visible = true;
+                }
+
+                if(this.libroPianoVisibleWiggle&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.libroPiano2.visible = true;
+                }
+                if(this.puzlePianoVisible&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.puzlePiano.visible = true;
+                }
+                if(this.puzleFloresRiddleVisible1&&!this.mostrandoTexto) {
+                    this.camera2.stopFollow();
+                    this.camera2.centerOn(600,300);
+                    this.camera2.setZoom(1);
+                    this.fondoRiddle.visible = true;
+                    this.puzleFloresR1.visible = true;
+                }
+                if(this.puzleFloresRiddleVisible2&&!this.mostrandoTexto) {
+                    this.camera2.stopFollow();
+                    this.camera2.centerOn(600,300);
+                    this.camera2.setZoom(1);
+                    this.fondoRiddle.visible = true;
+                    this.puzleFloresR2.visible = true;
+                }
+
+                if(this.puzleFloresWiggleVisible1&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.puzleFloresW1.visible = true;
+                }
+                if(this.puzleFloresWiggleVisible2&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.puzleFloresW2.visible = true;
+                }
+                if(this.puzleSimbolosRiddleVisible&&!this.mostrandoTexto) {
+                    this.camera2.stopFollow();
+                    this.camera2.centerOn(600,300);
+                    this.camera2.setZoom(1);
+                    this.fondoRiddle.visible = true;
+                    this.puzleSimbolos1.visible = true;
+                }
+                if(this.puzleSimbolosWiggleVisible&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.puzleSimbolos2.visible = true;
+                }
+                if(this.panelContraseñaRiddleVisible&&!this.mostrandoTexto) {
+                    this.camera2.stopFollow();
+                    this.camera2.centerOn(600,300);
+                    this.camera2.setZoom(1);
+                    this.fondoRiddle.visible = true;
+                    this.panelContraseña1.visible = true;
+                }
+                if(this.panelContraseñaWiggleVisible&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.panelContraseña2.visible = true;
+                }
+                if(this.puzleGatosVisibleRiddle&&!this.mostrandoTexto) {
+                    this.camera2.stopFollow();
+                    this.camera2.centerOn(600,300);
+                    this.camera2.setZoom(1);
+                    this.fondoRiddle.visible = true;
+                    this.PrepararVelasRiddle();
+                }
+                if(this.puzleGatosVisibleWiggle&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.PrepararVelasWiggle();
+                }
+                if(this.mensajeGatosVisibleRiddle&&!this.mostrandoTexto) {
+                    this.camera2.stopFollow();
+                    this.camera2.centerOn(600,300);
+                    this.camera2.setZoom(1);
+                    this.fondoRiddle.visible = true;
+                    this.mensajeGatos1.visible = true;
+                }
+                if(this.mensajeGatosVisibleWiggle&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.mensajesGatos2.visible = true;
+                }
+                if(this.ingredientesNeveraRiddleVisible1&&!this.mostrandoTexto) {
+                    this.camera2.stopFollow();
+                    this.camera2.centerOn(600,300);
+                    this.camera2.setZoom(1);
+                    this.fondoRiddle.visible = true;
+                    this.ingredientesNeveraR1.visible = true;
+                    this.ComprobarInventarioRiddle1();
+                }
+                if(this.ingredientesNeveraRiddleVisible2&&!this.mostrandoTexto) {
+                    this.camera2.stopFollow();
+                    this.camera2.centerOn(600,300);
+                    this.camera2.setZoom(1);
+                    this.fondoRiddle.visible = true;
+                    this.ingredientesNeveraR2.visible = true;
+                    this.ComprobarInventarioRiddle2();
+                }
+                if(this.ingredientesNeveraWiggleVisible1&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.ingredientesNeveraW1.visible = true;
+                    this.ComprobarInventarioWiggle1();
+                }
+                if(this.ingredientesNeveraWiggleVisible2&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.ingredientesNeveraW2.visible = true;
+                    this.ComprobarInventarioWiggle2();
+                }
+                if(this.puzleCalderoRiddleVisible&&!this.mostrandoTexto) {
+                    this.camera2.setZoom(1);
+                    this.fondoRiddle.visible = true;
+                    this.ingredientesCaldero1.visible = true;
+                    this.PrepararIngredientesZafiro();
+                }
+                if(this.puzleCalderoWiggleVisible&&!this.mostrandoTexto2) {
+                    this.camera1.stopFollow();
+                    this.camera1.centerOn(200,300);
+                    this.camera1.setZoom(1);
+                    this.fondoWiggle.visible = true;
+                    this.ingredientesCaldero2.visible = true;
+                    this.PrepararIngredientesRubi();
+                }
+
         
         this.InicioAbarrotadoResuelto();
+        this.SinfoniaSecretaResuelta();
         this.EntrePetalosResuelto();
         this.JardinEnArmoniaResuelto();
         this.SecretoEnLosFogonesResuelto();
@@ -2058,8 +2268,12 @@ class SceneGame extends Phaser.Scene {
         this.LlamasFelinasResuelto();
         this.ComprobarMaestroMezclas();
 
-        if(this.tp.isDown){
-            this.IntercambiarPosiciones();
+        if(this.tp.isDown&&!this.juegoDetenidoRiddle&&!this.juegoDetenidoWiggle){
+            if(this.nuevoIntento) {
+                this.IntercambiarPosiciones();
+                this.nuevoIntento = false;
+                this.temporizadorNuevoIntento.paused = false;
+            }
         }
     }
 
@@ -2143,6 +2357,18 @@ class SceneGame extends Phaser.Scene {
         this.eventoTiempo = this.time.addEvent({ delay: this.tiempoTexto, callback: this.DesaparecerCuadro, callbackScope: this});
         this.eventoTiempo.paused = false;
         this.mostrandoTexto = true;
+        this.cajaTexto.y = this.camera2.scrollY + 580 - 130;
+        this.cajaTexto.x = this.camera2.scrollX + 200;
+        this.cajaTexto.setScale(0.25);
+        this.dialogo.x = this.cajaTexto.x - 45;
+        this.dialogo.y = this.cajaTexto.y-10;
+        this.dialogo.setScale(0.2);
+        this.dialogoB.x = this.cajaTexto.x - 45;
+        this.dialogoB.y = this.cajaTexto.y-2.5;
+        this.dialogoB.setScale(0.2);
+        this.dialogoC.x = this.cajaTexto.x - 45;
+        this.dialogoC.y = this.cajaTexto.y+5;
+        this.dialogoC.setScale(0.2);
         this.cajaTexto.visible = true;
         this.letra.paused = false;
     }
@@ -2155,6 +2381,18 @@ class SceneGame extends Phaser.Scene {
         this.eventoTiempo2 = this.time.addEvent({ delay: this.tiempoTexto2, callback: this.DesaparecerCuadro2, callbackScope: this});
         this.eventoTiempo2.paused = false;
         this.mostrandoTexto2 = true;
+        this.cajaTexto2.y = this.camera1.scrollY + 580 - 130;
+        this.cajaTexto2.x = this.camera1.scrollX + 200;
+        this.cajaTexto2.setScale(0.25);
+        this.dialogo2.x = this.cajaTexto2.x - 45;
+        this.dialogo2.y = this.cajaTexto2.y-10;
+        this.dialogo2.setScale(0.2);
+        this.dialogo2B.x = this.cajaTexto2.x - 45;
+        this.dialogo2B.y = this.cajaTexto2.y-2.5;
+        this.dialogo2B.setScale(0.2);
+        this.dialogo2C.x = this.cajaTexto2.x - 45;
+        this.dialogo2C.y = this.cajaTexto2.y+5;
+        this.dialogo2C.setScale(0.2);
         this.cajaTexto2.visible = true;
         this.letra2.paused = false;
     }
@@ -2308,7 +2546,7 @@ class SceneGame extends Phaser.Scene {
                         var frase = "Aquí aparece una imagen de un teclado con unas letras.";
                         this.MostrarTexto(frase);
                         this.estanteria2_interactuada = true;
-                        this.libroPiano1.visible = true;
+                        this.libroPianoVisibleRiddle = true;
                     }
                     if(objeto ==="puertaA") {
                         var frase = "No tenemos la llave para abrir esta puerta...";
@@ -2359,7 +2597,7 @@ class SceneGame extends Phaser.Scene {
                             frase = "Esto parece un fragmento de llave. Si consigo otros dos más podré formar una.";
                         }
                         this.MostrarTexto(frase);
-                        this.fragmento1LlaveB.visible = false;
+                        this.fragmento1LlaveB.disableBody(true,true);
                     }
                     if(objeto ==="puertaB") {
                         var llave = false;
@@ -2407,7 +2645,7 @@ class SceneGame extends Phaser.Scene {
                         else {
                             frase = "Voy a tratar de colocar las flores correctamente...";
                             this.juegoDetenidoRiddle = true;
-                            this.puzleFloresR1.visible = true;
+                            this.puzleFloresRiddleVisible1 = true;
                         }
                         if(this.jardinEnArmonia) {
                             frase = "Colocadas como en los cuadros, las flores quedan más bonitas."
@@ -2422,7 +2660,7 @@ class SceneGame extends Phaser.Scene {
                         else {
                             frase = "Voy a tratar de colocar las flores correctamente...";
                             this.juegoDetenidoRiddle = true;
-                            this.puzleFloresR2.visible = true;
+                            this.puzleFloresRiddleVisible2 = true;
                         }
                         if(this.jardinEnArmonia) {
                             frase = "Colocadas como en los cuadros, las flores quedan más bonitas."
@@ -2508,13 +2746,13 @@ class SceneGame extends Phaser.Scene {
                         frase = "Estos signos son muy raros, no entiendo nada.";
                         this.MostrarTexto(frase);
                         this.juegoDetenidoRiddle = true;
-                        this.puzleSimbolos.visible = true;
+                        this.puzleSimbolosRiddleVisible = true;
                     }
                     if(objeto === "puertaAlmacen"&&this.puertaAlmacen.visible) {
                         var frase = "Esta puerta no tiene cerradura, pero tiene un cartel y varios números... Sus símbolos me suenan.";
                         this.MostrarTexto(frase);
                         this.juegoDetenidoRiddle = true;
-                        this.panelContraseña1.visible = true;
+                        this.panelContraseñaRiddleVisible = true;
                     }
                     if(objeto === "candelabro") {
                         var frase = "Este candelabro encendido no encaja del todo en el almacén. Voy a guardarlo por si luego es útil .";
@@ -2539,7 +2777,7 @@ class SceneGame extends Phaser.Scene {
                         if(this.mensajeObtenido && candelabro&&!this.llamasFelinas) {
                             frase = "El mensaje hablaba de los gatos, ¡debo encender las velas de rubí y zafiro!";
                             this.juegoDetenidoRiddle = true;
-                            this.PrepararVelasRiddle();
+                            this.puzleGatosVisibleRiddle = true;
                         }
                         if(this.llamasFelinas) {
                             frase = "Qué manera tan curiosa de ponernos a prueba...";
@@ -2550,7 +2788,7 @@ class SceneGame extends Phaser.Scene {
                         var frase = "En el cajón de esta cómoda hay una nota muy sospechosa... Esos colores me recuerdan a algo.";
                         this.MostrarTexto(frase);
                         this.juegoDetenidoRiddle = true;
-                        this.mensajeGatos1.visible = true;
+                        this.mensajeGatosVisibleRiddle = true;
                         this.mensajeObtenido = true;
                     }
                     if(objeto==="estanteria3") {
@@ -2591,7 +2829,7 @@ class SceneGame extends Phaser.Scene {
                             frase = "Tengo que tener cuidado al escoger los ingredientes y seguir la fórmula...";
                             this.juegoDetenidoRiddle = true;
                             // Mostrar el panel para echar los ingredientes
-                            this.ingredientesCaldero1.visible = true;
+                            this.puzleCalderoRiddleVisible = true;
                             this.PrepararIngredientesZafiro();
                         }
                         if(!this.estanteria3_interactuada&&!this.estanteria4_interactuada) {
@@ -2606,7 +2844,7 @@ class SceneGame extends Phaser.Scene {
                             frase = "A ver qué puedo coger de todo lo que hay aquí...";
                             this.juegoDetenidoRiddle = true;
                             // Mostrar lista de ingredientes
-                            this.ingredientesNeveraR1.visible = true;
+                            ingredientesNeveraRiddleVisible1 = true;
                             this.ComprobarInventarioRiddle1();
                         }
                         else {
@@ -2621,7 +2859,7 @@ class SceneGame extends Phaser.Scene {
                             frase = "A ver qué puedo coger de todo lo que hay aquí...";
                             this.juegoDetenidoRiddle = true;
                             // Mostrar lista de ingredientes
-                            this.ingredientesNeveraR2.visible = true;
+                            this.ingredientesNeveraRiddleVisible2 = false;
                             this.ComprobarInventarioRiddle2();
                         }
                         else {
@@ -2638,18 +2876,21 @@ class SceneGame extends Phaser.Scene {
                 InteraccionJugador2(objeto) {
 
                     if(objeto === "caja") {
-                        var frase = "Estas cajas son demasiado pesadas y me impiden salir de la habitación. No sé qué hacer...";
+                        var frase = "Estas cajas son demasiado pesadas y me impiden salir de la habitación. Quizá Riddle me pueda ayudar...";
                         this.MostrarTexto2(frase);
                     }
                     if(objeto === "piano") {
                         var frase;
-                        if(this.estanteria1_interactuada&&this.estanteria2_interactuada) {
+                        if(this.estanteria1_interactuada&&this.estanteria2_interactuada&&!this.sinfoniaSecreta) {
                             frase = "Ahora lo entiendo, lo que decía en los libros... ¡Debo tocar las notas correctas!";
                             this.juegoDetenidoWiggle = true;
-                            this.puzlePiano.visible = true;
+                            this.puzlePianoVisible = true;
                         }
                         else {
                             frase = "Qué curioso que haya aquí un piano...";
+                        }
+                        if(this.sinfoniaSecreta) {
+                            frase = "Qué acertijo tan curioso...";
                         }
                         this.MostrarTexto2(frase);
                     }
@@ -2662,7 +2903,7 @@ class SceneGame extends Phaser.Scene {
                         var frase = "Aquí aparece una imagen de un teclado con unas letras.";
                         this.MostrarTexto2(frase);
                         this.estanteria2_interactuada = true;
-                        this.libroPiano2.visible = true;
+                        this.libroPianoVisibleWiggle = true;
                     }
                     if(objeto ==="puertaA") {
                         var llave = false;
@@ -2712,6 +2953,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto2(frase);
                     }
+
                     if(objeto === "fragmentoLlaveB"&&!this.fragmentoSuelo) {
                         this.numeroFragmentosLlave++;
                         this.inventarioWiggle.push("Fragmento de llave");
@@ -2726,8 +2968,9 @@ class SceneGame extends Phaser.Scene {
                             frase = "Esto parece un fragmento de llave. Si consigo más podré formar una completa.";
                         }
                         this.MostrarTexto2(frase);
-                        this.fragmento1LlaveB.visible = false;
+                        this.fragmento1LlaveB.disableBody(true,true);
                     }
+
                     if(objeto ==="puertaB") {
                         var llave = false;
                         for(var i=0; i<this.inventarioWiggle.length; i++) {
@@ -2772,7 +3015,7 @@ class SceneGame extends Phaser.Scene {
                         else {
                             frase = "Voy a tratar de colocar las flores correctamente...";
                             this.juegoDetenidoWiggle = true;
-                            this.puzleFloresW1.visible = true;
+                            this.puzleFloresWiggleVisible1 = true;
                         }
                         if(this.jardinEnArmonia) {
                             frase = "Colocadas como en los cuadros, las flores quedan más bonitas."
@@ -2787,7 +3030,7 @@ class SceneGame extends Phaser.Scene {
                         else {
                             frase = "Voy a tratar de colocar las flores correctamente...";
                             this.juegoDetenidoWiggle = true;
-                            this.puzleFloresW2.visible = true;
+                            this.puzleFloresWiggleVisible2 = true;
                         }
                         if(this.jardinEnArmonia) {
                             frase = "Colocadas como en los cuadros, las flores quedan más bonitas."
@@ -2855,13 +3098,13 @@ class SceneGame extends Phaser.Scene {
                         frase = "Estos signos parecen formar una ecuación, pero no sé qué número representan...";
                         this.MostrarTexto2(frase);
                         this.juegoDetenidoWiggle = true;
-                        this.puzleSimbolos2.visible = true;
+                        this.puzleSimbolosWiggleVisible = true;
                     }
                     if(objeto === "puertaAlmacen"&&this.puertaAlmacen.visible) {
                         var frase = "Esta puerta no tiene cerradura, pero tiene un cartel y varios números... Sus símbolos me suenan.";
                         this.MostrarTexto2(frase);
                         this.juegoDetenidoWiggle = true;
-                        this.panelContraseña2.visible = true;
+                        this.panelContraseñaWiggleVisible = true;
                     }
                     if(objeto === "candelabro") {
                         var frase = "Este candelabro encendido no encaja del todo en el almacén. Voy a guardarlo por si luego es útil.";
@@ -2886,7 +3129,7 @@ class SceneGame extends Phaser.Scene {
                         if(this.mensajeObtenido && candelabro &&!this.llamasFelinas) {
                             frase = "El mensaje hablaba de los gatos, ¡debo encender las velas de rubí y zafiro!";
                             this.juegoDetenidoWiggle = true;
-                            this.PrepararVelasWiggle();
+                            this.puzleGatosVisibleWiggle = false;
                         }
                         if(this.llamasFelinas) {
                             frase = "Qué manera tan curiosa de ponernos a prueba...";
@@ -2896,7 +3139,7 @@ class SceneGame extends Phaser.Scene {
                     if(objeto === "comodaMensaje") {
                         var frase = "En el cajón de esta cómoda hay una nota muy sospechosa...";
                         this.MostrarTexto2(frase);
-                        this.mensajeGatos2.visible = true;
+                        this.mensajeGatosVisibleWiggle = true;
                         this.mensajeObtenido = true;
                     }
                     if(objeto==="estanteria3") {
@@ -2924,8 +3167,7 @@ class SceneGame extends Phaser.Scene {
                             frase = "Tengo que tener cuidado al escoger los ingredientes y seguir la fórmula...";
                             // Mostrar el panel para echar los ingredientes
                             this.juegoDetenidoWiggle = true;
-                            this.ingredientesCaldero2.visible = true;
-                            this.PrepararIngredientesRubi();
+                            this.puzleCalderoWiggleVisible = true;
                         }
                         if(!this.estanteria3_interactuada&&!this.estanteria4_interactuada) {
                             frase = "Seguro que este caldero es muy importante, tiene un rubí en su superficie.";
@@ -2951,8 +3193,8 @@ class SceneGame extends Phaser.Scene {
                             this.neveras = true;
                             frase = "A ver qué puedo coger de todo lo que hay aquí...";
                             // Mostrar lista de ingredientes
-                            this.ingredientesNeveraW1.visible = true;
-                            this.ComprobarInventarioWiggle1();
+                            this.ingredientesNeveraWiggleVisible1 = true;
+                            
                             this.juegoDetenidoWiggle = true;
                         }
                         else {
@@ -2966,8 +3208,7 @@ class SceneGame extends Phaser.Scene {
                             this.neveras = true;
                             frase = "A ver qué puedo coger de todo lo que hay aquí...";
                             // Mostrar lista de ingredientes
-                            this.ingredientesNeveraW2.visible = true;
-                            this.ComprobarInventarioWiggle2();
+                            this.ingredientesNeveraWiggleVisible2 = true;
                             this.juegoDetenidoWiggle = true;
                         }
                         else {
@@ -2990,19 +3231,35 @@ class SceneGame extends Phaser.Scene {
         }
         OcultarLibro1() {
             this.libroPiano1.visible = false;
+            this.libroPianoVisibleRiddle = false;
+            this.fondoRiddle.visible = false;
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
         }
 
         OcultarLibro2() {
             this.libroPiano2.visible = false;
+            this.libroPianoVisibleWiggle = false;
+            this.fondoWiggle.visible = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
         }
 
         OcultarPuzlePiano() {
+            this.puzlePianoVisible = false;
             this.puzlePiano.visible = false;
+            this.fondoWiggle.visible = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
         }
 
         ComprobarComboPiano() {
             if(this.puzlePiano.visible) {
                 this.sinfoniaSecreta = true;
+                this.OcultarPuzlePiano();
             }
         }
 
@@ -3040,7 +3297,12 @@ class SceneGame extends Phaser.Scene {
             this.plantaA1.setText('');
             this.plantaB1.setText('');
             this.plantaC1.setText('');
+            this.puzleFloresRiddleVisible1 = false;
             this.puzleFloresR1.visible = false;
+            this.fondoRiddle.visible = false;
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
         }
 
         OcultarPuzleR2() {
@@ -3048,6 +3310,11 @@ class SceneGame extends Phaser.Scene {
             this.plantaB1.setText('');
             this.plantaC1.setText('');
             this.puzleFloresR2.visible = false;
+            this.fondoRiddle.visible = false;
+            this.puzleFloresRiddleVisible2 = false;
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
         }
 
         OcultarPuzleW1() {
@@ -3055,6 +3322,11 @@ class SceneGame extends Phaser.Scene {
             this.plantaB2.setText('');
             this.plantaC2.setText('');
             this.puzleFloresW1.visible = false;
+            this.fondoWiggle.visible = false;
+            this.puzleFloresWiggleVisible1 = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
         }
 
         OcultarPuzleW2() {
@@ -3062,6 +3334,11 @@ class SceneGame extends Phaser.Scene {
             this.plantaB2.setText('');
             this.plantaC2.setText('');
             this.puzleFloresW2.visible = false;
+            this.fondoWiggle.visible = false;
+            this.puzleFloresWiggleVisible2 = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
         }
 
         ColocarFlores1() {
@@ -3209,22 +3486,43 @@ class SceneGame extends Phaser.Scene {
                 }
             }
         }
+
         OcultarPuzleSimbolos1() {
+            this.puzleSimbolosRiddleVisible = false;
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
+            this.fondoRiddle.visible = false;
             this.puzleSimbolos.visible =false;
         }
 
         OcultarPuzleSimbolos2() {
+            this.puzleSimbolosWiggleVisible = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
+            this.fondoWiggle.visible = false;
             this.puzleSimbolos2.visible =false;
         }
 
         OcultarPuzleContraseña1() {
             this.panelContraseña1.visible = false;
             this.contraseña1.setText('');
+            this.panelContraseñaRiddleVisible = false;
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
+            this.fondoRiddle.visible = false;
         }
 
         OcultarPuzleContraseña2() {
             this.panelContraseña2.visible = false;
             this.contraseña2.setText('');
+            this.panelContraseñaWiggleVisible = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
+            this.fondoWiggle.visible = false;
         }
 
         ComprobarContraseñaSimbolos(resolutor) {
@@ -3345,6 +3643,11 @@ class SceneGame extends Phaser.Scene {
             this.vela4AN.visible = false;
             this.vela5AE.visible = false;
             this.vela5AN.visible = false;
+            this.puzleGatosVisibleRiddle = false;
+            this.fondoRiddle.visible = false;
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
         }
 
         OcultarPuzleGatos2() {
@@ -3359,6 +3662,11 @@ class SceneGame extends Phaser.Scene {
             this.vela4BN.visible = false;
             this.vela5BE.visible = false;
             this.vela5BN.visible = false;
+            this.puzleGatosVisibleWiggle = false;
+            this.fondoWiggle.visible = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
         }
 
         ComprobarVelasEncendidas() {
@@ -3372,13 +3680,22 @@ class SceneGame extends Phaser.Scene {
                 this.llamasFelinas = true;
             }
         }
-
         OcultarMensajeGatos1() {
             this.mensajeGatos1.visible = false;
+            this.mensajeGatosVisibleRiddle = false;
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
+            this.fondoRiddle.visible = false;
         }
 
         OcultarMensajeGatos2() {
             this.mensajeGatos2.visible = false;
+            this.mensajeGatosVisibleWiggle = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
+            this.fondoWiggle.visible = false;
         }
 
         LlamasFelinasResuelto() {
@@ -3456,11 +3773,17 @@ class SceneGame extends Phaser.Scene {
             this.formulaZafiro2.paused = true;
         }
 
+
         OcultarIngredientesNeveraR1() {
             this.ingredientesNeveraR1.visible = false;
             for(var i=0; i<this.iconosNevera1.length; i++) {
                 this.iconosNevera1[i].visible = false;
             }
+            this.ingredientesNeveraRiddleVisible1 = false;
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
+            this.fondoRiddle.visible = false;
         }
 
         OcultarIngredientesNeveraR2() {
@@ -3468,6 +3791,11 @@ class SceneGame extends Phaser.Scene {
             for(var i=0; i<this.iconosNevera2.length; i++) {
                 this.iconosNevera1[i].visible = false;
             }
+            this.ingredientesNeveraRiddleVisible2 = false;
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
+            this.fondoRiddle.visible = false;
         }
 
         OcultarIngredientesNeveraW1() {
@@ -3475,6 +3803,11 @@ class SceneGame extends Phaser.Scene {
             for(var i=0; i<this.iconosNevera1.length; i++) {
                 this.iconosNevera2[i].visible = false;
             }
+            this.ingredientesNeveraWiggleVisible1 = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
+            this.fondoWiggle.visible = false;
         }
 
         OcultarIngredientesNeveraW2() {
@@ -3482,6 +3815,11 @@ class SceneGame extends Phaser.Scene {
             for(var i=0; i<this.iconosNevera2.length; i++) {
                 this.iconosNevera2[i].visible = false;
             }
+            this.ingredientesNeveraWiggleVisible2 = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
+            this.fondoWiggle.visible = false;
         }
 
         OcultarIngredientesCaldero1() {
@@ -3495,6 +3833,11 @@ class SceneGame extends Phaser.Scene {
             for(var i=0; i<this.ingredientesIntroducidosCaldero1.length;i++) {
                     this.ingredientesIntroducidosCaldero1[i] = 0;
                 }
+            this.puzleCalderoRiddleVisible = false;
+        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+        this.camera2.startFollow(this.Riddle);
+            this.fondoRiddle.visible = false;
         }
 
         OcultarIngredientesCaldero2() {
@@ -3508,6 +3851,11 @@ class SceneGame extends Phaser.Scene {
             for(var i=0; i<this.ingredientesIntroducidosCaldero2.length;i++) {
                     this.ingredientesIntroducidosCaldero2[i] = 0;
                 }
+                this.puzleCalderoWiggleVisible = false;
+        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+        this.camera1.startFollow(this.Wiggle);
+                this.fondoWiggle.visible = false;
         }
 
         ComprobarInventarioRiddle1() {
@@ -3953,7 +4301,7 @@ class SceneGame extends Phaser.Scene {
 
         ComprobarMaestroMezclas() {
             if(this.maestroMezclas&&!this.finalMostrado) {
-                var frase = "Los dos elixires están empezando a crear un portal... ¡Por fin saldremos de aquí!";
+                var frase = "Los dos elixires están empezando a crear un portal y a derretir el candado... ¡Por fin saldremos de aquí!";
                 this.MostrarTexto(frase);
                 this.MostrarTexto2(frase);
                 this.finalMostrado = true;
@@ -3979,24 +4327,10 @@ class SceneGame extends Phaser.Scene {
         
             this.Wiggle.x = tempX;
             this.Wiggle.y = tempY;
-
-            //CAMERA 1
-            var camera1 = this.cameras.add(0, 0, 400, 800);
-            camera1.setZoom(3); // Ajusta el valor según sea necesario
-            camera1.centerOn(this.Riddle.x, this.Riddle.y);
-            camera1.setBounds(0,0,400,800);
-            camera1.startFollow(this.Riddle);
-
-            // CAMERA 2
-            var camera2 = this.cameras.add(400, 0, 400, 800);
-            camera2.setZoom(3); // Ajusta el valor según sea necesario
-            camera2.centerOn(this.Wiggle.x, this.Wiggle.y);
-            camera2.setBounds(400,0,400,800);
-            camera2.startFollow(this.Wiggle);
             
         }
         finalJuego(){
 
-    }
+        }
 }
 export default SceneGame;
