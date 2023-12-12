@@ -34,8 +34,10 @@ class SceneMenu extends Phaser.Scene {
 
         }, this);
         */
-        this.scene.sleep('SceneIntr');
+        this.scene.sleep('SceneGame');
+        this.scene.sleep('SceneIntr1');
         this.scene.sleep('SceneVictoria');
+        
     }
 
 
@@ -54,13 +56,14 @@ class SceneMenu extends Phaser.Scene {
         this.input.keyboard.on('keydown_ENTER', () =>{ 
             if(!this.wake && this.pointer.y == 348){
                 this.scene.wake('SceneGame');
-                this.scene.start('SceneGame');
                 this.scene.stop('SceneMenu');
+                this.scene.start('SceneGame');
                 this.wake = true;
             }else 
             {
                 //window.close();
                 this.exit = this.add.image(400, 300, 'exit').setScale(1.5);
+                
                 this.scene.stop('SceneMenu');
             }
 

@@ -1,9 +1,10 @@
-var tiempo = {
-    minutos:'00',
-    segundos: '08'
-}
+
 class SceneGame extends Phaser.Scene {
 
+    tiempo = {
+        minutos: '39',
+        segundos: '59'
+    }
     Riddle;
     Wiggle;
     cursors;
@@ -11,8 +12,8 @@ class SceneGame extends Phaser.Scene {
     wake=false;
     finJuego;
     // Control del juego
-    juegoDetenidoRiddle = false;
-    juegoDetenidoWiggle = false;
+    juegoDetenidoRiddle = true;
+    juegoDetenidoWiggle = true;
     // Variables que almacenan todos los objetos interactuables por los personajes
     objetosInteractuables = new Array (100);
     caja;
@@ -264,6 +265,14 @@ class SceneGame extends Phaser.Scene {
     inventarioRiddle = new Array(100);
     inventarioWiggle = new Array(100);
 
+    // Imágenes de introducción, victoria y derrota
+    introduccion1;
+    introduccion2;
+    introduccion3;
+    introduccion4;
+    victoria;
+    derrota;
+
     constructor ()
     {
         super({ key: 'SceneGame' });
@@ -346,7 +355,7 @@ class SceneGame extends Phaser.Scene {
         this.load.image('icono', 'assets/conseguido.png');
         this.load.image('ingredientesCaldero1', 'assets/ingredientes caldero zafiro.png');
         this.load.image('ingredientesCaldero2', 'assets/ingredientes caldero rubi.png');
-        this.load.image('GameOver', 'assets/GameOver.png');
+        
         
 
         // Elementos de adorno
@@ -376,10 +385,25 @@ class SceneGame extends Phaser.Scene {
         this.load.image('sofa4', 'assets/sofa4.png');
         this.load.image('sofaIzq', 'assets/sofaIzq.png');
         this.load.image('AlfombraHz', 'assets/alfombraHorizontal.png');
+        this.load.audio("backgroundMusic", 'assets/backgroundMusic.mp3');
+
+        // Introducción
+        this.load.image('introduccion1', 'Assets/introduction1.png');
+        this.load.image('introduccion2', 'Assets/introduction2.jpg');
+        this.load.image('introduccion3', 'Assets/introduction3.png');
+        this.load.image('introduccion4', 'Assets/introduction4.png');
+
+        // Pantalla de victoria
+        this.load.image('victoria', 'Assets/victory.png');
+
+        // Pantalla de derrota
+        this.load.image('derrota', 'assets/GameOver.png');
     }
 
     create (data)
     {
+        this.backgroundMusic = this.sound.add("backgroundMusic", { loop: true });
+        this.backgroundMusic.play();
         this.add.image(400, 300, 'sky').setScale(10);
         //Este código nos crea una configuración de botones predefinida dónde el jugador se mueve con las flechas
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -416,25 +440,11 @@ class SceneGame extends Phaser.Scene {
         //Escalamos los sprites
         this.Riddle.setScale(0.07);
         this.Wiggle.setScale(0.085);
-        /*
+        
         // Colisiones
         this.physics.add.collider(this.Riddle, this.muros);
-        this.physics.add.collider(this.Wiggle, this.muros);
-        */  
-       
-        //CAMERA 1
-        this.camera1 = this.cameras.add(0, 0, 400, 800);
-        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
-        this.camera1.startFollow(this.Wiggle);
-
-        // CAMERA 2
-        this.camera2 = this.cameras.add(400, 0, 400, 800);
-        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
-        this.camera2.startFollow(this.Riddle);
-    
-
+        this.physics.add.collider(this.Wiggle, this.muros);   
+        
         ////////////////DECORACIONES///////////////////////
         //Alfombras
         
@@ -2072,27 +2082,83 @@ class SceneGame extends Phaser.Scene {
 
         //this.comboPiano = this.input.keyboard.createCombo('102365', {resetOnWrongKey: true, deleteOnMatch: true});
         //TEMPORIZADOR
-        this.textoTemp = this.add.text(32, 32);
-
-        this.time.addEvent({
+        this.textoTemp = this.add.text(32, 32,{ fontSize: '23px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        this.eventoContador = this.time.addEvent({
             delay: 3000,
             loop: true,
             callback: () => {
                 this.actualizarContador();
             }
-        })
+        });
+        this.eventoContador.paused = true;
         //const combo = this.input.keyboard.createCombo('MORE');
         //this.input.keyboard.on('keycombomatch', function (event) {
         //tiempo.minutos++;
         //});
+        // Imágenes de introducción
+        this.introduccion4 = this.add.image(400,300,'introduccion4');
+        this.introduccion3 = this.add.image(400,300,'introduccion3');
+        this.introduccion2 = this.add.image(400,300,'introduccion2');
+        this.introduccion1 = this.add.image(400,300,'introduccion1');
+
+        // Imágenes de victoria y derrota
+        this.victoria = this.add.image(400,300,'victoria');
+        this.victoria.visible = false;
+        this.derrota = this.add.image(400,300,'derrota');
+        this.derrota.visible = false;
         
     }
 
     update ()
     {
+        // Introducción
+        this.input.keyboard.on('keydown_ENTER', () =>{ 
+            if(this.introduccion1.visible&&this.nuevoIntento) {
+                this.introduccion1.visible = false;
+                this.introduccion2.visible = true;
+                this.nuevoIntento = false;
+                this.temporizadorNuevoIntento.paused = false;
+            }
+            if(this.introduccion2.visible&&this.nuevoIntento) {
+                this.introduccion2.visible = false;
+                this.introduccion3.visible = true;
+                this.nuevoIntento = false;
+                this.temporizadorNuevoIntento.paused = false;
+            }
+            if(this.introduccion3.visible&&this.nuevoIntento) {
+                this.introduccion3.visible = false;
+                this.introduccion4.visible = true;
+                this.nuevoIntento = false;
+                this.temporizadorNuevoIntento.paused = false;
+            }
+            if(this.introduccion4.visible&&this.nuevoIntento) {
+                this.introduccion4.visible = false;
+                this.juegoDetenidoRiddle = false;
+                this.juegoDetenidoWiggle = false;
+                this.nuevoIntento = false;
+                this.temporizadorNuevoIntento.paused = false;
+                this.eventoContador.paused = false;
+                //CAMERA 1
+                this.camera1 = this.cameras.add(0, 0, 400, 800);
+                this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+                this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+                this.camera1.startFollow(this.Wiggle);
 
-        //TEXTO TEMPORIZADOR
-        this.textoTemp.setText('Tiempo: ' +tiempo.minutos + ':' +tiempo.segundos);
+                // CAMERA 2
+                this.camera2 = this.cameras.add(400, 0, 400, 800);
+                this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+                this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+                this.camera2.startFollow(this.Riddle);
+            }
+        
+        });
+        if(!this.introduccion4.visible) {
+            this.textoTemp.x = this.camera1.scrollX + 150;
+            this.textoTemp.y = this.camera1.scrollY + 280;
+            this.textoTemp.setText('Tiempo restante: ' +this.tiempo.minutos + ':' +this.tiempo.segundos);
+            this.textoTemp.setScale(0.35);
+        }
+
         /*
         //Menu PAUSA
         this.input.keyboard.on('keydown_TAB', () =>{ 
@@ -3993,7 +4059,7 @@ class SceneGame extends Phaser.Scene {
         OcultarIngredientesNeveraR1() {
             this.ingredientesNeveraR1.visible = false;
             for(var i=0; i<this.iconosNevera1.length; i++) {
-                this.iconosNevera1[i].visible = false;
+                this.iconosNevera2[i].visible = false;
             }
             this.ingredientesNeveraRiddleVisible1 = false;
         this.camera2.setZoom(3); // Ajusta el valor según sea necesario
@@ -4017,7 +4083,7 @@ class SceneGame extends Phaser.Scene {
         OcultarIngredientesNeveraW1() {
             this.ingredientesNeveraW1.visible = false;
             for(var i=0; i<this.iconosNevera1.length; i++) {
-                this.iconosNevera2[i].visible = false;
+                this.iconosNevera1[i].visible = false;
             }
             this.ingredientesNeveraWiggleVisible1 = false;
         this.camera1.setZoom(3); // Ajusta el valor según sea necesario
@@ -4522,19 +4588,39 @@ class SceneGame extends Phaser.Scene {
                 this.MostrarTexto2(frase);
                 this.finalMostrado = true;
                 // TRANSICIÓN A ESCENA DE VICTORIA
-                this.scene.wake('SceneVictoria');
-                this.scene.start('SceneVictoria');
-                this.scene.stop('SceneGame');
+                this.juegoDetenidoRiddle = true;
+                this.juegoDetenidoWiggle = true;
+                this.camera1.setZoom(1);
+                this.camera1.stopFollow();
+                this.camera2.setZoom(1); // Ajusta el valor según sea necesario
+                this.camera2.stopFollow();
+                this.camera2.centerOn(600, 400);
+                this.victoria.visible = true;
             }
         }
         actualizarContador(){
-            tiempo.segundos--;
-            tiempo.segundos = (tiempo.segundos>=10)? tiempo.segundos: '0' + tiempo.segundos;
-            if(tiempo.segundos==0){
-                tiempo.segundos = '59'
-                tiempo.minutos--;
-                tiempo.minutos = (tiempo.minutos>=10)? tiempo.minutos: '0' + tiempo.minutos;
+            this.tiempo.segundos--;
+            this.tiempo.segundos = (this.tiempo.segundos>=10)? this.tiempo.segundos: '0' + this.tiempo.segundos;
+            if(this.tiempo.segundos==0){
+                if(this.tiempo.minutos=="00") {
+                    // TRANSICIÓN A ESCENA DE DERROTA
+                this.juegoDetenidoRiddle = true;
+                this.juegoDetenidoWiggle = true;
+                this.camera1.setZoom(1);
+                this.camera1.stopFollow();
+                this.camera1.centerOn(200,400);
+                this.camera2.setZoom(1); // Ajusta el valor según sea necesario
+                this.camera2.stopFollow();
+                this.camera2.centerOn(600, 400);
+                this.derrota.visible = true;
+                } else {
+                    this.tiempo.segundos = '59'
+                    this.tiempo.minutos--;
+                    this.tiempo.minutos = (this.tiempo.minutos>=10)? this.tiempo.minutos: '0' + this.tiempo.minutos;
+                }
             }
+            //TEXTO TEMPORIZADOR
+            this.textoTemp.setText('Tiempo restante: ' +this.tiempo.minutos + ':' +this.tiempo.segundos);
         }
         IntercambiarPosiciones(player, player2) {
             // Intercambiar las posiciones x e y de los objetos
@@ -4547,9 +4633,6 @@ class SceneGame extends Phaser.Scene {
             this.Wiggle.x = tempX;
             this.Wiggle.y = tempY;
             
-        }
-        finalJuego(){
-
         }
 }
 export default SceneGame;
