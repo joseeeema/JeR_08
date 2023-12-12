@@ -375,7 +375,7 @@ class SceneGame extends Phaser.Scene {
         this.load.image('mesitaCafe', 'assets/mesitaCafe.png');
         this.load.image('sofa4', 'assets/sofa4.png');
         this.load.image('sofaIzq', 'assets/sofaIzq.png');
-
+        this.load.image('AlfombraHz', 'assets/alfombraHorizontal.png');
     }
 
     create (data)
@@ -396,6 +396,16 @@ class SceneGame extends Phaser.Scene {
         // Imagen del mapa
         this.add.image(400,300,'mapa').setScale(0.8);
         
+        this.Alfombra=  this.physics.add.staticGroup().create(50,120,'alfombra').setScale(0.8).refreshBody();
+        this.Alfombra2=  this.physics.add.staticGroup().create(60,200,'alfombra2').setScale(1.0).refreshBody();
+        this.Alfombra3=  this.physics.add.staticGroup().create(190,180,'alfombra').setScale(1.0).refreshBody();
+        this.Alfombra4=  this.physics.add.staticGroup().create(160,460,'alfombra').setScale(1.0).refreshBody();
+        this.Alfombra5=  this.physics.add.staticGroup().create(480,230,'alfombra2').setScale(1.0).refreshBody();
+        this.Alfombra6=  this.physics.add.staticGroup().create(495,455,'alfombra').setScale(0.9).refreshBody();
+        this.Alfombra7=  this.physics.add.staticGroup().create(495,330,'AlfombraHz').setScale(1.0).refreshBody();
+        this.Alfombra8=  this.physics.add.staticGroup().create(590,330,'alfombra').setScale(1.0).refreshBody();
+        this.Alfombra9=  this.physics.add.staticGroup().create(750, 90,'AlfombraHz').setScale(1.0).refreshBody();
+
         //Añadimos unas coordenadas de aparición para los personajes
         this.Riddle = this.physics.add.sprite(750, 90, 'Riddle');
         //this.Riddle.setCollideWorldBounds(true);
@@ -411,7 +421,7 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.muros);
         this.physics.add.collider(this.Wiggle, this.muros);
         */  
-       /*        
+       /*
         //CAMERA 1
         this.camera1 = this.cameras.add(0, 0, 400, 800);
         this.camera1.setZoom(3); // Ajusta el valor según sea necesario
@@ -424,14 +434,10 @@ class SceneGame extends Phaser.Scene {
         this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
         this.camera2.startFollow(this.Riddle);
         */
+
         ////////////////DECORACIONES///////////////////////
         //Alfombras
-        this.Alfombra=  this.physics.add.staticGroup().create(50,120,'alfombra').setScale(0.8).refreshBody();
-        this.Alfombra2=  this.physics.add.staticGroup().create(60,200,'alfombra2').setScale(1.0).refreshBody();
-        this.Alfombra3=  this.physics.add.staticGroup().create(190,180,'alfombra').setScale(1.0).refreshBody();
-        this.Alfombra4=  this.physics.add.staticGroup().create(160,460,'alfombra').setScale(1.0).refreshBody();
-        this.Alfombra5=  this.physics.add.staticGroup().create(480,230,'alfombra2').setScale(1.0).refreshBody();
-        this.Alfombr6=  this.physics.add.staticGroup().create(495,455,'alfombra').setScale(0.9).refreshBody();
+        
 
         this.Silla=  this.physics.add.staticGroup().create(60,245,'silla1').setScale(0.8).refreshBody();
         this.physics.add.collider(this.Riddle, this.Silla);
@@ -590,7 +596,7 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.Sofa2);
         this.physics.add.collider(this.Wiggle, this.Sofa2);
 
-        this.Sofa3=  this.physics.add.staticGroup().create(495,420,'sofaFrente').setScale(0.8).refreshBody();
+        this.Sofa3=  this.physics.add.staticGroup().create(495,410,'sofaFrente').setScale(0.8).refreshBody();
         this.physics.add.collider(this.Riddle, this.Sofa3);
         this.physics.add.collider(this.Wiggle, this.Sofa3);
 
@@ -605,6 +611,7 @@ class SceneGame extends Phaser.Scene {
         this.Silla7=  this.physics.add.staticGroup().create(580,450,'silla2').setScale(0.8).refreshBody();
         this.physics.add.collider(this.Riddle, this.Silla7);
         this.physics.add.collider(this.Wiggle, this.Silla7);
+        
         //////////////// CREACIÓN DE LOS ELEMENTOS INTERACTUABLES ////////////////
         // Caja
         this.caja = this.physics.add.staticGroup().create(120,225,'caja').setScale(2).refreshBody();
