@@ -785,7 +785,7 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.muebleCocina);
         this.physics.add.collider(this.Wiggle, this.muebleCocina);
 
-        this.muebleCocina2 = this.physics.add.staticGroup().create(70,360,'muebleCocina2').setScale(0.6).refreshBody().setScale(0.65);
+        this.muebleCocina2 = this.physics.add.staticGroup().create(70,352,'muebleCocina2').setScale(0.6).refreshBody().setScale(0.65);
         this.physics.add.collider(this.Riddle, this.muebleCocina2);
         this.physics.add.collider(this.Wiggle, this.muebleCocina2);
 
@@ -916,7 +916,7 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Wiggle, this.caldero2zafiro);
 
         // Nevera 1
-        this.nevera1 = this.physics.add.staticGroup().create(60,362, 'nevera').setScale(0.8).refreshBody();
+        this.nevera1 = this.physics.add.staticGroup().create(60,355, 'nevera').setScale(0.8).refreshBody();
         this.nevera1.interactuar = function() {
             return "nevera1";
         }
@@ -2138,6 +2138,7 @@ class SceneGame extends Phaser.Scene {
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
                 this.eventoContador.paused = false;
+                
                 //CAMERA 1
                 this.camera1 = this.cameras.add(0, 0, 400, 800);
                 this.camera1.setZoom(3); // Ajusta el valor según sea necesario
@@ -2149,6 +2150,7 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                 this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                 this.camera2.startFollow(this.Riddle);
+                
             }
         
         });
@@ -2612,7 +2614,9 @@ class SceneGame extends Phaser.Scene {
             var objeto = this.objetosInteractuables[i];
             if(objeto!=undefined) {
                 if(Phaser.Math.Distance.Between(objeto.x,objeto.y,this.Riddle.x,this.Riddle.y)<40 && !this.mostrandoTexto) {
-                    this.InteraccionJugador1(objeto.interactuar());
+                    if(objeto.visible) {
+                        this.InteraccionJugador1(objeto.interactuar());
+                    }
                 }
             }
         }
@@ -2623,7 +2627,9 @@ class SceneGame extends Phaser.Scene {
             var objeto = this.objetosInteractuables[i];
             if(objeto!=undefined) {
                 if(Phaser.Math.Distance.Between(objeto.x,objeto.y,this.Wiggle.x,this.Wiggle.y)<40 && !this.mostrandoTexto2) {
-                    this.InteraccionJugador2(objeto.interactuar());
+                    if(objeto.visible) {                        
+                        this.InteraccionJugador2(objeto.interactuar());
+                    }
                 }
             }
         }
@@ -3015,7 +3021,7 @@ class SceneGame extends Phaser.Scene {
                         if(llave) {
                             frase = "Sabía que esta llave abriría una puerta para Wiggle, todo siempre está donde no debe...";
                             this.MostrarTexto(frase);
-                            this.puertaD.visible = false;
+                            this.puertaD.disableBody(true,true);
                             this.simboloPared.visible = true;
                         }
                         else {
@@ -3197,7 +3203,7 @@ class SceneGame extends Phaser.Scene {
                         if(llave) {
                             frase = "Con la llave del piano puedo abrir esta puerta y Riddle podrá salir de aquí.";
                             this.MostrarTexto2(frase);
-                            this.puertaA.visible = false;
+                            this.puertaA.disableBody(true,true);
                         }
                         else {
                             frase = "No tenemos la llave para abrir esta puerta...";
@@ -3345,7 +3351,7 @@ class SceneGame extends Phaser.Scene {
                         if(llave) {
                             frase = "¡La llave que cayó del árbol funciona y abre la puerta!";
                             this.MostrarTexto2(frase);
-                            this.puertaC.visible = false;
+                            this.puertaC.disableBody(true,true);
                         }
                         else {
                             frase = "No tenemos la llave para abrir esta puerta...";
@@ -3367,7 +3373,7 @@ class SceneGame extends Phaser.Scene {
                         if(llave) {
                             frase = "Sabía que esta llave abriría una puerta de esta casa, todo siempre está donde no debe...";
                             this.MostrarTexto2(frase);
-                            this.puertaD.visible = false;
+                            this.puertaD.disableBody(true,true);
                             this.simboloPared.visible = true;
                         }
                         else {
@@ -4006,7 +4012,8 @@ class SceneGame extends Phaser.Scene {
                 this.vela4BN.visible = false;
                 this.vela5BE.visible = false;
                 this.vela5BN.visible = false;
-
+                this.OcultarPuzleGatos1();
+                this.OcultarPuzleGatos2();
                 var candelabroWiggle = false;
                 for(var i=0; i<this.inventarioWiggle.length; i++) {
                     if(this.inventarioWiggle[i]==="Candelabro") {
@@ -4059,6 +4066,7 @@ class SceneGame extends Phaser.Scene {
         OcultarIngredientesNeveraR1() {
             this.ingredientesNeveraR1.visible = false;
             for(var i=0; i<this.iconosNevera1.length; i++) {
+                this.iconosNevera1[i].visible = false;
                 this.iconosNevera2[i].visible = false;
             }
             this.ingredientesNeveraRiddleVisible1 = false;
@@ -4072,6 +4080,7 @@ class SceneGame extends Phaser.Scene {
             this.ingredientesNeveraR2.visible = false;
             for(var i=0; i<this.iconosNevera2.length; i++) {
                 this.iconosNevera1[i].visible = false;
+                this.iconosNevera2[i].visible = false;
             }
             this.ingredientesNeveraRiddleVisible2 = false;
         this.camera2.setZoom(3); // Ajusta el valor según sea necesario
@@ -4084,6 +4093,7 @@ class SceneGame extends Phaser.Scene {
             this.ingredientesNeveraW1.visible = false;
             for(var i=0; i<this.iconosNevera1.length; i++) {
                 this.iconosNevera1[i].visible = false;
+                this.iconosNevera2[i].visible = false;
             }
             this.ingredientesNeveraWiggleVisible1 = false;
         this.camera1.setZoom(3); // Ajusta el valor según sea necesario
@@ -4095,6 +4105,7 @@ class SceneGame extends Phaser.Scene {
         OcultarIngredientesNeveraW2() {
             this.ingredientesNeveraW2.visible = false;
             for(var i=0; i<this.iconosNevera2.length; i++) {
+                this.iconosNevera1[i].visible = false;
                 this.iconosNevera2[i].visible = false;
             }
             this.ingredientesNeveraWiggleVisible2 = false;
@@ -4592,6 +4603,7 @@ class SceneGame extends Phaser.Scene {
                 this.juegoDetenidoWiggle = true;
                 this.camera1.setZoom(1);
                 this.camera1.stopFollow();
+                this.camera1.centerOn(200,400);
                 this.camera2.setZoom(1); // Ajusta el valor según sea necesario
                 this.camera2.stopFollow();
                 this.camera2.centerOn(600, 400);
