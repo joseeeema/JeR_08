@@ -421,7 +421,7 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.muros);
         this.physics.add.collider(this.Wiggle, this.muros);
         */  
-       /*
+       
         //CAMERA 1
         this.camera1 = this.cameras.add(0, 0, 400, 800);
         this.camera1.setZoom(3); // Ajusta el valor según sea necesario
@@ -433,7 +433,7 @@ class SceneGame extends Phaser.Scene {
         this.camera2.setZoom(3); // Ajusta el valor según sea necesario
         this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
         this.camera2.startFollow(this.Riddle);
-        */
+    
 
         ////////////////DECORACIONES///////////////////////
         //Alfombras
@@ -928,9 +928,9 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.vater);
         this.physics.add.collider(this.Wiggle, this.vater);
 
-        this.fondoWiggle = this.add.image(200, 300, 'fondo').setScale(0.35, 1.5);
+        this.fondoWiggle = this.add.image(200, 300, 'sky').setScale(0.5, 1.5);
         this.fondoWiggle.visible = false;
-        this.fondoRiddle = this.add.image(600, 300, 'fondo').setScale(0.35, 1.5);
+        this.fondoRiddle = this.add.image(600, 300, 'sky').setScale(0.5, 1.5);
         this.fondoRiddle.visible = false;
 
         // CREACIÓN DE LAS CAJA DE TEXTO Y DE SUS EVENTOS ASOCIADOS
@@ -956,50 +956,50 @@ class SceneGame extends Phaser.Scene {
         // CREACIÓN DE LAS IMÁGENES
         this.libroPiano1 = this.add.image(600,300,'libropiano1').setScale(0.25);
         this.libroPiano1.visible = false;
-        this.libroPiano2 = this.add.image(200,300,'libropiano2').setScale(0.25);
+        this.libroPiano2 = this.add.image(600,300,'libropiano2').setScale(0.25);
         this.libroPiano2.visible = false;
         this.puzlePiano = this.add.image(200,300,'puzle piano').setScale(0.175);
         this.puzlePiano.visible = false;
         this.puzleFloresR1 = this.add.image(600,300,'puzle flores R1').setScale(0.175);
         this.puzleFloresR1.visible = false;
-        this.puzleFloresR2 = this.add.image(600,300,'puzle flores R2').setScale(0.175);
+        this.puzleFloresR2 = this.add.image(200,300,'puzle flores R2').setScale(0.175);
         this.puzleFloresR2.visible = false;
-        this.puzleFloresW1 = this.add.image(200,300,'puzle flores W1').setScale(0.175);
+        this.puzleFloresW1 = this.add.image(600,300,'puzle flores W1').setScale(0.175);
         this.puzleFloresW1.visible = false;
         this.puzleFloresW2 = this.add.image(200,300,'puzle flores W2').setScale(0.175);
         this.puzleFloresW2.visible = false;
-        this.puzleSimbolos = this.add.image(600,300, 'puzle simbolos1').setScale(0.23);
+        this.puzleSimbolos = this.add.image(200,300, 'puzle simbolos1').setScale(0.23);
         this.puzleSimbolos.visible = false;
         this.puzleSimbolos2 = this.add.image(200, 300, 'puzle simbolos2').setScale(0.23);
         this.puzleSimbolos2.visible = false;
-        this.panelContraseña1 = this.add.image(600,300, 'cartel almacen 1').setScale(0.23);
+        this.panelContraseña1 = this.add.image(200,300, 'cartel almacen 1').setScale(0.23);
         this.panelContraseña1.visible = false;
         this.panelContraseña2 = this.add.image(200,300, 'cartel almacen 2').setScale(0.23);
         this.panelContraseña2.visible = false;
         // Imágenes del puzle de los gatos
-        this.puzleGatos1 = this.add.image(600, 300, 'puzle gatos 1').setScale(0.175);
+        this.puzleGatos1 = this.add.image(200, 300, 'puzle gatos 1').setScale(0.175);
         this.puzleGatos1.visible = false;
         this.puzleGatos2 = this.add.image(200,300, 'puzle gatos 2').setScale(0.175);
         this.puzleGatos2.visible = false;
-        this.vela1AE = this.add.image(500, 257, 'velaEncendida').setScale(0.3);
+        this.vela1AE = this.add.image(100, 257, 'velaEncendida').setScale(0.3);
         this.vela1AE.visible = false;
-        this.vela2AE = this.add.image(555, 257, 'velaEncendida').setScale(0.3);
+        this.vela2AE = this.add.image(155, 257, 'velaEncendida').setScale(0.3);
         this.vela2AE.visible = false;
-        this.vela3AE = this.add.image(610, 257, 'velaEncendida').setScale(0.3);
+        this.vela3AE = this.add.image(210, 257, 'velaEncendida').setScale(0.3);
         this.vela3AE.visible = false;
-        this.vela4AE = this.add.image(670, 257, 'velaEncendida').setScale(0.3);
+        this.vela4AE = this.add.image(270, 257, 'velaEncendida').setScale(0.3);
         this.vela4AE.visible = false;
-        this.vela5AE = this.add.image(730, 257, 'velaEncendida').setScale(0.3);
+        this.vela5AE = this.add.image(330, 257, 'velaEncendida').setScale(0.3);
         this.vela5AE.visible = false;
-        this.vela1AN = this.add.image(500, 257, 'velaApagada').setScale(0.3);
+        this.vela1AN = this.add.image(100, 257, 'velaApagada').setScale(0.3);
         this.vela1AN.visible = false;
-        this.vela2AN = this.add.image(555, 257, 'velaApagada').setScale(0.3);
+        this.vela2AN = this.add.image(155, 257, 'velaApagada').setScale(0.3);
         this.vela2AN.visible = false;
-        this.vela3AN = this.add.image(610, 257, 'velaApagada').setScale(0.3);
+        this.vela3AN = this.add.image(210, 257, 'velaApagada').setScale(0.3);
         this.vela3AN.visible = false;
-        this.vela4AN = this.add.image(670, 257, 'velaApagada').setScale(0.3);
+        this.vela4AN = this.add.image(270, 257, 'velaApagada').setScale(0.3);
         this.vela4AN.visible = false;
-        this.vela5AN = this.add.image(730, 257, 'velaApagada').setScale(0.3);
+        this.vela5AN = this.add.image(330, 257, 'velaApagada').setScale(0.3);
         this.vela5AN.visible = false;
         this.vela1BE = this.add.image(100, 257, 'velaEncendida').setScale(0.3);
         this.vela1BE.visible = false;
@@ -1021,17 +1021,17 @@ class SceneGame extends Phaser.Scene {
         this.vela4BN.visible = false;
         this.vela5BN = this.add.image(330, 257, 'velaApagada').setScale(0.3);
         this.vela5BN.visible = false;
-        this.mensajeGatos1 = this.add.image(600,250, 'mensaje1').setScale(0.75);
+        this.mensajeGatos1 = this.add.image(200,250, 'mensaje1').setScale(0.75);
         this.mensajeGatos1.visible = false;
         this.mensajeGatos2 = this.add.image(200,250, 'mensaje2').setScale(0.75);
         this.mensajeGatos2.visible = false;
-        this.ingredientesNeveraR1 = this.add.image(600,300, 'ingredientesNeveraR1').setScale(0.165);
+        this.ingredientesNeveraR1 = this.add.image(200,300, 'ingredientesNeveraR1').setScale(0.165);
         this.ingredientesNeveraR1.visible = false;
         this.ingredientesNeveraR2 = this.add.image(600,300, 'ingredientesNeveraR2').setScale(0.165);
         this.ingredientesNeveraR2.visible = false;
         this.ingredientesNeveraW1 = this.add.image(200,300, 'ingredientesNeveraW1').setScale(0.165);
         this.ingredientesNeveraW1.visible = false;
-        this.ingredientesNeveraW2 = this.add.image(200,300, 'ingredientesNeveraW2').setScale(0.165);
+        this.ingredientesNeveraW2 = this.add.image(600,300, 'ingredientesNeveraW2').setScale(0.165);
         this.ingredientesNeveraW2.visible = false;
         this.iconosNevera1[0] = this.add.image(568,255, 'icono').setScale(0.05);
         this.iconosNevera1[0].visible = false;
@@ -1228,7 +1228,7 @@ class SceneGame extends Phaser.Scene {
         this.temporizadorNuevoIntento.paused = true;
 
         // TEXTO SOBRE EL PUZLE DE LOS SÍMBOLOS
-        this.contraseña1 = this.add.text(580,315, '987', { fontSize: '24px', fill: '#ffffff' });
+        this.contraseña1 = this.add.text(180,315, '987', { fontSize: '24px', fill: '#ffffff' });
         this.contraseña1.setText('');
         this.contraseña2 = this.add.text(180,315, '987', { fontSize: '24px', fill: '#ffffff' });
         this.contraseña2.setText('');
@@ -2327,9 +2327,9 @@ class SceneGame extends Phaser.Scene {
 
                 if(this.libroPianoVisibleWiggle&&!this.mostrandoTexto2) {
                     this.camera1.stopFollow();
-                    this.camera1.centerOn(200,300);
+                    this.camera1.centerOn(600,300);
                     this.camera1.setZoom(1);
-                    this.fondoWiggle.visible = true;
+                    this.fondoRiddle.visible = true;
                     this.libroPiano2.visible = true;
                 }
                 if(this.puzlePianoVisible&&!this.mostrandoTexto2) {
@@ -2348,17 +2348,17 @@ class SceneGame extends Phaser.Scene {
                 }
                 if(this.puzleFloresRiddleVisible2&&!this.mostrandoTexto) {
                     this.camera2.stopFollow();
-                    this.camera2.centerOn(600,300);
+                    this.camera2.centerOn(200,300);
                     this.camera2.setZoom(1);
-                    this.fondoRiddle.visible = true;
+                    this.fondoWiggle.visible = true;
                     this.puzleFloresR2.visible = true;
                 }
 
                 if(this.puzleFloresWiggleVisible1&&!this.mostrandoTexto2) {
                     this.camera1.stopFollow();
-                    this.camera1.centerOn(200,300);
+                    this.camera1.centerOn(600,300);
                     this.camera1.setZoom(1);
-                    this.fondoWiggle.visible = true;
+                    this.fondoRiddle.visible = true;
                     this.puzleFloresW1.visible = true;
                 }
                 if(this.puzleFloresWiggleVisible2&&!this.mostrandoTexto2) {
@@ -2370,10 +2370,10 @@ class SceneGame extends Phaser.Scene {
                 }
                 if(this.puzleSimbolosRiddleVisible&&!this.mostrandoTexto) {
                     this.camera2.stopFollow();
-                    this.camera2.centerOn(600,300);
+                    this.camera2.centerOn(200,300);
                     this.camera2.setZoom(1);
-                    this.fondoRiddle.visible = true;
-                    this.puzleSimbolos1.visible = true;
+                    this.fondoWiggle.visible = true;
+                    this.puzleSimbolos.visible = true;
                 }
                 if(this.puzleSimbolosWiggleVisible&&!this.mostrandoTexto2) {
                     this.camera1.stopFollow();
@@ -2384,9 +2384,9 @@ class SceneGame extends Phaser.Scene {
                 }
                 if(this.panelContraseñaRiddleVisible&&!this.mostrandoTexto) {
                     this.camera2.stopFollow();
-                    this.camera2.centerOn(600,300);
+                    this.camera2.centerOn(200,300);
                     this.camera2.setZoom(1);
-                    this.fondoRiddle.visible = true;
+                    this.fondoWiggle.visible = true;
                     this.panelContraseña1.visible = true;
                 }
                 if(this.panelContraseñaWiggleVisible&&!this.mostrandoTexto2) {
@@ -2398,9 +2398,9 @@ class SceneGame extends Phaser.Scene {
                 }
                 if(this.puzleGatosVisibleRiddle&&!this.mostrandoTexto) {
                     this.camera2.stopFollow();
-                    this.camera2.centerOn(600,300);
+                    this.camera2.centerOn(200,300);
                     this.camera2.setZoom(1);
-                    this.fondoRiddle.visible = true;
+                    this.fondoWiggle.visible = true;
                     this.PrepararVelasRiddle();
                 }
                 if(this.puzleGatosVisibleWiggle&&!this.mostrandoTexto2) {
@@ -2412,9 +2412,9 @@ class SceneGame extends Phaser.Scene {
                 }
                 if(this.mensajeGatosVisibleRiddle&&!this.mostrandoTexto) {
                     this.camera2.stopFollow();
-                    this.camera2.centerOn(600,300);
+                    this.camera2.centerOn(200,300);
                     this.camera2.setZoom(1);
-                    this.fondoRiddle.visible = true;
+                    this.fondoWiggle.visible = true;
                     this.mensajeGatos1.visible = true;
                 }
                 if(this.mensajeGatosVisibleWiggle&&!this.mostrandoTexto2) {
@@ -2422,7 +2422,7 @@ class SceneGame extends Phaser.Scene {
                     this.camera1.centerOn(200,300);
                     this.camera1.setZoom(1);
                     this.fondoWiggle.visible = true;
-                    this.mensajesGatos2.visible = true;
+                    this.mensajeGatos2.visible = true;
                 }
                 if(this.ingredientesNeveraRiddleVisible1&&!this.mostrandoTexto) {
                     this.camera2.stopFollow();
@@ -3344,7 +3344,7 @@ class SceneGame extends Phaser.Scene {
                         if(this.mensajeObtenido && candelabro &&!this.llamasFelinas) {
                             frase = "El mensaje hablaba de los gatos, ¡debo encender las velas de rubí y zafiro!";
                             this.juegoDetenidoWiggle = true;
-                            this.puzleGatosVisibleWiggle = false;
+                            this.puzleGatosVisibleWiggle = true;
                         }
                         if(this.llamasFelinas) {
                             frase = "Qué manera tan curiosa de ponernos a prueba...";
@@ -3455,7 +3455,7 @@ class SceneGame extends Phaser.Scene {
         OcultarLibro2() {
             this.libroPiano2.visible = false;
             this.libroPianoVisibleWiggle = false;
-            this.fondoWiggle.visible = false;
+            this.fondoRiddle.visible = false;
         this.camera1.setZoom(3); // Ajusta el valor según sea necesario
         this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
         this.camera1.startFollow(this.Wiggle);
@@ -3524,7 +3524,7 @@ class SceneGame extends Phaser.Scene {
             this.plantaB1.setText('');
             this.plantaC1.setText('');
             this.puzleFloresR2.visible = false;
-            this.fondoRiddle.visible = false;
+            this.fondoWiggle.visible = false;
             this.puzleFloresRiddleVisible2 = false;
         this.camera2.setZoom(3); // Ajusta el valor según sea necesario
         this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
@@ -3536,7 +3536,7 @@ class SceneGame extends Phaser.Scene {
             this.plantaB2.setText('');
             this.plantaC2.setText('');
             this.puzleFloresW1.visible = false;
-            this.fondoWiggle.visible = false;
+            this.fondoRiddle.visible = false;
             this.puzleFloresWiggleVisible1 = false;
         this.camera1.setZoom(3); // Ajusta el valor según sea necesario
         this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
@@ -3706,7 +3706,7 @@ class SceneGame extends Phaser.Scene {
         this.camera2.setZoom(3); // Ajusta el valor según sea necesario
         this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
         this.camera2.startFollow(this.Riddle);
-            this.fondoRiddle.visible = false;
+            this.fondoWiggle.visible = false;
             this.puzleSimbolos.visible =false;
         }
 
@@ -3726,7 +3726,7 @@ class SceneGame extends Phaser.Scene {
         this.camera2.setZoom(3); // Ajusta el valor según sea necesario
         this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
         this.camera2.startFollow(this.Riddle);
-            this.fondoRiddle.visible = false;
+            this.fondoWiggle.visible = false;
         }
 
         OcultarPuzleContraseña2() {
@@ -3748,13 +3748,15 @@ class SceneGame extends Phaser.Scene {
                 this.contraseña1.setText('');
                 this.contraseña2.setText('');
                 this.enigmaAlmacen = true;
+                this.OcultarPuzleContraseña1();
+                this.OcultarPuzleContraseña2();
             }
             else {
                 for(var i=0; i<this.contraseñaSimbolos.length; i++) {
                     this.contraseñaSimbolos[i] = 0;
                 }
                 var frase = "La contraseña no abre la puerta...";
-                if(resolutor==="R") {
+                if(resolutor=="R") {
                     this.MostrarTexto(frase);
                 }
                 else {
@@ -3858,7 +3860,7 @@ class SceneGame extends Phaser.Scene {
             this.vela5AE.visible = false;
             this.vela5AN.visible = false;
             this.puzleGatosVisibleRiddle = false;
-            this.fondoRiddle.visible = false;
+            this.fondoWiggle.visible = false;
         this.camera2.setZoom(3); // Ajusta el valor según sea necesario
         this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
         this.camera2.startFollow(this.Riddle);
@@ -3900,7 +3902,7 @@ class SceneGame extends Phaser.Scene {
         this.camera2.setZoom(3); // Ajusta el valor según sea necesario
         this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
         this.camera2.startFollow(this.Riddle);
-            this.fondoRiddle.visible = false;
+            this.fondoWiggle.visible = false;
         }
 
         OcultarMensajeGatos2() {
@@ -3997,7 +3999,7 @@ class SceneGame extends Phaser.Scene {
         this.camera2.setZoom(3); // Ajusta el valor según sea necesario
         this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
         this.camera2.startFollow(this.Riddle);
-            this.fondoRiddle.visible = false;
+            this.fondoWiggle.visible = false;
         }
 
         OcultarIngredientesNeveraR2() {
@@ -4033,7 +4035,7 @@ class SceneGame extends Phaser.Scene {
         this.camera1.setZoom(3); // Ajusta el valor según sea necesario
         this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
         this.camera1.startFollow(this.Wiggle);
-            this.fondoWiggle.visible = false;
+            this.fondoRiddle.visible = false;
         }
 
         OcultarIngredientesCaldero1() {
@@ -4098,7 +4100,7 @@ class SceneGame extends Phaser.Scene {
             }
             for(var i=0; i<this.ingredientesRiddle1.length;i++) {
                 if(this.ingredientesRiddle1[i]) {
-                    this.iconosNevera1[i].visible = true;
+                    this.iconosNevera2[i].visible = true;
                 }
             }
         }
@@ -4191,7 +4193,7 @@ class SceneGame extends Phaser.Scene {
             }
             for(var i=0; i<this.ingredientesWiggle2.length;i++) {
                 if(this.ingredientesWiggle2[i]) {
-                    this.iconosNevera2[i].visible = true;
+                    this.iconosNevera1[i].visible = true;
                 }
             }
         }
