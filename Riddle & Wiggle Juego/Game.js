@@ -347,9 +347,34 @@ class SceneGame extends Phaser.Scene {
         this.load.image('ingredientesCaldero1', 'assets/ingredientes caldero zafiro.png');
         this.load.image('ingredientesCaldero2', 'assets/ingredientes caldero rubi.png');
         this.load.image('GameOver', 'assets/GameOver.png');
+        
 
         // Elementos de adorno
         this.load.image('vater', 'assets/vater.png');
+        this.load.image('MesaHori', 'assets/MesaHori.png');
+        this.load.image('silla1', 'assets/silla1.png');
+        this.load.image('silla2', 'assets/silla2.png');
+        this.load.image('sofa', 'assets/sofa1.png');
+        this.load.image('reloj', 'assets/reloj.png');
+        this.load.image('plancha', 'assets/plancha.png');
+        this.load.image('alfombra', 'assets/alfombraVertical.png');
+        this.load.image('alfombra2', 'assets/alfombra2Vertical.png');
+        this.load.image('perchero', 'assets/perchero.png');
+        this.load.image('mesita', 'assets/mesitaCafe.png');
+        this.load.image('sofaFrente', 'assets/sofa2.png');
+        this.load.image('mesaVerti', 'assets/mesaVerti.png');
+        this.load.image('chimenea', 'assets/chimenea.png');
+        this.load.image('camaGato', 'assets/camaGato.png');
+        this.load.image('tocaDiscos', 'assets/tocaDiscos.png');
+        this.load.image('lampara', 'assets/lampara.png');
+        this.load.image('mesaVacia', 'assets/mesa.png');
+        this.load.image('lamparaChiquita', 'assets/lamparaChiquita.png');
+        this.load.image('taburete', 'assets/taburete.png');
+        this.load.image('alfombrilla', 'assets/alfombraRedonda.png');
+        this.load.image('mueblillo', 'assets/mueble.png');
+        this.load.image('mesitaCafe', 'assets/mesitaCafe.png');
+        this.load.image('sofa4', 'assets/sofa4.png');
+        this.load.image('sofaIzq', 'assets/sofaIzq.png');
 
     }
 
@@ -385,7 +410,8 @@ class SceneGame extends Phaser.Scene {
         // Colisiones
         this.physics.add.collider(this.Riddle, this.muros);
         this.physics.add.collider(this.Wiggle, this.muros);
-        */          
+        */  
+       /*        
         //CAMERA 1
         this.camera1 = this.cameras.add(0, 0, 400, 800);
         this.camera1.setZoom(3); // Ajusta el valor según sea necesario
@@ -397,8 +423,188 @@ class SceneGame extends Phaser.Scene {
         this.camera2.setZoom(3); // Ajusta el valor según sea necesario
         this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
         this.camera2.startFollow(this.Riddle);
+        */
+        ////////////////DECORACIONES///////////////////////
+        //Alfombras
+        this.Alfombra=  this.physics.add.staticGroup().create(50,120,'alfombra').setScale(0.8).refreshBody();
+        this.Alfombra2=  this.physics.add.staticGroup().create(60,200,'alfombra2').setScale(1.0).refreshBody();
+        this.Alfombra3=  this.physics.add.staticGroup().create(190,180,'alfombra').setScale(1.0).refreshBody();
+        this.Alfombra4=  this.physics.add.staticGroup().create(160,460,'alfombra').setScale(1.0).refreshBody();
+        this.Alfombra5=  this.physics.add.staticGroup().create(480,230,'alfombra2').setScale(1.0).refreshBody();
+        this.Alfombr6=  this.physics.add.staticGroup().create(495,455,'alfombra').setScale(0.9).refreshBody();
+
+        this.Silla=  this.physics.add.staticGroup().create(60,245,'silla1').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Silla);
+        this.physics.add.collider(this.Wiggle, this.Silla);
+
+        this.Silla2=  this.physics.add.staticGroup().create(40,245,'silla1').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Silla2);
+        this.physics.add.collider(this.Wiggle, this.Silla2);
+
+        this.MesaHori=  this.physics.add.staticGroup().create(50,260,'MesaHori').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.MesaHori);
+        this.physics.add.collider(this.Wiggle, this.MesaHori);
+
+        this.Sofa=  this.physics.add.staticGroup().create(30,200,'sofa').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Sofa);
+        this.physics.add.collider(this.Wiggle, this.Sofa);
+
+        this.Reloj=  this.physics.add.staticGroup().create(90,40,'reloj').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Reloj);
+        this.physics.add.collider(this.Wiggle, this.Reloj);
+
+        this.Plancha=  this.physics.add.staticGroup().create(90,120,'plancha').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Plancha);
+        this.physics.add.collider(this.Wiggle, this.Plancha);
+
+        this.Perchero=  this.physics.add.staticGroup().create(190,50,'perchero').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Perchero);
+        this.physics.add.collider(this.Wiggle, this.Perchero);
+
+        this.Mesita=  this.physics.add.staticGroup().create(190,170,'mesita').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Mesita);
+        this.physics.add.collider(this.Wiggle, this.Mesita);
+
+        this.Sofa2=  this.physics.add.staticGroup().create(160,170,'sofa').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Sofa2);
+        this.physics.add.collider(this.Wiggle, this.Sofa2);
+
+        this.Sofa3=  this.physics.add.staticGroup().create(190,140,'sofaFrente').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Sofa3);
+        this.physics.add.collider(this.Wiggle, this.Sofa3);
+
+        this.Lampara=  this.physics.add.staticGroup().create(160,130,'lampara').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Lampara);
+        this.physics.add.collider(this.Wiggle, this.Lampara);
+
+        this.Lampara2=  this.physics.add.staticGroup().create(130,420,'lampara').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Lampara2);
+        this.physics.add.collider(this.Wiggle, this.Lampara2);
+
+        this.Silla3=  this.physics.add.staticGroup().create(270,300,'silla2').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Silla3);
+        this.physics.add.collider(this.Wiggle, this.Silla3);
+
+        this.Silla4=  this.physics.add.staticGroup().create(290,280,'silla1').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Silla4);
+        this.physics.add.collider(this.Wiggle, this.Silla4);
+
+        this.MesaVerti=  this.physics.add.staticGroup().create(290,300,'mesaVerti').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.MesaVerti);
+        this.physics.add.collider(this.Wiggle, this.MesaVerti);
+
+        this.Chime=  this.physics.add.staticGroup().create(290,340,'chimenea').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Chime);
+        this.physics.add.collider(this.Wiggle, this.Chime);
+
+        this.Taburete=  this.physics.add.staticGroup().create(290,360,'taburete').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Taburete);
+        this.physics.add.collider(this.Wiggle, this.Taburete);
+
+        this.CamaGato=  this.physics.add.staticGroup().create(320,360,'camaGato').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.CamaGato);
+        this.physics.add.collider(this.Wiggle, this.CamaGato);
+
+        this.Disc=  this.physics.add.staticGroup().create(160,420,'tocaDiscos').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Disc);
+        this.physics.add.collider(this.Wiggle, this.Disc);
+
+        this.Sofa4=  this.physics.add.staticGroup().create(130,460,'sofa').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Sofa4);
+        this.physics.add.collider(this.Wiggle, this.Sofa4);
+
+        this.Silla5=  this.physics.add.staticGroup().create(340,450,'silla1').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Silla5);
+        this.physics.add.collider(this.Wiggle, this.Silla5);
+
+        this.MesaVacia=  this.physics.add.staticGroup().create(340,460,'mesaVacia').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.MesaVacia);
+        this.physics.add.collider(this.Wiggle, this.MesaVacia);
+
+        this.Alfombrilla=  this.physics.add.staticGroup().create(340,455,'alfombrilla').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Alfombrilla);
+        this.physics.add.collider(this.Wiggle, this.Alfombrilla);
+
+        this.LamparaChikita=  this.physics.add.staticGroup().create(350,450,'lamparaChiquita').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.LamparaChikita);
+        this.physics.add.collider(this.Wiggle, this.LamparaChikita);
+
+        this.Silla6=  this.physics.add.staticGroup().create(520,140,'silla2').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Silla6);
+        this.physics.add.collider(this.Wiggle, this.Silla6);
+
+        this.Silla7=  this.physics.add.staticGroup().create(540,120,'silla1').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Silla7);
+        this.physics.add.collider(this.Wiggle, this.Silla7);
+
+        this.MesaVerti=  this.physics.add.staticGroup().create(540,140,'mesaVerti').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.MesaVerti);
+        this.physics.add.collider(this.Wiggle, this.MesaVerti);
+
+        this.Sofa5=  this.physics.add.staticGroup().create(460,230,'sofa').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Sofa5);
+        this.physics.add.collider(this.Wiggle, this.Sofa5);
+
+        this.MesitaCafe=  this.physics.add.staticGroup().create(595,210,'mesitaCafe').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.MesitaCafe);
+        this.physics.add.collider(this.Wiggle, this.MesitaCafe);
+
+        this.LamparaChikita2=  this.physics.add.staticGroup().create(595,200,'lamparaChiquita').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.LamparaChikita2);
+        this.physics.add.collider(this.Wiggle, this.LamparaChikita2);
+
+        this.MesitaCafe2=  this.physics.add.staticGroup().create(690,210,'mesitaCafe').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.MesitaCafe2);
+        this.physics.add.collider(this.Wiggle, this.MesitaCafe2);
+
+        this.LamparaChikita3=  this.physics.add.staticGroup().create(690,200,'lamparaChiquita').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.LamparaChikita3);
+        this.physics.add.collider(this.Wiggle, this.LamparaChikita3);
+
+        this.Reloj=  this.physics.add.staticGroup().create(660,40,'reloj').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Reloj);
+        this.physics.add.collider(this.Wiggle, this.Reloj);
+
+        this.SofaChiquito=  this.physics.add.staticGroup().create(750,310,'sofa4').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.SofaChiquito);
+        this.physics.add.collider(this.Wiggle, this.SofaChiquito);
+
+        this.Lampara=  this.physics.add.staticGroup().create(775,300,'lampara').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Lampara);
+        this.physics.add.collider(this.Wiggle, this.Lampara);
+
+        this.SofaIzq=  this.physics.add.staticGroup().create(775,330,'sofaIzq').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.SofaIzq);
+        this.physics.add.collider(this.Wiggle, this.SofaIzq);
+
+        this.Alfombrilla=  this.physics.add.staticGroup().create(750,335,'alfombrilla').setScale(1.5).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Alfombrilla);
+        this.physics.add.collider(this.Wiggle, this.Alfombrilla);
+
         
-        
+        this.Mesita=  this.physics.add.staticGroup().create(495,450,'mesita').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Mesita);
+        this.physics.add.collider(this.Wiggle, this.Mesita);
+
+        this.Sofa2=  this.physics.add.staticGroup().create(465,450,'sofa').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Sofa2);
+        this.physics.add.collider(this.Wiggle, this.Sofa2);
+
+        this.Sofa3=  this.physics.add.staticGroup().create(495,420,'sofaFrente').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Sofa3);
+        this.physics.add.collider(this.Wiggle, this.Sofa3);
+
+        this.Lampara=  this.physics.add.staticGroup().create(465,410,'lampara').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Lampara);
+        this.physics.add.collider(this.Wiggle, this.Lampara);
+
+        this.Perchero2=  this.physics.add.staticGroup().create(660,465,'perchero').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Perchero2);
+        this.physics.add.collider(this.Wiggle, this.Perchero2);
+
+        this.Silla7=  this.physics.add.staticGroup().create(580,450,'silla2').setScale(0.8).refreshBody();
+        this.physics.add.collider(this.Riddle, this.Silla7);
+        this.physics.add.collider(this.Wiggle, this.Silla7);
         //////////////// CREACIÓN DE LOS ELEMENTOS INTERACTUABLES ////////////////
         // Caja
         this.caja = this.physics.add.staticGroup().create(120,225,'caja').setScale(2).refreshBody();
@@ -449,7 +655,7 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.mesaLlaveB);
         this.physics.add.collider(this.Wiggle, this.mesaLlaveB);
         // Cajones salón
-        this.cajonesLlaveB = this.physics.add.staticGroup().create(630,320,'cajones').setScale(1).refreshBody();
+        this.cajonesLlaveB = this.physics.add.staticGroup().create(640,290,'cajones').setScale(1).refreshBody();
         this.cajonesLlaveB.interactuar = function() {
             return "cajonesLlave";
         }
