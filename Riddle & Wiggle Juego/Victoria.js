@@ -2,13 +2,13 @@ class SceneVictoria extends Phaser.Scene {
     wake = false;
     constructor ()
     {
-        super({ key: 'SceneFin' });
+        super({ key: 'SceneVictoria' });
     }
 
     preload ()
     {
 
-        this.load.image('pantallafin', 'Assets/GameOver.png');
+        this.load.image('pantallaVictoria', 'Assets/victory.png');
 
     }
 
@@ -18,21 +18,8 @@ class SceneVictoria extends Phaser.Scene {
 
         this.add.text(120, 340, 'Presiona enter para salir', { fontFamily: 'Times, serif',color: 'silver'});
 
-        this.cursors = this.input.keyboard.createCursorKeys();
-        this.scene.sleep('SceneFin');
     }
 
-
-    update(){
-        
-            if(finJuego){
-                this.scene.wake('SceneFin');
-                this.scene.start('SceneFin');
-                this.scene.stop('SceneGame');
-                this.wake = true;
-            }
-
-    }
 
 }
-export default SceneFin;
+export default SceneVictoria;

@@ -35,6 +35,7 @@ class SceneMenu extends Phaser.Scene {
         }, this);
         */
         this.scene.sleep('SceneIntr');
+        this.scene.sleep('SceneVictoria');
     }
 
 

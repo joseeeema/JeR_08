@@ -381,11 +381,11 @@ class SceneGame extends Phaser.Scene {
         //Escalamos los sprites
         this.Riddle.setScale(0.07);
         this.Wiggle.setScale(0.085);
-        
+        /*
         // Colisiones
         this.physics.add.collider(this.Riddle, this.muros);
         this.physics.add.collider(this.Wiggle, this.muros);
-                  
+        */          
         //CAMERA 1
         this.camera1 = this.cameras.add(0, 0, 400, 800);
         this.camera1.setZoom(3); // Ajusta el valor según sea necesario
@@ -715,9 +715,9 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.vater);
         this.physics.add.collider(this.Wiggle, this.vater);
 
-        this.fondoWiggle = this.add.image(200, 300, 'fondo').setScale(0.5, 1.5);
+        this.fondoWiggle = this.add.image(200, 300, 'fondo').setScale(0.35, 1.5);
         this.fondoWiggle.visible = false;
-        this.fondoRiddle = this.add.image(600, 300, 'fondo').setScale(0.5, 1.5);
+        this.fondoRiddle = this.add.image(600, 300, 'fondo').setScale(0.35, 1.5);
         this.fondoRiddle.visible = false;
 
         // CREACIÓN DE LAS CAJA DE TEXTO Y DE SUS EVENTOS ASOCIADOS
@@ -2213,9 +2213,9 @@ class SceneGame extends Phaser.Scene {
                 }
                 if(this.ingredientesNeveraRiddleVisible1&&!this.mostrandoTexto) {
                     this.camera2.stopFollow();
-                    this.camera2.centerOn(600,300);
+                    this.camera2.centerOn(200,300);
                     this.camera2.setZoom(1);
-                    this.fondoRiddle.visible = true;
+                    this.fondoWiggle.visible = true;
                     this.ingredientesNeveraR1.visible = true;
                     this.ComprobarInventarioRiddle1();
                 }
@@ -2237,13 +2237,15 @@ class SceneGame extends Phaser.Scene {
                 }
                 if(this.ingredientesNeveraWiggleVisible2&&!this.mostrandoTexto2) {
                     this.camera1.stopFollow();
-                    this.camera1.centerOn(200,300);
+                    this.camera1.centerOn(600,300);
                     this.camera1.setZoom(1);
-                    this.fondoWiggle.visible = true;
-                    this.ingredientesNeveraW2.visible = true;
+                    this.fondoRiddle.visible = true;
+                    this.ingredientesNeveraW2.visible = true;                   
                     this.ComprobarInventarioWiggle2();
                 }
                 if(this.puzleCalderoRiddleVisible&&!this.mostrandoTexto) {
+                    this.camera2.stopFollow();
+                    this.camera2.centerOn(600,300);
                     this.camera2.setZoom(1);
                     this.fondoRiddle.visible = true;
                     this.ingredientesCaldero1.visible = true;
@@ -2844,8 +2846,8 @@ class SceneGame extends Phaser.Scene {
                             frase = "A ver qué puedo coger de todo lo que hay aquí...";
                             this.juegoDetenidoRiddle = true;
                             // Mostrar lista de ingredientes
-                            ingredientesNeveraRiddleVisible1 = true;
-                            this.ComprobarInventarioRiddle1();
+                            this.ingredientesNeveraRiddleVisible1 = true;
+                            //this.ComprobarInventarioRiddle1();
                         }
                         else {
                             frase = "Hay cosas en buen estado en la nevera que se podrían aprovechar...";
@@ -2859,8 +2861,8 @@ class SceneGame extends Phaser.Scene {
                             frase = "A ver qué puedo coger de todo lo que hay aquí...";
                             this.juegoDetenidoRiddle = true;
                             // Mostrar lista de ingredientes
-                            this.ingredientesNeveraRiddleVisible2 = false;
-                            this.ComprobarInventarioRiddle2();
+                            this.ingredientesNeveraRiddleVisible2 = true;
+                            //this.ComprobarInventarioRiddle2();
                         }
                         else {
                             frase = "Hay cosas en buen estado en la nevera que se podrían aprovechar...";
@@ -3193,8 +3195,7 @@ class SceneGame extends Phaser.Scene {
                             this.neveras = true;
                             frase = "A ver qué puedo coger de todo lo que hay aquí...";
                             // Mostrar lista de ingredientes
-                            this.ingredientesNeveraWiggleVisible1 = true;
-                            
+                            this.ingredientesNeveraWiggleVisible1 = true;                           
                             this.juegoDetenidoWiggle = true;
                         }
                         else {
@@ -4306,6 +4307,9 @@ class SceneGame extends Phaser.Scene {
                 this.MostrarTexto2(frase);
                 this.finalMostrado = true;
                 // TRANSICIÓN A ESCENA DE VICTORIA
+                this.scene.wake('SceneVictoria');
+                this.scene.start('SceneVictoria');
+                this.scene.stop('SceneGame');
             }
         }
         actualizarContador(){
