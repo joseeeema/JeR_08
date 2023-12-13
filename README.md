@@ -58,7 +58,7 @@
     10.3 ESCENARIO
 
 11. MÚSICA Y EFECTOS DE SONIDO
-
+12. MODIFICACIONES FASE 2
 
 
 
@@ -134,7 +134,17 @@ FIGURA 30 - *MAPA DE WIGGLE*
 
 FIGURA 31 - *MAPA DE RIDDLE* 
 
+FIGURA 32 - *MENU PRINCIPAL*
 
+FIGURA 33 - *PANTALLAS DE INTRODUCCIÓN*
+
+FIGURA 34 - *PANTALLA DEL JUEGO*
+
+FIGURA 35 - *PANTALLA DE VICTORIA*
+
+FIGURA 36 - *PANTALLA DE DERROTA*
+
+FIGURA 37 - *DIAGRAMA DE NAVEGACIÓN*
 
 
 
@@ -595,7 +605,7 @@ Los efectos de sonido van a  depender de las acciones del jugador, ya sea andar,
 
 **Pantallas de introducción:** Se diseñaron con el fin de contar brevemente la historia del juego y explicar como utilizar las mecánicas básicas del videojuego.
 
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/introduction4.png)
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/Gameplay.png)
 
 *Figura 34 - Pantalla del juego*
 
@@ -615,9 +625,9 @@ Los efectos de sonido van a  depender de las acciones del jugador, ya sea andar,
 
 **12.2 Diagrama de navegación**
 
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/victory.png)
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/Tablero_en_blanco.png)
 
-*Figura 36 - Diagrama de navegación*
+*Figura 37 - Diagrama de navegación*
 
 **12.3 Diseño del videojuego y mejoras extra**
 
