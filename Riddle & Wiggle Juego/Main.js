@@ -1,4 +1,4 @@
-import SceneMenu from './prueba.js';
+import SceneMenu from './Menu.js';
 import SceneGame from './Game.js';
 
 

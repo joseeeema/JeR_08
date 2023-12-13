@@ -407,7 +407,7 @@ class SceneGame extends Phaser.Scene {
         this.add.image(400, 300, 'sky').setScale(10);
         //Este código nos crea una configuración de botones predefinida dónde el jugador se mueve con las flechas
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.tp=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P)
+        this.tp=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
        
         //Con este código se crea el movimiento derecha, izquierda, arriba, abajo, asignando la tecla que queramos, en este caso D,A,W,S.
         this.right=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D)
@@ -1102,7 +1102,7 @@ class SceneGame extends Phaser.Scene {
         this.ingrediente6B.setText('');
         this.iconosCaldero2[5] = this.add.image(45,318,'icono').setScale(0.05);
         this.iconosCaldero2[5].visible = false;
-        this.arrayIngredientesWiggle[5] = this.ingrediente6A;
+        this.arrayIngredientesWiggle[5] = this.ingrediente6B;
         this.ingrediente7B = this.add.text(45, 330, 'Ingrediente 7', { fontSize: '10px', fill: '#ffffff' });
         this.ingrediente7B.setText('');
         this.iconosCaldero2[6] = this.add.image(45,330,'icono').setScale(0.05);
@@ -1243,6 +1243,10 @@ class SceneGame extends Phaser.Scene {
         this.contraseña2 = this.add.text(180,315, '987', { fontSize: '24px', fill: '#ffffff' });
         this.contraseña2.setText('');
 
+        this.victoriaJuego = this.time.addEvent({ delay: 5000, callback: this.FinJuego, callbackScope: this})
+        this.victoriaJuego.paused = true;
+        this.derrotaJuego = this.time.addEvent({ delay: 5000, callback: this.DerrotaFin, callbackScope: this})
+        this.derrotaJuego.paused = true;
 
         // EVENTO PARA LA RESOLUCIÓN DEL PUZLE DE LAS FLORES
         this.eventoTecladoJardin = this.input.keyboard.on('keydown', event =>
@@ -2155,10 +2159,17 @@ class SceneGame extends Phaser.Scene {
         
         });
         if(!this.introduccion4.visible) {
-            this.textoTemp.x = this.camera1.scrollX + 150;
-            this.textoTemp.y = this.camera1.scrollY + 280;
+            if(this.fondoWiggle.visible) {
+                this.textoTemp.x = 50;
+                this.textoTemp.y = 30;
+                this.textoTemp.setScale(1);
+            }
+            else {
+                this.textoTemp.x = this.camera1.scrollX + 150;
+                this.textoTemp.y = this.camera1.scrollY + 280;
+                this.textoTemp.setScale(0.35);
+            }
             this.textoTemp.setText('Tiempo restante: ' +this.tiempo.minutos + ':' +this.tiempo.segundos);
-            this.textoTemp.setScale(0.35);
         }
 
         /*
@@ -2610,28 +2621,44 @@ class SceneGame extends Phaser.Scene {
 
     // Funciones que comprueban la distancia de los jugadores con todos los objetos, para saber con cuál interactuar
     ComprobarObjetoInteractuableJ1 () {
+        var indiceObjetoInteractuable = 0;
+        var menorDistancia = 100;
         for(var i=0; i<this.objetosInteractuables.length; i++) {
             var objeto = this.objetosInteractuables[i];
             if(objeto!=undefined) {
                 if(Phaser.Math.Distance.Between(objeto.x,objeto.y,this.Riddle.x,this.Riddle.y)<40 && !this.mostrandoTexto) {
-                    if(objeto.visible) {
-                        this.InteraccionJugador1(objeto.interactuar());
+                    if(objeto.visible&&Phaser.Math.Distance.Between(objeto.x,objeto.y,this.Riddle.x,this.Riddle.y)<menorDistancia) {
+                        indiceObjetoInteractuable = i;
+                        menorDistancia=Phaser.Math.Distance.Between(objeto.x,objeto.y,this.Riddle.x,this.Riddle.y);
                     }
                 }
             }
         }
+        var objetoI = this.objetosInteractuables[indiceObjetoInteractuable];
+        if(objetoI!=undefined) {
+            this.InteraccionJugador1(objetoI.interactuar());
+        }
     }
     
     ComprobarObjetoInteractuableJ2 () {
+        var indiceObjetoInteractuable = 0;
+        var menorDistancia = 100;
         for(var i=0; i<this.objetosInteractuables.length; i++) {
             var objeto = this.objetosInteractuables[i];
             if(objeto!=undefined) {
                 if(Phaser.Math.Distance.Between(objeto.x,objeto.y,this.Wiggle.x,this.Wiggle.y)<40 && !this.mostrandoTexto2) {
                     if(objeto.visible) {                        
-                        this.InteraccionJugador2(objeto.interactuar());
+                        if(objeto.visible&&Phaser.Math.Distance.Between(objeto.x,objeto.y,this.Wiggle.x,this.Wiggle.y)<menorDistancia) {
+                            indiceObjetoInteractuable = i;
+                            menorDistancia=Phaser.Math.Distance.Between(objeto.x,objeto.y,this.Wiggle.x,this.Wiggle.y);
+                        }
                     }
                 }
             }
+        }
+        var objetoI = this.objetosInteractuables[indiceObjetoInteractuable];
+        if(objetoI!=undefined) {
+            this.InteraccionJugador2(objetoI.interactuar());
         }
     }
 
@@ -2885,6 +2912,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto(frase);
                         this.fragmento1LlaveB.disableBody(true,true);
+
                     }
                     if(objeto ==="puertaB") {
                         var llave = false;
@@ -4598,16 +4626,7 @@ class SceneGame extends Phaser.Scene {
                 this.MostrarTexto(frase);
                 this.MostrarTexto2(frase);
                 this.finalMostrado = true;
-                // TRANSICIÓN A ESCENA DE VICTORIA
-                this.juegoDetenidoRiddle = true;
-                this.juegoDetenidoWiggle = true;
-                this.camera1.setZoom(1);
-                this.camera1.stopFollow();
-                this.camera1.centerOn(200,400);
-                this.camera2.setZoom(1); // Ajusta el valor según sea necesario
-                this.camera2.stopFollow();
-                this.camera2.centerOn(600, 400);
-                this.victoria.visible = true;
+                this.victoriaJuego.paused = false;
             }
         }
         actualizarContador(){
@@ -4615,16 +4634,7 @@ class SceneGame extends Phaser.Scene {
             this.tiempo.segundos = (this.tiempo.segundos>=10)? this.tiempo.segundos: '0' + this.tiempo.segundos;
             if(this.tiempo.segundos==0){
                 if(this.tiempo.minutos=="00") {
-                    // TRANSICIÓN A ESCENA DE DERROTA
-                this.juegoDetenidoRiddle = true;
-                this.juegoDetenidoWiggle = true;
-                this.camera1.setZoom(1);
-                this.camera1.stopFollow();
-                this.camera1.centerOn(200,400);
-                this.camera2.setZoom(1); // Ajusta el valor según sea necesario
-                this.camera2.stopFollow();
-                this.camera2.centerOn(600, 400);
-                this.derrota.visible = true;
+                    this.derrotaJuego.paused = false;
                 } else {
                     this.tiempo.segundos = '59'
                     this.tiempo.minutos--;
@@ -4645,6 +4655,32 @@ class SceneGame extends Phaser.Scene {
             this.Wiggle.x = tempX;
             this.Wiggle.y = tempY;
             
+        }
+
+        FinJuego() {
+            // TRANSICIÓN A ESCENA DE VICTORIA
+            this.juegoDetenidoRiddle = true;
+            this.juegoDetenidoWiggle = true;
+            this.camera1.setZoom(1);
+            this.camera1.stopFollow();
+            this.camera1.centerOn(200,400);
+            this.camera2.setZoom(1); // Ajusta el valor según sea necesario
+            this.camera2.stopFollow();
+            this.camera2.centerOn(600, 400);
+            this.victoria.visible = true;
+        }
+
+        DerrotaFin() {
+            // TRANSICIÓN A ESCENA DE DERROTA
+            this.juegoDetenidoRiddle = true;
+            this.juegoDetenidoWiggle = true;
+            this.camera1.setZoom(1);
+            this.camera1.stopFollow();
+            this.camera1.centerOn(200,400);
+            this.camera2.setZoom(1); // Ajusta el valor según sea necesario
+            this.camera2.stopFollow();
+            this.camera2.centerOn(600, 400);
+            this.derrota.visible = true;
         }
 }
 export default SceneGame;
