@@ -631,3 +631,5 @@ Los efectos de sonido van a  depender de las acciones del jugador, ya sea andar,
 
 **12.3 Diseño del videojuego y mejoras extra**
 
+Para el desarrollo de esta fase, se han llevado a cabo una serie de simplificaciones respecto al documento original, debido a decisiones de diseño y a ajustarse a la fecha de entrega. Se ha suprimido el puzle número 7, ya que se ha prescindido de la habitación del almacén en el diseño del mapa. Además, no se han implementado elementos de interfaz del juego principal, como el inventario o el menú de pausa, quedando únicamente un contador de tiempo en el que se indica lo que les queda a los jugadores para poder superar el juego. El resto de puzles y mecánicas han sido incluidas casi en su totalidad.
+
