@@ -576,3 +576,48 @@ La música en el juego va a ser constante y en bucle. Va a ser una música elect
 
 Los efectos de sonido van a  depender de las acciones del jugador, ya sea andar, interactuar con los ítems del escenario o superar un puzzle. Estos efectos han sido recogidos de diferentes bibliotecas de sonidos.
 
+**12. MODIFICACIONES FASE 2**
+
+**12.1 Pantallas**
+
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/title%20screen%202.png)
+
+*Figura 32 - Menú principal*
+
+**Menú principal:** Se tuvo en cuenta el diseño de la fase anterior, pero una modificación fue colocar el texto de las opciones en Phaser directamente en lugar de en la imagen para tener mayor precisión al seleccionarlas con el puntero.
+
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/introduction1.png)
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/introduction2.jpg)
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/introduction3.png)
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/introduction4.png)
+
+*Figura 33 - Pantallas de introducción*
+
+**Pantallas de introducción:** Se diseñaron con el fin de contar brevemente la historia del juego y explicar como utilizar las mecánicas básicas del videojuego.
+
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/introduction4.png)
+
+*Figura 34 - Pantalla del juego*
+
+**Pantalla del juego:** Dos cámaras que enfocan a Wiggle y Riddle con una división clara en el medio.
+
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/victory.png)
+
+*Figura 35 - Pantalla de victoria*
+
+**Pantalla de victoria:** Pantalla mostrada tras completar el último puzzle y ganar. Se quería representar el escape de Riddle y Wiggle de las casas encantadas.
+
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/GameOver.png)
+
+*Figura 36 - Pantalla de derrota*
+
+**Pantalla de derrota:** Se muestra al terminarse el limite de tiempo, perdiendo. Se quería representar a Riddle y Wiggle atrapados en un agujero negro.
+
+**12.2 Diagrama de navegación**
+
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/victory.png)
+
+*Figura 36 - Diagrama de navegación*
+
+**12.3 Diseño del videojuego y mejoras extra**
+
