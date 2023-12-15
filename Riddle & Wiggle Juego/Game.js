@@ -680,7 +680,7 @@ class SceneGame extends Phaser.Scene {
         this.physics.add.collider(this.Riddle, this.cajonesLlaveB);
         this.physics.add.collider(this.Wiggle, this.cajonesLlaveB);
         // Fragmento de llave
-        this.fragmento1LlaveB = this.physics.add.staticGroup().create(730,160,'fragmento llave').setScale(0.05).refreshBody();
+        this.fragmento1LlaveB = this.physics.add.staticGroup().create(730,140,'fragmento llave').setScale(0.05).refreshBody();
         this.fragmento1LlaveB.interactuar = function() {
             return "fragmentoLlaveB";
         }
