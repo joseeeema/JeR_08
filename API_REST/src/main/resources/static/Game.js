@@ -992,6 +992,28 @@ class SceneGame extends Phaser.Scene {
         this.panelContraseña1.visible = false;
         this.panelContraseña2 = this.add.image(200,300, 'cartel almacen 2').setScale(0.23);
         this.panelContraseña2.visible = false;
+        //Slider Musica
+        var print2;
+        this.rexUI.add.slider({
+                x: 200,
+                y: 230,
+                width: 200,
+                height: 30,
+                orientation: 'x',
+    
+                track: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10, COLOR_DARK),
+                indicator: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10, COLOR_PRIMARY),
+                thumb: this.rexUI.add.roundRectangle(0, 0, 0, 0, 10, COLOR_PRIMARY),
+    
+                input: 'click', 
+    
+                valuechangeCallback: function(value) {
+                    backgroundMusic.volume = value; // set volume between 0 - 1
+                },
+    
+            })
+            .layout();
+
         // Imágenes del puzle de los gatos
         this.puzleGatos1 = this.add.image(200, 300, 'puzle gatos 1').setScale(0.175);
         this.puzleGatos1.visible = false;
@@ -2435,7 +2457,7 @@ class SceneGame extends Phaser.Scene {
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
                 this.eventoContador.paused = false;
-                
+                /*
                 //CAMERA 1
                 this.camera1 = this.cameras.add(0, 0, 400, 800);
                 this.camera1.setZoom(3); // Ajusta el valor según sea necesario
@@ -2447,7 +2469,7 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                 this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                 this.camera2.startFollow(this.Riddle); 
-                
+                */
             }
         
         });
@@ -2458,8 +2480,8 @@ class SceneGame extends Phaser.Scene {
                 this.textoTemp.setScale(1);
             }
             else {
-                this.textoTemp.x = this.camera1.scrollX + 150;
-                this.textoTemp.y = this.camera1.scrollY + 280;
+                //this.textoTemp.x = this.camera1.scrollX + 150;
+                //this.textoTemp.y = this.camera1.scrollY + 280;
                 this.textoTemp.setScale(0.35);
             }
             this.textoTemp.setText('Tiempo restante: ' +this.tiempo.minutos + ':' +this.tiempo.segundos);

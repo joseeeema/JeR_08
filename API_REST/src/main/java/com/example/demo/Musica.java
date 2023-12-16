@@ -3,6 +3,7 @@ package com.example.demo;
 public class Musica {
     
     private long intensidad;
+    private long id;
 
     public Musica(long intensidad) {
         this.intensidad = intensidad;
@@ -12,11 +13,19 @@ public class Musica {
         return intensidad;
     }
 
-    public void setIntensidad(long intensidad) {
+    public void setIntensidad(long id) {
         this.intensidad = intensidad;
     }
 
-    @Overrintensidade
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @Override
     public String toString() {
         return "Musica [intensidad=" + intensidad + "]";
     }
