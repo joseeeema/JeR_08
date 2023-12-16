@@ -1,6 +1,9 @@
 
+var peticionesServer = new PeticionesServidor();
+
 class SceneGame extends Phaser.Scene {
 
+    reiniciado = false;
     tiempo = {
         minutos: '39',
         segundos: '59'
@@ -402,6 +405,7 @@ class SceneGame extends Phaser.Scene {
 
     create (data)
     {
+        this.ReiniciarObjetos();        
         this.backgroundMusic = this.sound.add("backgroundMusic", { loop: true });
         this.backgroundMusic.play();
         this.add.image(400, 300, 'sky').setScale(10);
@@ -1699,24 +1703,59 @@ class SceneGame extends Phaser.Scene {
                         switch(event.key) {
                             case '1':
                                 this.inventarioRiddle.push("Pitahayas");
+                                var objeto = {
+                                    nombre: "Pitahayas",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '2':
                                 this.inventarioRiddle.push("Uvas");
+                                var objeto = {
+                                    nombre: "Uvas",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '3':
                                 this.inventarioRiddle.push("Zumo de tomate");
+                                var objeto = {
+                                    nombre: "Zumo de tomate",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '4':
                                 this.inventarioRiddle.push("Manzana");
+                                var objeto = {
+                                    nombre: "Manzana",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '5':
                                 this.inventarioRiddle.push("Pomelo");
+                                var objeto = {
+                                    nombre: "Pomelo",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '6':
                                 this.inventarioRiddle.push("Calabaza");
+                                var objeto = {
+                                    nombre: "Calabaza",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '7':
                                 this.inventarioRiddle.push("Zumo de piña");
+                                var objeto = {
+                                    nombre: "Zumo de piña",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                         }
                     }
@@ -1732,24 +1771,59 @@ class SceneGame extends Phaser.Scene {
                         switch(event.key) {
                             case '1':
                                 this.inventarioRiddle.push("Coco helado");
+                                var objeto = {
+                                    nombre: "Coco helado",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '2':
                                 this.inventarioRiddle.push("Cerezas");
+                                var objeto = {
+                                    nombre: "Cerezas",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '3':
                                 this.inventarioRiddle.push("Zumo de arandanos");
+                                var objeto = {
+                                    nombre: "Zumo de arandanos",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '4':
                                 this.inventarioRiddle.push("Zumo de naranja");
+                                var objeto = {
+                                    nombre: "Zumo de naranja",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '5':
                                 this.inventarioRiddle.push("Limon");
+                                var objeto = {
+                                    nombre: "Limon",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '6':
                                 this.inventarioRiddle.push("Sandia");
+                                var objeto = {
+                                    nombre: "Sandia",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '7':
                                 this.inventarioRiddle.push("Melon");
+                                var objeto = {
+                                    nombre: "Melon",
+                                    jugador: "R"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                         }
                     }
@@ -1765,24 +1839,59 @@ class SceneGame extends Phaser.Scene {
                         switch(event.key) {
                             case '1':
                                 this.inventarioWiggle.push("Pitahayas");
+                                var objeto = {
+                                    nombre: "Pitahayas",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '2':
                                 this.inventarioWiggle.push("Uvas");
+                                var objeto = {
+                                    nombre: "Uvas",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '3':
                                 this.inventarioWiggle.push("Zumo de tomate");
+                                var objeto = {
+                                    nombre: "Zumo de tomate",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '4':
                                 this.inventarioWiggle.push("Manzana");
+                                var objeto = {
+                                    nombre: "Manzana",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '5':
                                 this.inventarioWiggle.push("Pomelo");
+                                var objeto = {
+                                    nombre: "Pomelo",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '6':
                                 this.inventarioWiggle.push("Calabaza");
+                                var objeto = {
+                                    nombre: "Calabaza",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '7':
                                 this.inventarioWiggle.push("Zumo de piña");
+                                var objeto = {
+                                    nombre: "Zumo de piña",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                         }
                     }
@@ -1799,24 +1908,59 @@ class SceneGame extends Phaser.Scene {
                         switch(event.key) {
                             case '1':
                                 this.inventarioWiggle.push("Coco helado");
+                                var objeto = {
+                                    nombre: "Coco helado",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '2':
                                 this.inventarioWiggle.push("Cerezas");
+                                var objeto = {
+                                    nombre: "Cerezas",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '3':
                                 this.inventarioWiggle.push("Zumo de arandanos");
+                                var objeto = {
+                                    nombre: "Zumo de arandanos",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '4':
                                 this.inventarioWiggle.push("Zumo de naranja");
+                                var objeto = {
+                                    nombre: "Zumo de naranja",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '5':
                                 this.inventarioWiggle.push("Limon");
+                                var objeto = {
+                                    nombre: "Limon",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '6':
                                 this.inventarioWiggle.push("Sandia");
+                                var objeto = {
+                                    nombre: "Sandia",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                             case '7':
                                 this.inventarioWiggle.push("Melon");
+                                var objeto = {
+                                    nombre: "Melon",
+                                    jugador: "W"
+                                }
+                                peticionesServer.añadirObjeto(objeto);
                                 break;
                         }
                     }
@@ -2210,6 +2354,13 @@ class SceneGame extends Phaser.Scene {
             }
         }
 
+        this.input.keyboard.on('keydown_Z', () =>{
+            if(this.nuevoIntento) {
+                this.nuevoIntento = false;
+                this.temporizadorNuevoIntento.paused = false;
+                peticionesServer.cargarObjetos();
+            }
+        });
 
             this.input.keyboard.on('keydown_W', () =>{
                     if(!this.juegoDetenidoWiggle) {
@@ -2869,12 +3020,22 @@ class SceneGame extends Phaser.Scene {
                     if(objeto === "mesaLlave" && !this.fragmentoMesa) {
                         this.numeroFragmentosLlave++;
                         this.inventarioRiddle.push("Fragmento de llave");
+                        var objeto = {
+                            nombre: "Fragmento de llave",
+                            jugador: "R"
+                        }
+                        peticionesServer.añadirObjeto(objeto);
                         this.fragmentoMesa = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
                             frase = "¡Anda! Debajo de la mesa había un fragmento de llave. Ya puedo formar una completa.";
                             this.entrePetalos = true;
                             this.inventarioRiddle.push("Llave jardines");
+                            var objeto = {
+                                nombre: "Llave jardines",
+                                jugador: "R"
+                            }
+                            peticionesServer.añadirObjeto(objeto);
                         }
                         else {
                             frase = "¡Anda! Debajo de la mesa había un fragmento de llave";
@@ -2884,12 +3045,22 @@ class SceneGame extends Phaser.Scene {
                     if(objeto === "cajonesLlave"&&!this.fragmentoCajones) {
                         this.numeroFragmentosLlave++;
                         this.inventarioRiddle.push("Fragmento de llave");
+                        var objeto = {
+                            nombre: "Fragmento de llave",
+                            jugador: "R"
+                        }
+                        peticionesServer.añadirObjeto(objeto);
                         this.fragmentoCajones = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
                             frase = "Entre los cajones he encontrado un fragmento de llave. Ya puedo formar una completa.";
                             this.entrePetalos = true;
                             this.inventarioRiddle.push("Llave jardines");
+                            var objeto = {
+                                nombre: "Llave jardines",
+                                jugador: "R"
+                            }
+                            peticionesServer.añadirObjeto(objeto);
                         }
                         else {
                             frase = "Entre los cajones he encontrado un fragmento de llave";
@@ -2900,12 +3071,22 @@ class SceneGame extends Phaser.Scene {
                     if(objeto === "fragmentoLlaveB"&&!this.fragmentoSuelo) {
                         this.numeroFragmentosLlave++;
                         this.inventarioRiddle.push("Fragmento de llave");
+                        var objeto = {
+                            nombre: "Fragmento de llave",
+                            jugador: "R"
+                        }
+                        peticionesServer.añadirObjeto(objeto);
                         this.fragmentoSuelo = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
                             frase = "Esto parece un fragmento de llave. Ya puedo formar una completa.";
                             this.entrePetalos = true;
                             this.inventarioRiddle.push("Llave jardines");
+                            var objeto = {
+                                nombre: "Llave jardines",
+                                jugador: "R"
+                            }
+                            peticionesServer.añadirObjeto(objeto);
                         }
                         else {
                             frase = "Esto parece un fragmento de llave. Si consigo otros dos más podré formar una.";
@@ -3074,6 +3255,11 @@ class SceneGame extends Phaser.Scene {
                         this.MostrarTexto(frase);
                         this.candelabro.visible = false;
                         this.inventarioRiddle.push("Candelabro");
+                        var objeto = {
+                            nombre: "Candelabro",
+                            jugador: "R"
+                        }
+                        peticionesServer.añadirObjeto(objeto);
                     }
                     if(objeto === "comodaGatos") {
                         var frase;
@@ -3241,12 +3427,22 @@ class SceneGame extends Phaser.Scene {
                     if(objeto === "mesaLlave" && !this.fragmentoMesa) {
                         this.numeroFragmentosLlave++;
                         this.inventarioWiggle.push("Fragmento de llave");
+                        var objeto = {
+                            nombre: "Fragmento de llave",
+                            jugador: "W"
+                        }
+                        peticionesServer.añadirObjeto(objeto);
                         this.fragmentoMesa = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
                             frase = "¡Anda! Debajo de la mesa había un fragmento de llave. Ya puedo formar una completa.";
                             this.entrePetalos = true;
                             this.inventarioWiggle.push("Llave jardines");
+                            var objeto = {
+                                nombre: "Llave jardines",
+                                jugador: "W"
+                            }
+                            peticionesServer.añadirObjeto(objeto);
                         }
                         else {
                             frase = "¡Anda! Debajo de la mesa había un fragmento de llave";
@@ -3256,12 +3452,22 @@ class SceneGame extends Phaser.Scene {
                     if(objeto === "cajonesLlave"&&!this.fragmentoCajones) {
                         this.numeroFragmentosLlave++;
                         this.inventarioWiggle.push("Fragmento de llave");
+                        var objeto = {
+                            nombre: "Fragmento de llave",
+                            jugador: "W"
+                        }
+                        peticionesServer.añadirObjeto(objeto);
                         this.fragmentoCajones = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
                             frase = "Entre los cajones he encontrado un fragmento de llave. Ya puedo formar una completa.";
                             this.entrePetalos = true;
                             this.inventarioWiggle.push("Llave jardines");
+                            var objeto = {
+                                nombre: "Llave jardines",
+                                jugador: "W"
+                            }
+                            peticionesServer.añadirObjeto(objeto);
                         }
                         else {
                             frase = "Entre los cajones he encontrado un fragmento de llave";
@@ -3272,12 +3478,22 @@ class SceneGame extends Phaser.Scene {
                     if(objeto === "fragmentoLlaveB"&&!this.fragmentoSuelo) {
                         this.numeroFragmentosLlave++;
                         this.inventarioWiggle.push("Fragmento de llave");
+                        var objeto = {
+                            nombre: "Fragmento de llave",
+                            jugador: "W"
+                        }
+                        peticionesServer.añadirObjeto(objeto);
                         this.fragmentoSuelo = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
                             frase = "Esto parece un fragmento de llave. Ya puedo formar una completa.";
                             this.entrePetalos = true;
                             this.inventarioWiggle.push("Llave jardines");
+                            var objeto = {
+                                nombre: "Llave jardines",
+                                jugador: "W"
+                            }
+                            peticionesServer.añadirObjeto(objeto);
                         }
                         else {
                             frase = "Esto parece un fragmento de llave. Si consigo más podré formar una completa.";
@@ -3426,6 +3642,11 @@ class SceneGame extends Phaser.Scene {
                         this.MostrarTexto2(frase);
                         this.candelabro.visible = false;
                         this.inventarioWiggle.push("Candelabro");
+                        var objeto = {
+                            nombre: "Candelabro",
+                            jugador: "W"
+                        }
+                        peticionesServer.añadirObjeto(objeto);
                     }
                     if(objeto === "comodaGatos") {
                         var frase;
@@ -3583,6 +3804,11 @@ class SceneGame extends Phaser.Scene {
                 this.puzlePiano.visible = false;
                 this.MostrarTexto2("¡He acertado en la combinación! Del teclado ha salido una llave, no sé qué puerta abrirá.");
                 this.inventarioWiggle.push("Llave habitación");
+                var objeto = {
+                    nombre: "Llave habitación",
+                    jugador: "W"
+                }
+                peticionesServer.añadirObjeto(objeto);
                 this.resolucionMostradaPiano = true;
             }
         }
@@ -3781,7 +4007,17 @@ class SceneGame extends Phaser.Scene {
                 this.MostrarTexto2(frase);
                 this.resolucionMostradaJardin = true;
                 this.inventarioRiddle.push("Llave cocinas");
+                var objeto = {
+                    nombre: "Llave cocinas",
+                    jugador: "R"
+                }
+                peticionesServer.añadirObjeto(objeto);
                 this.inventarioWiggle.push("Llave cocinas");
+                var objeto = {
+                    nombre: "Llave cocinas",
+                    jugador: "W"
+                }
+                peticionesServer.añadirObjeto(objeto);
             }
         }
 
@@ -3793,10 +4029,20 @@ class SceneGame extends Phaser.Scene {
                 if(this.resuelveFogones==="R") {
                     this.MostrarTexto(frase);
                     this.inventarioRiddle.push("Llave baño");
+                    var objeto = {
+                        nombre: "Llave baño",
+                        jugador: "R"
+                    }
+                    peticionesServer.añadirObjeto(objeto);
                 }
                 if(this.resuelveFogones==="W") {
                     this.MostrarTexto2(frase);
                     this.inventarioWiggle.push("Llave baño");
+                    var objeto = {
+                        nombre: "Llave baño",
+                        jugador: "W"
+                    }
+                    peticionesServer.añadirObjeto(objeto);
                 }
             }
         }
@@ -3876,7 +4122,17 @@ class SceneGame extends Phaser.Scene {
                 this.juegoDetenidoWiggle = false;
                 this.resolucionMostradaAlmacen = true;
                 this.inventarioWiggle.push("Candelabro");
+                var objeto = {
+                    nombre: "Candelabro",
+                    jugador: "W"
+                }
+                peticionesServer.añadirObjeto(objeto);
                 this.inventarioRiddle.push("Candelabro");
+                var objeto = {
+                    nombre: "Candelabro",
+                    jugador: "R"
+                }
+                peticionesServer.añadirObjeto(objeto);
             }
         }
         PrepararVelasRiddle() {
@@ -4681,6 +4937,25 @@ class SceneGame extends Phaser.Scene {
             this.camera2.stopFollow();
             this.camera2.centerOn(600, 400);
             this.derrota.visible = true;
+        }
+
+        // Gestión de elementos con la API REST
+        ReiniciarObjetos() {
+            if(!this.reiniciado) {
+                // Se obtiene la longitud de los objetos
+                var longitud = 0;
+                $.ajax({
+                    url: 'http://localhost:8080/objetos'
+                }).done(function(objetos) {
+                    console.log('Objetos cargados: '+ JSON.stringify(objetos));
+                    longitud = objetos.length;
+                    // Se eliminan los objetos por su identificador
+                    for(var i=0; i<longitud; i++) {
+                        peticionesServer.destruirObjeto(i+1);
+                    }
+                })
+                this.reiniciado = true;
+            }
         }
 }
 export default SceneGame;
