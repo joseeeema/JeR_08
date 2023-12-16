@@ -1,6 +1,7 @@
 
 var peticionesServer = new PeticionesServidor();
-
+var textoObjetosRiddle = new Array(23);
+var textoObjetosWiggle = new Array(23);
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
@@ -358,7 +359,8 @@ class SceneGame extends Phaser.Scene {
         this.load.image('icono', 'assets/conseguido.png');
         this.load.image('ingredientesCaldero1', 'assets/ingredientes caldero zafiro.png');
         this.load.image('ingredientesCaldero2', 'assets/ingredientes caldero rubi.png');
-        
+        this.load.image('inventarioRiddle', 'assets/inventarioRiddle.png');
+        this.load.image('inventarioWiggle', 'assets/inventarioWiggle.png');
         
 
         // Elementos de adorno
@@ -1219,6 +1221,153 @@ class SceneGame extends Phaser.Scene {
         this.iconosCaldero1[13] = this.add.image(570,330,'icono').setScale(0.05);
         this.iconosCaldero1[13].visible = false;
         this.arrayIngredientesRiddle[13] = this.ingrediente14A;
+
+        // Imágenes del inventario
+        this.inventarioRiddleImg = this.add.image(600,300, 'inventarioRiddle').setScale(0.165);
+        this.inventarioRiddleImg.visible = false;
+
+        this.objeto1R = this.add.text(445, 250, 'Objeto 1', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto1R.setText('');
+        textoObjetosRiddle[0] = this.objeto1R;
+        this.objeto2R = this.add.text(445, 258, 'Objeto 2', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[1] = this.objeto2R;
+        this.objeto2R.setText('');
+        this.objeto3R = this.add.text(445, 266, 'Objeto 3', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[2] = this.objeto3R;
+        this.objeto3R.setText('');
+        this.objeto4R = this.add.text(445, 274, 'Objeto 4', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[3] = this.objeto4R;
+        this.objeto4R.setText('');
+        this.objeto5R = this.add.text(445, 282, 'Objeto 5', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[4] = this.objeto5R;
+        this.objeto5R.setText('');
+        this.objeto6R = this.add.text(445, 290, 'Objeto 6', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[5] = this.objeto6R;
+        this.objeto6R.setText('');
+        this.objeto7R = this.add.text(445, 298, 'Objeto 7', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[6] = this.objeto7R;
+        this.objeto7R.setText('');
+        this.objeto8R = this.add.text(445, 306, 'Objeto 8', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[7] = this.objeto8R;
+        this.objeto8R.setText('');
+        this.objeto9R = this.add.text(445, 314, 'Objeto 9', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[8] = this.objeto9R;
+        this.objeto9R.setText('');
+        this.objeto10R = this.add.text(445, 322, 'Objeto 10', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[9] = this.objeto10R;
+        this.objeto10R.setText('');
+        this.objeto11R = this.add.text(445, 330, 'Objeto 11', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[10] = this.objeto11R;
+        this.objeto11R.setText('');
+        this.objeto12R = this.add.text(445, 338, 'Objeto 12', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[11] = this.objeto12R;
+        this.objeto12R.setText('');
+        this.objeto13R = this.add.text(615, 250, 'Objeto 13', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[12] = this.objeto13R;
+        this.objeto13R.setText('');
+        this.objeto14R = this.add.text(615, 258, 'Objeto 14', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[13] = this.objeto14R;
+        this.objeto14R.setText('');
+        this.objeto15R = this.add.text(615, 266, 'Objeto 15', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[14] = this.objeto15R;
+        this.objeto15R.setText('');
+        this.objeto16R = this.add.text(615, 274, 'Objeto 16', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[15] = this.objeto16R;
+        this.objeto16R.setText('');
+        this.objeto17R = this.add.text(615, 282, 'Objeto 17', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[16] = this.objeto17R;
+        this.objeto17R.setText('');
+        this.objeto18R = this.add.text(615, 290, 'Objeto 18', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[17] = this.objeto18R;
+        this.objeto18R.setText('');
+        this.objeto19R = this.add.text(615, 298, 'Objeto 19', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[18] = this.objeto19R;
+        this.objeto19R.setText('');
+        this.objeto20R = this.add.text(615, 306, 'Objeto 20', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[19] = this.objeto20R;
+        this.objeto20R.setText('');
+        this.objeto21R = this.add.text(615, 314, 'Objeto 21', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[20] = this.objeto21R;
+        this.objeto21R.setText('');
+        this.objeto22R = this.add.text(615, 322, 'Objeto 22', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[21] = this.objeto22R;
+        this.objeto22R.setText('');
+        this.objeto23R = this.add.text(615, 330, 'Objeto 23', { fontSize: '8px', fill: '#ffffff' });
+        textoObjetosRiddle[22] = this.objeto23R;
+        this.objeto23R.setText('');
+        
+        this.inventarioWiggleImg = this.add.image(200,300, 'inventarioWiggle').setScale(0.165);
+        this.inventarioWiggleImg.visible = false;
+
+        this.objeto1W = this.add.text(45, 250, 'Objeto 1', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto1W.setText('');
+        textoObjetosWiggle[0] = this.objeto1W;
+        this.objeto2W = this.add.text(45, 258, 'Objeto 2', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto2W.setText('');
+        textoObjetosWiggle[1] = this.objeto2W;
+        this.objeto3W = this.add.text(45, 266, 'Objeto 3', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto3W.setText('');
+        textoObjetosWiggle[2] = this.objeto3W;
+        this.objeto4W = this.add.text(45, 274, 'Objeto 4', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto4W.setText('');
+        textoObjetosWiggle[3] = this.objeto4W;
+        this.objeto5W = this.add.text(45, 282, 'Objeto 5', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto5W.setText('');
+        textoObjetosWiggle[4] = this.objeto5W;
+        this.objeto6W = this.add.text(45, 290, 'Objeto 6', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto6W.setText('');
+        textoObjetosWiggle[5] = this.objeto6W;
+        this.objeto7W = this.add.text(45, 298, 'Objeto 7', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto7W.setText('');
+        textoObjetosWiggle[6] = this.objeto7W;
+        this.objeto8W = this.add.text(45, 306, 'Objeto 8', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto8W.setText('');
+        textoObjetosWiggle[7] = this.objeto8W;
+        this.objeto9W = this.add.text(45, 314, 'Objeto 9', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto9W.setText('');
+        textoObjetosWiggle[8] = this.objeto9W;
+        this.objeto10W = this.add.text(45, 322, 'Objeto 10', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto10W.setText('');
+        textoObjetosWiggle[9] = this.objeto10W;
+        this.objeto11W = this.add.text(45, 330, 'Objeto 11', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto11W.setText('');
+        textoObjetosWiggle[10] = this.objeto11W;
+        this.objeto12W = this.add.text(45, 338, 'Objeto 12', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto12W.setText('');
+        textoObjetosWiggle[11] = this.objeto12W;
+        this.objeto13W = this.add.text(215, 250, 'Objeto 13', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto13W.setText('');
+        textoObjetosWiggle[12] = this.objeto13W;
+        this.objeto14W = this.add.text(215, 258, 'Objeto 14', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto14W.setText('');
+        textoObjetosWiggle[13] = this.objeto14W;
+        this.objeto15W = this.add.text(215, 266, 'Objeto 15', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto15W.setText('');
+        textoObjetosWiggle[14] = this.objeto15W;
+        this.objeto16W = this.add.text(215, 274, 'Objeto 16', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto16W.setText('');
+        textoObjetosWiggle[15] = this.objeto16W;
+        this.objeto17W = this.add.text(215, 282, 'Objeto 17', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto17W.setText('');
+        textoObjetosWiggle[16] = this.objeto17W;
+        this.objeto18W = this.add.text(215, 290, 'Objeto 18', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto18W.setText('');
+        textoObjetosWiggle[17] = this.objeto18W;
+        this.objeto19W = this.add.text(215, 298, 'Objeto 19', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto19W.setText('');
+        textoObjetosWiggle[18] = this.objeto19W;
+        this.objeto20W = this.add.text(215, 306, 'Objeto 20', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto20W.setText('');
+        textoObjetosWiggle[19] = this.objeto20W;
+        this.objeto21W = this.add.text(215, 314, 'Objeto 21', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto21W.setText('');
+        textoObjetosWiggle[20] = this.objeto21W;
+        this.objeto22W = this.add.text(215, 322, 'Objeto 22', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto22W.setText('');
+        textoObjetosWiggle[21] = this.objeto22W;
+        this.objeto23W = this.add.text(215, 330, 'Objeto 23', { fontSize: '8px', fill: '#ffffff' });
+        this.objeto23W.setText('');
+        textoObjetosWiggle[22] = this.objeto23W;
 
         // COMBOS Y CONTRASEÑAS
         this.comboPiano = "102365";
@@ -2297,7 +2446,7 @@ class SceneGame extends Phaser.Scene {
                 this.camera2 = this.cameras.add(400, 0, 400, 800);
                 this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                 this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
-                this.camera2.startFollow(this.Riddle);
+                this.camera2.startFollow(this.Riddle); 
                 
             }
         
@@ -2358,9 +2507,46 @@ class SceneGame extends Phaser.Scene {
             if(this.nuevoIntento) {
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
-                peticionesServer.cargarObjetos();
+                this.camera2.stopFollow();
+                if(this.Riddle.x>400) {
+                    this.camera2.centerOn(600,300);
+                } else {
+                    this.camera2.centerOn(200,300);
+                }
+                this.camera2.setZoom(1);
+                this.MostrarInventarioRiddle();
             }
         });
+
+        if(this.inventarioRiddleImg.visible) {
+            this.juegoDetenidoRiddle = true;
+            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                    this.juegoDetenidoRiddle = false;
+                this.OcultarInventarioRiddle(); });
+        }
+
+
+        this.input.keyboard.on('keydown_M', () =>{
+            if(this.nuevoIntento) {
+                this.nuevoIntento = false;
+                this.temporizadorNuevoIntento.paused = false;
+                this.camera1.stopFollow();
+                if(this.Wiggle.x>400) {
+                    this.camera1.centerOn(600,300);
+                } else {
+                    this.camera1.centerOn(200,300);
+                }
+                this.camera1.setZoom(1);
+                this.MostrarInventarioWiggle();
+            }
+        });
+
+        if(this.inventarioWiggleImg.visible) {
+            this.juegoDetenidoWiggle = true;
+            this.input.keyboard.on('keydown_ENTER', () =>{ 
+                    this.juegoDetenidoWiggle = false;
+                this.OcultarInventarioWiggle(); });
+        }
 
             this.input.keyboard.on('keydown_W', () =>{
                     if(!this.juegoDetenidoWiggle) {
@@ -4956,6 +5142,176 @@ class SceneGame extends Phaser.Scene {
                 })
                 this.reiniciado = true;
             }
+        }
+
+        MostrarInventarioRiddle() {
+            if(this.Riddle.x>400) {
+                this.inventarioRiddleImg.x = 600;
+                this.objeto1R.x = 445;
+                this.objeto2R.x = 445;
+                this.objeto3R.x = 445;
+                this.objeto4R.x = 445;
+                this.objeto5R.x = 445;
+                this.objeto6R.x = 445;
+                this.objeto7R.x = 445;
+                this.objeto8R.x = 445;
+                this.objeto9R.x = 445;
+                this.objeto10R.x = 445;
+                this.objeto11R.x = 445;
+                this.objeto12R.x = 445;
+                this.objeto13R.x = 615;
+                this.objeto14R.x = 615;
+                this.objeto15R.x = 615;
+                this.objeto16R.x = 615;
+                this.objeto17R.x = 615;
+                this.objeto18R.x = 615;
+                this.objeto19R.x = 615;
+                this.objeto20R.x = 615;
+                this.objeto21R.x = 615;
+                this.objeto22R.x = 615;
+                this.objeto23R.x = 615;
+                this.fondoRiddle.visible = true;
+            }
+            else {
+                this.inventarioRiddleImg.x = 200;
+                this.objeto1R.x = 45;
+                this.objeto2R.x = 45;
+                this.objeto3R.x = 45;
+                this.objeto4R.x = 45;
+                this.objeto5R.x = 45;
+                this.objeto6R.x = 45;
+                this.objeto7R.x = 45;
+                this.objeto8R.x = 45;
+                this.objeto9R.x = 45;
+                this.objeto10R.x = 45;
+                this.objeto11R.x = 45;
+                this.objeto12R.x = 45;
+                this.objeto13R.x = 215;
+                this.objeto14R.x = 215;
+                this.objeto15R.x = 215;
+                this.objeto16R.x = 215;
+                this.objeto17R.x = 215;
+                this.objeto18R.x = 215;
+                this.objeto19R.x = 215;
+                this.objeto20R.x = 215;
+                this.objeto21R.x = 215;
+                this.objeto22R.x = 215;
+                this.objeto23R.x = 215;
+                this.fondoWiggle.visible = true;
+            }
+            this.inventarioRiddleImg.visible = true;
+            $.ajax({
+                url: 'http://localhost:8080/objetos'
+            }).done(function(objetos) {
+                var indice = 0;
+                for(var i=0; i<objetos.length; i++) {
+                    if(objetos[i].jugador=="R") {
+                        textoObjetosRiddle[indice].setText(objetos[i].nombre);
+                        indice++;
+                    }
+                }
+            })
+        }
+
+        OcultarInventarioRiddle() {
+            for(var i=0; i<textoObjetosRiddle.length; i++) {
+                textoObjetosRiddle[i].setText('');
+            }
+            this.inventarioRiddleImg.visible = false;
+            if(this.Riddle.x>400) {
+                this.fondoRiddle.visible = false;
+            }
+            else {
+                this.fondoWiggle.visible = false;
+            }
+            this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+            this.camera2.startFollow(this.Riddle);
+        }
+
+        MostrarInventarioWiggle() {
+            if(this.Wiggle.x>400) {
+                this.inventarioWiggleImg.x = 600;
+                this.objeto1W.x = 445;
+                this.objeto2W.x = 445;
+                this.objeto3W.x = 445;
+                this.objeto4W.x = 445;
+                this.objeto5W.x = 445;
+                this.objeto6W.x = 445;
+                this.objeto7W.x = 445;
+                this.objeto8W.x = 445;
+                this.objeto9W.x = 445;
+                this.objeto10W.x = 445;
+                this.objeto11W.x = 445;
+                this.objeto12W.x = 445;
+                this.objeto13W.x = 615;
+                this.objeto14W.x = 615;
+                this.objeto15W.x = 615;
+                this.objeto16W.x = 615;
+                this.objeto17W.x = 615;
+                this.objeto18W.x = 615;
+                this.objeto19W.x = 615;
+                this.objeto20W.x = 615;
+                this.objeto21W.x = 615;
+                this.objeto22W.x = 615;
+                this.objeto23W.x = 615;
+                this.fondoRiddle.visible = true;
+            }
+            else {
+                this.inventarioWiggleImg.x = 200;
+                this.objeto1W.x = 45;
+                this.objeto2W.x = 45;
+                this.objeto3W.x = 45;
+                this.objeto4W.x = 45;
+                this.objeto5W.x = 45;
+                this.objeto6W.x = 45;
+                this.objeto7W.x = 45;
+                this.objeto8W.x = 45;
+                this.objeto9W.x = 45;
+                this.objeto10W.x = 45;
+                this.objeto11W.x = 45;
+                this.objeto12W.x = 45;
+                this.objeto13W.x = 215;
+                this.objeto14W.x = 215;
+                this.objeto15W.x = 215;
+                this.objeto16W.x = 215;
+                this.objeto17W.x = 215;
+                this.objeto18W.x = 215;
+                this.objeto19W.x = 215;
+                this.objeto20W.x = 215;
+                this.objeto21W.x = 215;
+                this.objeto22W.x = 215;
+                this.objeto23W.x = 215;
+                this.fondoWiggle.visible = true;
+            }
+            this.inventarioWiggleImg.visible = true;
+            $.ajax({
+                url: 'http://localhost:8080/objetos'
+            }).done(function(objetos) {
+                var indice = 0;
+                for(var i=0; i<objetos.length; i++) {
+                    if(objetos[i].jugador=="W") {
+                        textoObjetosWiggle[indice].setText(objetos[i].nombre);
+                        indice++;
+                    }
+                }
+            })
+        }
+
+        OcultarInventarioWiggle() {
+            for(var i=0; i<textoObjetosWiggle.length; i++) {
+                textoObjetosWiggle[i].setText('');
+            }
+            this.inventarioWiggleImg.visible = false;
+            if(this.Wiggle.x>400) {
+                this.fondoRiddle.visible = false;
+            }
+            else {
+                this.fondoWiggle.visible = false;
+            }
+            this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+            this.camera1.startFollow(this.Wiggle);
         }
 }
 export default SceneGame;
