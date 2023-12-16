@@ -83,6 +83,7 @@ public class ObjetoController {
 
         if(objGuardado != null) {
             objetos.remove(objGuardado.getId());
+            nextId.decrementAndGet();
             return new ResponseEntity<>(objGuardado, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
