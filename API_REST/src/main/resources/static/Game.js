@@ -1,10 +1,15 @@
 
+// Variables necesarias para realizar funciones con peticiones al servidor
 var peticionesServer = new PeticionesServidor();
 var textoObjetosRiddle = new Array(23);
 var textoObjetosWiggle = new Array(23);
+var textoRecords = new Array(5);
+var titulo;
+
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
+    vencido = false;
     tiempo = {
         minutos: '39',
         segundos: '59'
@@ -422,7 +427,7 @@ class SceneGame extends Phaser.Scene {
         this.down=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
                 
         // Método que crea las colisiones de las paredes
-        this.CrearColisionParedes();
+        //this.CrearColisionParedes();
         // Imagen del mapa
         this.add.image(400,300,'mapa').setScale(0.8);
         
@@ -993,6 +998,7 @@ class SceneGame extends Phaser.Scene {
         this.panelContraseña2 = this.add.image(200,300, 'cartel almacen 2').setScale(0.23);
         this.panelContraseña2.visible = false;
         //Slider Musica
+        /*
         var print2;
         this.rexUI.add.slider({
                 x: 200,
@@ -1013,6 +1019,7 @@ class SceneGame extends Phaser.Scene {
     
             })
             .layout();
+            */
 
         // Imágenes del puzle de los gatos
         this.puzleGatos1 = this.add.image(200, 300, 'puzle gatos 1').setScale(0.175);
@@ -1418,7 +1425,7 @@ class SceneGame extends Phaser.Scene {
         this.contraseña2 = this.add.text(180,315, '987', { fontSize: '24px', fill: '#ffffff' });
         this.contraseña2.setText('');
 
-        this.victoriaJuego = this.time.addEvent({ delay: 5000, callback: this.FinJuego, callbackScope: this})
+        this.victoriaJuego = this.time.addEvent({ delay: 15000, callback: this.FinJuego, callbackScope: this})
         this.victoriaJuego.paused = true;
         this.derrotaJuego = this.time.addEvent({ delay: 5000, callback: this.DerrotaFin, callbackScope: this})
         this.derrotaJuego.paused = true;
@@ -2423,6 +2430,23 @@ class SceneGame extends Phaser.Scene {
         // Imágenes de victoria y derrota
         this.victoria = this.add.image(400,300,'victoria');
         this.victoria.visible = false;
+        titulo = this.add.text(32, 15, '- Mejores tiempos -' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        titulo.setText('');
+        this.record1 = this.add.text(32, 65, 'Record1' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        textoRecords[0] = this.record1;
+        this.record1.setText('');
+        this.record2 = this.add.text(32, 95,'Record2' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        textoRecords[1] = this.record2;
+        this.record2.setText('');
+        this.record3 = this.add.text(32, 125,'Record3' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        textoRecords[2] = this.record3;
+        this.record3.setText('');
+        this.record4 = this.add.text(32, 155,'Record4' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        textoRecords[3] = this.record4;
+        this.record4.setText('');
+        this.record5 = this.add.text(32, 185,'Record5' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        textoRecords[4] = this.record5;
+        this.record5.setText('');
         this.derrota = this.add.image(400,300,'derrota');
         this.derrota.visible = false;
         
@@ -2457,7 +2481,7 @@ class SceneGame extends Phaser.Scene {
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
                 this.eventoContador.paused = false;
-                /*
+                
                 //CAMERA 1
                 this.camera1 = this.cameras.add(0, 0, 400, 800);
                 this.camera1.setZoom(3); // Ajusta el valor según sea necesario
@@ -2469,7 +2493,7 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                 this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                 this.camera2.startFollow(this.Riddle); 
-                */
+                
             }
         
         });
@@ -2480,8 +2504,8 @@ class SceneGame extends Phaser.Scene {
                 this.textoTemp.setScale(1);
             }
             else {
-                //this.textoTemp.x = this.camera1.scrollX + 150;
-                //this.textoTemp.y = this.camera1.scrollY + 280;
+                this.textoTemp.x = this.camera1.scrollX + 150;
+                this.textoTemp.y = this.camera1.scrollY + 280;
                 this.textoTemp.setScale(0.35);
             }
             this.textoTemp.setText('Tiempo restante: ' +this.tiempo.minutos + ':' +this.tiempo.segundos);
@@ -5131,7 +5155,9 @@ class SceneGame extends Phaser.Scene {
             this.camera2.setZoom(1); // Ajusta el valor según sea necesario
             this.camera2.stopFollow();
             this.camera2.centerOn(600, 400);
+            // Gestión de records con el servidor
             this.victoria.visible = true;
+            this.MostrarRecordsTiempo();
         }
 
         DerrotaFin() {
@@ -5334,6 +5360,68 @@ class SceneGame extends Phaser.Scene {
             this.camera1.setZoom(3); // Ajusta el valor según sea necesario
             this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
             this.camera1.startFollow(this.Wiggle);
+        }
+
+        MostrarRecordsTiempo() {
+            if(!this.vencido) {
+                this.vencido = true;
+                // Se envía el record actual al servidor
+                var record = {
+                    minutos : this.tiempo.minutos,
+                    segundos : this.tiempo.segundos
+                }
+                var recordsOrdenados = new Array(5);
+                peticionesServer.añadirRecordTiempo(record);
+                $.ajax({
+                    url: 'http://localhost:8080/tiempo'
+                }).done(function(records) {
+                    // El algoritmo se queda con 5 records ordenados de mejor a peor
+                    var indices = [-1, -1, -1, -1, -1];
+                    var indiceRecords = 0;
+                    while(indiceRecords<indices.length&&indiceRecords<records.length) {
+                        var indiceMayor = 0;
+                        var maximoMinutos = 0;
+                        var maximoSegundos = 0;
+                        for(var i=0; i<records.length; i++) {
+                            var encontrado = false;
+                            for(var j=0; j<indices.length; j++) {
+                                if(i==indices[j]) {
+                                    encontrado = true;
+                                }
+                            }
+                            if((records[i].minutos>maximoMinutos||(records[i].minutos==maximoMinutos&&records[i].segundos>maximoSegundos))&&!encontrado) {
+                                indiceMayor = i;
+                                maximoMinutos = records[i].minutos;
+                                maximoSegundos = records[i].segundos;
+                            }
+                        }
+                        recordsOrdenados[indiceRecords] = records[indiceMayor];
+                        indices[indiceRecords] = indiceMayor;
+                        indiceRecords++;
+                    }
+
+                    titulo.setText('- Mejores tiempos -');
+    
+                    // Después, se muestran esos records en la pantalla de victoria
+                    if(records.length>0) {
+                        textoRecords[0].setText('1- '+(39-recordsOrdenados[0].minutos)+ ' minutos y '+(60-recordsOrdenados[0].segundos)+ ' segundos');
+                        if(records.length>1) {
+                            textoRecords[1].setText('2- '+(39-recordsOrdenados[1].minutos)+ ' minutos y '+(60-recordsOrdenados[1].segundos)+ ' segundos');
+                            if(records.length>2) {
+                                textoRecords[2].setText('3- '+(39-recordsOrdenados[2].minutos)+ ' minutos y '+(60-recordsOrdenados[2].segundos)+ ' segundos');
+                                if(records.length>3) {
+                                    textoRecords[3].setText('4- '+(39-recordsOrdenados[3].minutos)+ ' minutos y '+(60-recordsOrdenados[3].segundos)+ ' segundos');
+                                    if(records.length>4) {
+                                        textoRecords[4].setText('5- '+(39-recordsOrdenados[4].minutos)+ ' minutos y '+(60-recordsOrdenados[4].segundos)+ ' segundos');
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                })
+            }
+
         }
 }
 export default SceneGame;

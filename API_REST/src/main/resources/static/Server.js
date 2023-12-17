@@ -44,4 +44,26 @@ class PeticionesServidor {
         })
     }
 
+    añadirRecordTiempo(tiempo) {
+        $.ajax({
+            method: "POST",
+            url: 'http://localhost:8080/tiempo',
+            data: JSON.stringify(tiempo),
+            processData: false,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        }).done(function (tiempo) {
+            console.log("Nuevo registro de tiempo: " + JSON.stringify(tiempo));
+        })
+    }
+
+    cargarRecordsTiempo() {
+        $.ajax({
+            url: 'http://localhost:8080/tiempo'
+        }).done(function(objetos) {
+            console.log('Objetos cargados: '+ JSON.stringify(objetos));
+        })
+    }
+
 }
