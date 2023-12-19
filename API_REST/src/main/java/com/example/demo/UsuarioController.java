@@ -36,13 +36,26 @@ public class UsuarioController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Usuario añadirUs(@RequestBody Usuario us) {
-        // Para obtener su identificador, se incrementa el id de la clase
-        long id = nextId.incrementAndGet();
-        us.setId(id);
-        // Se añade a la lista
-        usuarios.put(id, us);
+        //Comprobar que no se repiten los nombres de equipo 
+        Collection<Usuario> totalUsuarios = usuarios.values();
+        boolean error = false;
 
-        return us;
+        for (Usuario usuario : totalUsuarios) {
+           if(us.getNombreEquipo().equals(usuario.getNombreEquipo()))  {
+            error = true;
+           }
+        }
+
+        if(error == false){
+            // Para obtener su identificador, se incrementa el id de la clase
+            long id = nextId.incrementAndGet();
+            us.setId(id);
+            // Se añade a la lista
+            usuarios.put(id, us);
+            return us;
+        }
+
+        return null;
     }
 
     // Petición PUT para actualizar un Usuario de la lista

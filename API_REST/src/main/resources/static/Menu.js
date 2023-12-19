@@ -1,4 +1,5 @@
 var nombreUsuario;
+var peticionesServidor = new PeticionesServidor();
 function devolver_nombre_equipo (){
     return nombreUsuario;
 }
@@ -21,12 +22,14 @@ class SceneMenu extends Phaser.Scene {
         this.load.image('titlescreen', 'Assets/title screen 2.png');
         this.load.image('pointer', 'Assets/pointer.png');
         this.load.image('exit', 'Assets/Fondo_Black.jpg');
+        this.load.image('textbox1', 'Assets/textbox1.png')
 
     }
 
     create (data)
     {
         this.titlescreen = this.add.image(400, 300, 'titlescreen').setScale(0.58);
+        this.textbox1 = this.add.image(120,410,'textbox1').setScale(0.25,0.1);
 
         //this.pointer = this.add.image(110, 348, 'pointer').setScale(0.55);
         
@@ -111,6 +114,9 @@ class SceneMenu extends Phaser.Scene {
                 this.equipo = this.nombreEquipo.text;
                 nombreUsuario = this.nombreEquipo.text;
                 // Hacer una petición al servidor para comunicar el nombre del equipo
+                var objeto = {nombreEquipo : nombreUsuario}
+                peticionesServidor.añadirEquipo(objeto);
+                this.textbox1.visible = false;
                 this.titulo1.setText('');
                 this.titulo2.setText('');
                 this.nombreEquipo.setText('');

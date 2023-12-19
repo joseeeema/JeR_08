@@ -66,4 +66,22 @@ class PeticionesServidor {
         })
     }
 
+    añadirEquipo(equipo){
+        $.ajax({
+           method: "POST",
+           url: 'http://localhost:8080/usuarios',
+           data: JSON.stringify(equipo),
+           processData: false,
+           headers: {
+               "Content-Type": "application/json"
+           }
+        }).done(function(equipo){
+            console.log("Equipo registrado: "+ JSON.stringify(equipo));
+            if(equipo == ""){
+            console.log("Tu nombre ya ha sido previamente registrado")
+            console.log("¡Tu puntuación se guardará junto a las existentes con este nombre!")
+            window.alert("Tu nombre ya ha sido previamente registrado, ¡tu puntuación se guardará junto a las existentes con este nombre! ");
+            }
+        })
+    }
 }

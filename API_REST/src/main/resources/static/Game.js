@@ -2461,19 +2461,19 @@ class SceneGame extends Phaser.Scene {
         this.victoria.visible = false;
         titulo = this.add.text(32, 15, '- Mejores tiempos -' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         titulo.setText('');
-        this.record1 = this.add.text(32, 65, 'Record1' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        this.record1 = this.add.text(32, 65, 'Record1' ,{ fontSize: '18px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         textoRecords[0] = this.record1;
         this.record1.setText('');
-        this.record2 = this.add.text(32, 95,'Record2' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        this.record2 = this.add.text(32, 95,'Record2' ,{ fontSize: '18px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         textoRecords[1] = this.record2;
         this.record2.setText('');
-        this.record3 = this.add.text(32, 125,'Record3' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        this.record3 = this.add.text(32, 125,'Record3' ,{ fontSize: '18px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         textoRecords[2] = this.record3;
         this.record3.setText('');
-        this.record4 = this.add.text(32, 155,'Record4' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        this.record4 = this.add.text(32, 155,'Record4' ,{ fontSize: '18px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         textoRecords[3] = this.record4;
         this.record4.setText('');
-        this.record5 = this.add.text(32, 185,'Record5' ,{ fontSize: '20px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
+        this.record5 = this.add.text(32, 185,'Record5' ,{ fontSize: '18px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' });
         textoRecords[4] = this.record5;
         this.record5.setText('');
         this.derrota = this.add.image(400,300,'derrota');
@@ -5222,7 +5222,6 @@ class SceneGame extends Phaser.Scene {
             this.camera2.centerOn(600, 400);
             this.derrota.visible = true;
         }
-
         // Gestión de elementos con la API REST
         ReiniciarObjetos() {
             if(!this.reiniciado) {
@@ -5303,7 +5302,7 @@ class SceneGame extends Phaser.Scene {
             }).done(function(objetos) {
                 var indice = 0;
                 for(var i=0; i<objetos.length; i++) {
-                    if(objetos[i].jugador=="R") {
+                    if(objetos[i].jugador=="R" && nombreEquipo == equipo) {
                         textoObjetosRiddle[indice].setText(objetos[i].nombre);
                         indice++;
                     }
@@ -5388,7 +5387,7 @@ class SceneGame extends Phaser.Scene {
             }).done(function(objetos) {
                 var indice = 0;
                 for(var i=0; i<objetos.length; i++) {
-                    if(objetos[i].jugador=="W") {
+                    if(objetos[i].jugador=="W" && nombreEquipo == equipo) {
                         textoObjetosWiggle[indice].setText(objetos[i].nombre);
                         indice++;
                     }
@@ -5418,13 +5417,22 @@ class SceneGame extends Phaser.Scene {
                 // Se envía el record actual al servidor
                 var record = {
                     minutos : this.tiempo.minutos,
-                    segundos : this.tiempo.segundos
+                    segundos : this.tiempo.segundos,
+                    nombreEquipo : equipo
                 }
                 var recordsOrdenados = new Array(5);
                 peticionesServer.añadirRecordTiempo(record);
                 $.ajax({
                     url: 'http://localhost:8080/tiempo'
                 }).done(function(records) {
+                    var numRecordsEquipo = 0;
+
+                    for(var i = 0; i<records.length;i++){
+                        if(records.nombreEquipo == equipo){
+                            numRecordsEquipo++;
+                        }
+                    }
+
                     // El algoritmo se queda con 5 records ordenados de mejor a peor
                     var indices = [-1, -1, -1, -1, -1];
                     var indiceRecords = 0;
@@ -5439,7 +5447,7 @@ class SceneGame extends Phaser.Scene {
                                     encontrado = true;
                                 }
                             }
-                            if((records[i].minutos>maximoMinutos||(records[i].minutos==maximoMinutos&&records[i].segundos>maximoSegundos))&&!encontrado) {
+                            if(records.nombreEquipo == equipo &&(records[i].minutos>maximoMinutos||(records[i].minutos==maximoMinutos&&records[i].segundos>maximoSegundos))&&!encontrado) {
                                 indiceMayor = i;
                                 maximoMinutos = records[i].minutos;
                                 maximoSegundos = records[i].segundos;
@@ -5453,16 +5461,16 @@ class SceneGame extends Phaser.Scene {
                     titulo.setText('- Mejores tiempos -');
     
                     // Después, se muestran esos records en la pantalla de victoria
-                    if(records.length>0) {
-                        textoRecords[0].setText('1- '+(39-recordsOrdenados[0].minutos)+ ' minutos y '+(60-recordsOrdenados[0].segundos)+ ' segundos');
-                        if(records.length>1) {
-                            textoRecords[1].setText('2- '+(39-recordsOrdenados[1].minutos)+ ' minutos y '+(60-recordsOrdenados[1].segundos)+ ' segundos');
-                            if(records.length>2) {
-                                textoRecords[2].setText('3- '+(39-recordsOrdenados[2].minutos)+ ' minutos y '+(60-recordsOrdenados[2].segundos)+ ' segundos');
-                                if(records.length>3) {
-                                    textoRecords[3].setText('4- '+(39-recordsOrdenados[3].minutos)+ ' minutos y '+(60-recordsOrdenados[3].segundos)+ ' segundos');
-                                    if(records.length>4) {
-                                        textoRecords[4].setText('5- '+(39-recordsOrdenados[4].minutos)+ ' minutos y '+(60-recordsOrdenados[4].segundos)+ ' segundos');
+                    if(numRecordsEquipo>0) {
+                        textoRecords[0].setText('Equipo: '+equipo+' 1- '+(39-recordsOrdenados[0].minutos)+ ' minutos y '+(60-recordsOrdenados[0].segundos)+ ' segundos');
+                        if(numRecordsEquipo>1) {
+                            textoRecords[1].setText('Equipo: '+equipo+' 2- '+(39-recordsOrdenados[1].minutos)+ ' minutos y '+(60-recordsOrdenados[1].segundos)+ ' segundos');
+                            if(numRecordsEquipo>2) {
+                                textoRecords[2].setText('Equipo: '+equipo+' 3- '+(39-recordsOrdenados[2].minutos)+ ' minutos y '+(60-recordsOrdenados[2].segundos)+ ' segundos');
+                                if(numRecordsEquipo>3) {
+                                    textoRecords[3].setText('Equipo: '+equipo+' 4- '+(39-recordsOrdenados[3].minutos)+ ' minutos y '+(60-recordsOrdenados[3].segundos)+ ' segundos');
+                                    if(numRecordsEquipo>4) {
+                                        textoRecords[4].setText('Equipo: '+equipo+' 5- '+(39-recordsOrdenados[4].minutos)+ ' minutos y '+(60-recordsOrdenados[4].segundos)+ ' segundos');
                                     }
                                 }
                             }
