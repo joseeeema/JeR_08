@@ -6,6 +6,7 @@ public class Tiempo {
     private long minutos;
     private long segundos;
     private long id;
+    private Usuario usuario;
 
     public Tiempo(long minutos, long segundos, long id) {
         this.minutos = minutos;
@@ -37,9 +38,17 @@ public class Tiempo {
         this.segundos = segundos;
     }
 
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
     @Override
     public String toString() {
-        return "Tiempo [ minutos=" + minutos + ", segundos=" + segundos + "]";
+        return "Tiempo [ minutos=" + minutos + ", segundos=" + segundos + ", nombre de equipo = " + usuario.getNombreEquipo() + "]";
     }
 
 }

@@ -1,11 +1,11 @@
-
+import { devolver_nombre_equipo } from "./Menu.js";
 // Variables necesarias para realizar funciones con peticiones al servidor
 var peticionesServer = new PeticionesServidor();
 var textoObjetosRiddle = new Array(23);
 var textoObjetosWiggle = new Array(23);
 var textoRecords = new Array(5);
 var titulo;
-
+var equipo;
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
@@ -412,6 +412,7 @@ class SceneGame extends Phaser.Scene {
 
     create (data)
     {
+        equipo = devolver_nombre_equipo();
         this.ReiniciarObjetos();        
         this.backgroundMusic = this.sound.add("backgroundMusic", { loop: true });
         this.backgroundMusic.play();
@@ -1883,7 +1884,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Pitahayas");
                                 var objeto = {
                                     nombre: "Pitahayas",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1891,7 +1893,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Uvas");
                                 var objeto = {
                                     nombre: "Uvas",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1899,7 +1902,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Zumo de tomate");
                                 var objeto = {
                                     nombre: "Zumo de tomate",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1907,7 +1911,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Manzana");
                                 var objeto = {
                                     nombre: "Manzana",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1915,7 +1920,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Pomelo");
                                 var objeto = {
                                     nombre: "Pomelo",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1923,7 +1929,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Calabaza");
                                 var objeto = {
                                     nombre: "Calabaza",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1931,7 +1938,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Zumo de piña");
                                 var objeto = {
                                     nombre: "Zumo de piña",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1951,7 +1959,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Coco helado");
                                 var objeto = {
                                     nombre: "Coco helado",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1959,7 +1968,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Cerezas");
                                 var objeto = {
                                     nombre: "Cerezas",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1967,7 +1977,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Zumo de arandanos");
                                 var objeto = {
                                     nombre: "Zumo de arandanos",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1975,7 +1986,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Zumo de naranja");
                                 var objeto = {
                                     nombre: "Zumo de naranja",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1983,7 +1995,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Limon");
                                 var objeto = {
                                     nombre: "Limon",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1991,7 +2004,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Sandia");
                                 var objeto = {
                                     nombre: "Sandia",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -1999,7 +2013,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioRiddle.push("Melon");
                                 var objeto = {
                                     nombre: "Melon",
-                                    jugador: "R"
+                                    jugador: "R",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2019,7 +2034,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Pitahayas");
                                 var objeto = {
                                     nombre: "Pitahayas",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2027,7 +2043,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Uvas");
                                 var objeto = {
                                     nombre: "Uvas",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2035,7 +2052,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Zumo de tomate");
                                 var objeto = {
                                     nombre: "Zumo de tomate",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2043,7 +2061,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Manzana");
                                 var objeto = {
                                     nombre: "Manzana",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2051,7 +2070,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Pomelo");
                                 var objeto = {
                                     nombre: "Pomelo",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2059,7 +2079,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Calabaza");
                                 var objeto = {
                                     nombre: "Calabaza",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2067,7 +2088,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Zumo de piña");
                                 var objeto = {
                                     nombre: "Zumo de piña",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2088,7 +2110,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Coco helado");
                                 var objeto = {
                                     nombre: "Coco helado",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2096,7 +2119,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Cerezas");
                                 var objeto = {
                                     nombre: "Cerezas",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2104,7 +2128,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Zumo de arandanos");
                                 var objeto = {
                                     nombre: "Zumo de arandanos",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2112,7 +2137,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Zumo de naranja");
                                 var objeto = {
                                     nombre: "Zumo de naranja",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2120,7 +2146,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Limon");
                                 var objeto = {
                                     nombre: "Limon",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2128,7 +2155,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Sandia");
                                 var objeto = {
                                     nombre: "Sandia",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -2136,7 +2164,8 @@ class SceneGame extends Phaser.Scene {
                                 this.inventarioWiggle.push("Melon");
                                 var objeto = {
                                     nombre: "Melon",
-                                    jugador: "W"
+                                    jugador: "W",
+                                    nombreUsuario: equipo
                                 }
                                 peticionesServer.añadirObjeto(objeto);
                                 break;
@@ -3254,7 +3283,8 @@ class SceneGame extends Phaser.Scene {
                         this.inventarioRiddle.push("Fragmento de llave");
                         var objeto = {
                             nombre: "Fragmento de llave",
-                            jugador: "R"
+                            jugador: "R",
+                            nombreUsuario: equipo
                         }
                         peticionesServer.añadirObjeto(objeto);
                         this.fragmentoMesa = true;
@@ -3265,7 +3295,8 @@ class SceneGame extends Phaser.Scene {
                             this.inventarioRiddle.push("Llave jardines");
                             var objeto = {
                                 nombre: "Llave jardines",
-                                jugador: "R"
+                                jugador: "R",
+                                nombreUsuario: equipo
                             }
                             peticionesServer.añadirObjeto(objeto);
                         }
@@ -3279,7 +3310,8 @@ class SceneGame extends Phaser.Scene {
                         this.inventarioRiddle.push("Fragmento de llave");
                         var objeto = {
                             nombre: "Fragmento de llave",
-                            jugador: "R"
+                            jugador: "R",
+                            nombreUsuario: equipo
                         }
                         peticionesServer.añadirObjeto(objeto);
                         this.fragmentoCajones = true;
@@ -3290,7 +3322,8 @@ class SceneGame extends Phaser.Scene {
                             this.inventarioRiddle.push("Llave jardines");
                             var objeto = {
                                 nombre: "Llave jardines",
-                                jugador: "R"
+                                jugador: "R",
+                                nombreUsuario: equipo
                             }
                             peticionesServer.añadirObjeto(objeto);
                         }
@@ -3305,7 +3338,8 @@ class SceneGame extends Phaser.Scene {
                         this.inventarioRiddle.push("Fragmento de llave");
                         var objeto = {
                             nombre: "Fragmento de llave",
-                            jugador: "R"
+                            jugador: "R",
+                            nombreUsuario: equipo
                         }
                         peticionesServer.añadirObjeto(objeto);
                         this.fragmentoSuelo = true;
@@ -3316,7 +3350,8 @@ class SceneGame extends Phaser.Scene {
                             this.inventarioRiddle.push("Llave jardines");
                             var objeto = {
                                 nombre: "Llave jardines",
-                                jugador: "R"
+                                jugador: "R",
+                                nombreUsuario: equipo
                             }
                             peticionesServer.añadirObjeto(objeto);
                         }
@@ -3489,7 +3524,8 @@ class SceneGame extends Phaser.Scene {
                         this.inventarioRiddle.push("Candelabro");
                         var objeto = {
                             nombre: "Candelabro",
-                            jugador: "R"
+                            jugador: "R",
+                            nombreUsuario: equipo
                         }
                         peticionesServer.añadirObjeto(objeto);
                     }
@@ -3661,7 +3697,8 @@ class SceneGame extends Phaser.Scene {
                         this.inventarioWiggle.push("Fragmento de llave");
                         var objeto = {
                             nombre: "Fragmento de llave",
-                            jugador: "W"
+                            jugador: "W",
+                            nombreUsuario: equipo
                         }
                         peticionesServer.añadirObjeto(objeto);
                         this.fragmentoMesa = true;
@@ -3672,7 +3709,8 @@ class SceneGame extends Phaser.Scene {
                             this.inventarioWiggle.push("Llave jardines");
                             var objeto = {
                                 nombre: "Llave jardines",
-                                jugador: "W"
+                                jugador: "W",
+                                nombreUsuario: equipo
                             }
                             peticionesServer.añadirObjeto(objeto);
                         }
@@ -3686,7 +3724,8 @@ class SceneGame extends Phaser.Scene {
                         this.inventarioWiggle.push("Fragmento de llave");
                         var objeto = {
                             nombre: "Fragmento de llave",
-                            jugador: "W"
+                            jugador: "W",
+                            nombreUsuario: equipo
                         }
                         peticionesServer.añadirObjeto(objeto);
                         this.fragmentoCajones = true;
@@ -3697,7 +3736,8 @@ class SceneGame extends Phaser.Scene {
                             this.inventarioWiggle.push("Llave jardines");
                             var objeto = {
                                 nombre: "Llave jardines",
-                                jugador: "W"
+                                jugador: "W",
+                                nombreUsuario: equipo
                             }
                             peticionesServer.añadirObjeto(objeto);
                         }
@@ -3712,7 +3752,8 @@ class SceneGame extends Phaser.Scene {
                         this.inventarioWiggle.push("Fragmento de llave");
                         var objeto = {
                             nombre: "Fragmento de llave",
-                            jugador: "W"
+                            jugador: "W",
+                            nombreUsuario: equipo
                         }
                         peticionesServer.añadirObjeto(objeto);
                         this.fragmentoSuelo = true;
@@ -3723,7 +3764,8 @@ class SceneGame extends Phaser.Scene {
                             this.inventarioWiggle.push("Llave jardines");
                             var objeto = {
                                 nombre: "Llave jardines",
-                                jugador: "W"
+                                jugador: "W",
+                                nombreUsuario: equipo
                             }
                             peticionesServer.añadirObjeto(objeto);
                         }
@@ -3876,7 +3918,8 @@ class SceneGame extends Phaser.Scene {
                         this.inventarioWiggle.push("Candelabro");
                         var objeto = {
                             nombre: "Candelabro",
-                            jugador: "W"
+                            jugador: "W",
+                            nombreUsuario: equipo
                         }
                         peticionesServer.añadirObjeto(objeto);
                     }
@@ -4038,7 +4081,8 @@ class SceneGame extends Phaser.Scene {
                 this.inventarioWiggle.push("Llave habitación");
                 var objeto = {
                     nombre: "Llave habitación",
-                    jugador: "W"
+                    jugador: "W",
+                    nombreUsuario: equipo
                 }
                 peticionesServer.añadirObjeto(objeto);
                 this.resolucionMostradaPiano = true;
@@ -4241,13 +4285,15 @@ class SceneGame extends Phaser.Scene {
                 this.inventarioRiddle.push("Llave cocinas");
                 var objeto = {
                     nombre: "Llave cocinas",
-                    jugador: "R"
+                    jugador: "R",
+                    nombreUsuario: equipo
                 }
                 peticionesServer.añadirObjeto(objeto);
                 this.inventarioWiggle.push("Llave cocinas");
                 var objeto = {
                     nombre: "Llave cocinas",
-                    jugador: "W"
+                    jugador: "W",
+                    nombreUsuario: equipo
                 }
                 peticionesServer.añadirObjeto(objeto);
             }
@@ -4263,7 +4309,8 @@ class SceneGame extends Phaser.Scene {
                     this.inventarioRiddle.push("Llave baño");
                     var objeto = {
                         nombre: "Llave baño",
-                        jugador: "R"
+                        jugador: "R",
+                        nombreUsuario: equipo
                     }
                     peticionesServer.añadirObjeto(objeto);
                 }
@@ -4272,7 +4319,8 @@ class SceneGame extends Phaser.Scene {
                     this.inventarioWiggle.push("Llave baño");
                     var objeto = {
                         nombre: "Llave baño",
-                        jugador: "W"
+                        jugador: "W",
+                        nombreUsuario: equipo
                     }
                     peticionesServer.añadirObjeto(objeto);
                 }
@@ -4356,13 +4404,15 @@ class SceneGame extends Phaser.Scene {
                 this.inventarioWiggle.push("Candelabro");
                 var objeto = {
                     nombre: "Candelabro",
-                    jugador: "W"
+                    jugador: "W",
+                    nombreUsuario: equipo
                 }
                 peticionesServer.añadirObjeto(objeto);
                 this.inventarioRiddle.push("Candelabro");
                 var objeto = {
                     nombre: "Candelabro",
-                    jugador: "R"
+                    jugador: "R",
+                    nombreUsuario: equipo
                 }
                 peticionesServer.añadirObjeto(objeto);
             }

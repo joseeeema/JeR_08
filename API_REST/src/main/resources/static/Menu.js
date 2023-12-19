@@ -1,3 +1,9 @@
+var nombreUsuario;
+function devolver_nombre_equipo (){
+    return nombreUsuario;
+}
+export {devolver_nombre_equipo};
+
 class SceneMenu extends Phaser.Scene {
     wake = false;
     equipo;
@@ -103,6 +109,7 @@ class SceneMenu extends Phaser.Scene {
                 this.temporizadorIntento.paused = false;
                 this.nombreIntroducido = true;
                 this.equipo = this.nombreEquipo.text;
+                nombreUsuario = this.nombreEquipo.text;
                 // Hacer una petición al servidor para comunicar el nombre del equipo
                 this.titulo1.setText('');
                 this.titulo2.setText('');

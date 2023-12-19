@@ -5,10 +5,12 @@ public class Objeto {
     private long id;
     private String nombre;
     private char jugador;
+    private String nombreUsuario;
 
-    public Objeto(long id, String nombre, char jugador) {
+    public Objeto(long id, String nombre, char jugador, String nombreUsuario) {
         this.nombre = nombre;
         this.jugador = jugador;
+        this.nombreUsuario = nombreUsuario;
     }
 
     public long getId() {
@@ -35,9 +37,17 @@ public class Objeto {
         this.jugador = c;
     }
 
+     public String getUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
     @Override
     public String toString() {
-        return "Objeto [id=" + id + ", nombre=" + nombre + ", jugador=" + jugador + "]";
+        return "Objeto [id=" + id + ", nombre=" + nombre + ", jugador=" + jugador + ", nombre de equipo = " + nombreUsuario + "]";
     }
 
 }
