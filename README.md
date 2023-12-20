@@ -657,4 +657,11 @@ que está jugando, se ordenan de mejor a peor y se queda con los 5 mejores.
 Se ha gestionado que haya persistencia de estos datos mediante ficheros .dat, en el caso del historial de equipos y los records de tiempo, ya que, en el caso
 de los inventarios no tiene mucho sentido.
 
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/AssetsGDD/Diagrama%20de%20clases.png)
+
+**13.3 Instrucciones para ejecutar la aplicación**
+
+Para ejecutar el servidor correctamente, se debe abrir la carpeta API REST desde un editor de código y seleccionar "Run Java Application". Después, con localhost:8080 en el navegador debería aparecer el juego.
+
+
 
