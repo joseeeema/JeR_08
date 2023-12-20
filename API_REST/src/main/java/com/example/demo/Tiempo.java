@@ -12,6 +12,7 @@ public class Tiempo {
         this.minutos = minutos;
         this.segundos = segundos;
         this.id = id;
+        this.nombreEquipo = nombreEquipo;
     }
 
     public long getId() {

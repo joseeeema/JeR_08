@@ -1,6 +1,8 @@
 package com.example.demo;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
     private long id;
     private String nombreEquipo;
 

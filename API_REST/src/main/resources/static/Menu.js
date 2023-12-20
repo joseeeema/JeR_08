@@ -4,6 +4,10 @@ function devolver_nombre_equipo (){
     return nombreUsuario;
 }
 export {devolver_nombre_equipo};
+function devolver_IP() {
+    return location.host;
+}
+export {devolver_IP};
 
 class SceneMenu extends Phaser.Scene {
     wake = false;
@@ -115,7 +119,7 @@ class SceneMenu extends Phaser.Scene {
                 nombreUsuario = this.nombreEquipo.text;
                 // Hacer una petición al servidor para comunicar el nombre del equipo
                 var objeto = {nombreEquipo : nombreUsuario}
-                peticionesServidor.añadirEquipo(objeto);
+                peticionesServidor.añadirEquipo(objeto, devolver_IP());
                 this.textbox1.visible = false;
                 this.titulo1.setText('');
                 this.titulo2.setText('');

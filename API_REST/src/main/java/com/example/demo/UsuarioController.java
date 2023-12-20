@@ -1,5 +1,13 @@
 package com.example.demo;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,14 +43,42 @@ public class UsuarioController {
     // Petición POST para añadir el Usuario a la lista
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Usuario añadirUs(@RequestBody Usuario us) {
+    public Usuario añadirUs(@RequestBody Usuario us) throws FileNotFoundException {
         //Comprobar que no se repiten los nombres de equipo 
         Collection<Usuario> totalUsuarios = usuarios.values();
         boolean error = false;
 
         for (Usuario usuario : totalUsuarios) {
            if(us.getNombreEquipo().equals(usuario.getNombreEquipo()))  {
-            error = true;
+                error = true;
+           }
+        }
+        
+        // Se comprueba además que el nombre de equipo no esté presente en el fichero
+        // Para ello, primero se leen los usuarios del fichero
+        Usuario[] usuariosFichero = new Usuario[1000];
+        int i=0;
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("usuarios.dat"))) {
+            while (true) {
+                try {
+                    Usuario usuario = (Usuario) in.readObject();
+                    if(usuario!=null) {
+                        usuariosFichero[i] = usuario;
+                        i++;
+                    }
+                } catch (EOFException e) {
+                    // Se lanza cuando se llega al final del archivo
+                    break;
+                }
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+            
+        // Se comprueba si se repite el nombre de equipo respecto a los del fichero
+        for (Usuario usuario : usuariosFichero) {
+           if(usuario != null && us.getNombreEquipo().equals(usuario.getNombreEquipo()))  {
+                error = true;
            }
         }
 
@@ -52,6 +88,16 @@ public class UsuarioController {
             us.setId(id);
             // Se añade a la lista
             usuarios.put(id, us);
+            // Se escribe el objeto usuario en el fichero binario usuarios.dat             
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("usuarios.dat"))) {
+                for (Usuario usuario : usuariosFichero) {
+                     out.writeObject(usuario);
+                }
+                out.writeObject(us);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
             return us;
         }
 

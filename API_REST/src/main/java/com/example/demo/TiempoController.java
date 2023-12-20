@@ -1,5 +1,11 @@
 package com.example.demo;
 
+import java.io.EOFException;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,20 +34,78 @@ public class TiempoController {
 
         // Petición GET para todos los tiempo que haya en la lista, no se especifica ninguno en concreto
         @GetMapping
-        public Collection<Tiempo> tiempo() {
-            return tiempo.values();
+        public Tiempo[] tiempo() {
+
+            Tiempo[] recordsFichero = new Tiempo[1000];
+            int i=0;
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("records.dat"))) {
+                while (true) {
+                    try {
+                        Tiempo record = (Tiempo) in.readObject();
+                        if(record!=null) {
+                            recordsFichero[i] = record;
+                            i++;
+                        }
+                    } catch (EOFException e) {
+                        // Se lanza cuando se llega al final del archivo
+                        break;
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            int k = 0;
+
+            for(int j=0; j<recordsFichero.length && k<tiempo.values().size(); j++) {
+                if(recordsFichero[j]==null) {
+                    recordsFichero[j] = (Tiempo) tiempo.values().toArray()[k];
+                    k++;
+                }
+            }
+
+            return recordsFichero;
         }
     
         // Petición POST para añadir el tiempo a la lista
         @PostMapping
         @ResponseStatus(HttpStatus.CREATED)
         public Tiempo añadirTiempo(@RequestBody Tiempo tmp) {
-            // Para obtener su identificador, se incrementa el id de la clase
+
+            // Para ello, primero se leen todos los records del fichero para no sobreescribirlos
+            Tiempo[] recordsFichero = new Tiempo[1000];
+            int i=0;
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("records.dat"))) {
+                while (true) {
+                    try {
+                        Tiempo record = (Tiempo) in.readObject();
+                        if(record!=null) {
+                            recordsFichero[i] = record;
+                            i++;
+                        }
+                    } catch (EOFException e) {
+                        // Se lanza cuando se llega al final del archivo
+                        break;
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
             long id = nextId.incrementAndGet();
             tmp.setId(id);
             // Se añade a la lista
             tiempo.put(id, tmp);
-    
+
+            // Se escriben todos los records en el fichero            
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("records.dat"))) {
+                for (Tiempo record : recordsFichero) {
+                     out.writeObject(record);
+                }
+                out.writeObject(tmp);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }    
             return tmp;
         }
     

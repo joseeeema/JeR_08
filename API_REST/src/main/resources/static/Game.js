@@ -1,4 +1,5 @@
 import { devolver_nombre_equipo } from "./Menu.js";
+import { devolver_IP } from "./Menu.js";
 // Variables necesarias para realizar funciones con peticiones al servidor
 var peticionesServer = new PeticionesServidor();
 var textoObjetosRiddle = new Array(23);
@@ -428,7 +429,7 @@ class SceneGame extends Phaser.Scene {
         this.down=this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S)
                 
         // Método que crea las colisiones de las paredes
-        //this.CrearColisionParedes();
+        this.CrearColisionParedes();
         // Imagen del mapa
         this.add.image(400,300,'mapa').setScale(0.8);
         
@@ -1887,7 +1888,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '2':
                                 this.inventarioRiddle.push("Uvas");
@@ -1896,7 +1897,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '3':
                                 this.inventarioRiddle.push("Zumo de tomate");
@@ -1905,7 +1906,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '4':
                                 this.inventarioRiddle.push("Manzana");
@@ -1914,7 +1915,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '5':
                                 this.inventarioRiddle.push("Pomelo");
@@ -1923,7 +1924,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '6':
                                 this.inventarioRiddle.push("Calabaza");
@@ -1932,7 +1933,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '7':
                                 this.inventarioRiddle.push("Zumo de piña");
@@ -1941,7 +1942,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                         }
                     }
@@ -1962,7 +1963,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '2':
                                 this.inventarioRiddle.push("Cerezas");
@@ -1971,7 +1972,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '3':
                                 this.inventarioRiddle.push("Zumo de arandanos");
@@ -1980,7 +1981,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '4':
                                 this.inventarioRiddle.push("Zumo de naranja");
@@ -1989,7 +1990,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '5':
                                 this.inventarioRiddle.push("Limon");
@@ -1998,7 +1999,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '6':
                                 this.inventarioRiddle.push("Sandia");
@@ -2007,7 +2008,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '7':
                                 this.inventarioRiddle.push("Melon");
@@ -2016,7 +2017,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "R",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                         }
                     }
@@ -2037,7 +2038,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '2':
                                 this.inventarioWiggle.push("Uvas");
@@ -2046,7 +2047,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '3':
                                 this.inventarioWiggle.push("Zumo de tomate");
@@ -2055,7 +2056,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '4':
                                 this.inventarioWiggle.push("Manzana");
@@ -2064,7 +2065,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '5':
                                 this.inventarioWiggle.push("Pomelo");
@@ -2073,7 +2074,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '6':
                                 this.inventarioWiggle.push("Calabaza");
@@ -2082,7 +2083,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '7':
                                 this.inventarioWiggle.push("Zumo de piña");
@@ -2091,7 +2092,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                         }
                     }
@@ -2113,7 +2114,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '2':
                                 this.inventarioWiggle.push("Cerezas");
@@ -2122,7 +2123,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '3':
                                 this.inventarioWiggle.push("Zumo de arandanos");
@@ -2131,7 +2132,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '4':
                                 this.inventarioWiggle.push("Zumo de naranja");
@@ -2140,7 +2141,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '5':
                                 this.inventarioWiggle.push("Limon");
@@ -2149,7 +2150,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '6':
                                 this.inventarioWiggle.push("Sandia");
@@ -2158,7 +2159,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                             case '7':
                                 this.inventarioWiggle.push("Melon");
@@ -2167,7 +2168,7 @@ class SceneGame extends Phaser.Scene {
                                     jugador: "W",
                                     nombreUsuario: equipo
                                 }
-                                peticionesServer.añadirObjeto(objeto);
+                                peticionesServer.añadirObjeto(objeto, devolver_IP());
                                 break;
                         }
                     }
@@ -3286,7 +3287,7 @@ class SceneGame extends Phaser.Scene {
                             jugador: "R",
                             nombreUsuario: equipo
                         }
-                        peticionesServer.añadirObjeto(objeto);
+                        peticionesServer.añadirObjeto(objeto, devolver_IP());
                         this.fragmentoMesa = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
@@ -3298,7 +3299,7 @@ class SceneGame extends Phaser.Scene {
                                 jugador: "R",
                                 nombreUsuario: equipo
                             }
-                            peticionesServer.añadirObjeto(objeto);
+                            peticionesServer.añadirObjeto(objeto, devolver_IP());
                         }
                         else {
                             frase = "¡Anda! Debajo de la mesa había un fragmento de llave";
@@ -3313,7 +3314,7 @@ class SceneGame extends Phaser.Scene {
                             jugador: "R",
                             nombreUsuario: equipo
                         }
-                        peticionesServer.añadirObjeto(objeto);
+                        peticionesServer.añadirObjeto(objeto, devolver_IP());
                         this.fragmentoCajones = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
@@ -3325,7 +3326,7 @@ class SceneGame extends Phaser.Scene {
                                 jugador: "R",
                                 nombreUsuario: equipo
                             }
-                            peticionesServer.añadirObjeto(objeto);
+                            peticionesServer.añadirObjeto(objeto, devolver_IP());
                         }
                         else {
                             frase = "Entre los cajones he encontrado un fragmento de llave";
@@ -3341,7 +3342,7 @@ class SceneGame extends Phaser.Scene {
                             jugador: "R",
                             nombreUsuario: equipo
                         }
-                        peticionesServer.añadirObjeto(objeto);
+                        peticionesServer.añadirObjeto(objeto, devolver_IP());
                         this.fragmentoSuelo = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
@@ -3353,7 +3354,7 @@ class SceneGame extends Phaser.Scene {
                                 jugador: "R",
                                 nombreUsuario: equipo
                             }
-                            peticionesServer.añadirObjeto(objeto);
+                            peticionesServer.añadirObjeto(objeto, devolver_IP());
                         }
                         else {
                             frase = "Esto parece un fragmento de llave. Si consigo otros dos más podré formar una.";
@@ -3527,7 +3528,7 @@ class SceneGame extends Phaser.Scene {
                             jugador: "R",
                             nombreUsuario: equipo
                         }
-                        peticionesServer.añadirObjeto(objeto);
+                        peticionesServer.añadirObjeto(objeto, devolver_IP());
                     }
                     if(objeto === "comodaGatos") {
                         var frase;
@@ -3700,7 +3701,7 @@ class SceneGame extends Phaser.Scene {
                             jugador: "W",
                             nombreUsuario: equipo
                         }
-                        peticionesServer.añadirObjeto(objeto);
+                        peticionesServer.añadirObjeto(objeto, devolver_IP());
                         this.fragmentoMesa = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
@@ -3712,7 +3713,7 @@ class SceneGame extends Phaser.Scene {
                                 jugador: "W",
                                 nombreUsuario: equipo
                             }
-                            peticionesServer.añadirObjeto(objeto);
+                            peticionesServer.añadirObjeto(objeto, devolver_IP());
                         }
                         else {
                             frase = "¡Anda! Debajo de la mesa había un fragmento de llave";
@@ -3727,7 +3728,7 @@ class SceneGame extends Phaser.Scene {
                             jugador: "W",
                             nombreUsuario: equipo
                         }
-                        peticionesServer.añadirObjeto(objeto);
+                        peticionesServer.añadirObjeto(objeto, devolver_IP());
                         this.fragmentoCajones = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
@@ -3739,7 +3740,7 @@ class SceneGame extends Phaser.Scene {
                                 jugador: "W",
                                 nombreUsuario: equipo
                             }
-                            peticionesServer.añadirObjeto(objeto);
+                            peticionesServer.añadirObjeto(objeto, devolver_IP());
                         }
                         else {
                             frase = "Entre los cajones he encontrado un fragmento de llave";
@@ -3755,7 +3756,7 @@ class SceneGame extends Phaser.Scene {
                             jugador: "W",
                             nombreUsuario: equipo
                         }
-                        peticionesServer.añadirObjeto(objeto);
+                        peticionesServer.añadirObjeto(objeto, devolver_IP());
                         this.fragmentoSuelo = true;
                         var frase;
                         if(this.numeroFragmentosLlave==3) {
@@ -3767,7 +3768,7 @@ class SceneGame extends Phaser.Scene {
                                 jugador: "W",
                                 nombreUsuario: equipo
                             }
-                            peticionesServer.añadirObjeto(objeto);
+                            peticionesServer.añadirObjeto(objeto, devolver_IP());
                         }
                         else {
                             frase = "Esto parece un fragmento de llave. Si consigo más podré formar una completa.";
@@ -3921,7 +3922,7 @@ class SceneGame extends Phaser.Scene {
                             jugador: "W",
                             nombreUsuario: equipo
                         }
-                        peticionesServer.añadirObjeto(objeto);
+                        peticionesServer.añadirObjeto(objeto, devolver_IP());
                     }
                     if(objeto === "comodaGatos") {
                         var frase;
@@ -4084,7 +4085,7 @@ class SceneGame extends Phaser.Scene {
                     jugador: "W",
                     nombreUsuario: equipo
                 }
-                peticionesServer.añadirObjeto(objeto);
+                peticionesServer.añadirObjeto(objeto, devolver_IP());
                 this.resolucionMostradaPiano = true;
             }
         }
@@ -4288,14 +4289,14 @@ class SceneGame extends Phaser.Scene {
                     jugador: "R",
                     nombreUsuario: equipo
                 }
-                peticionesServer.añadirObjeto(objeto);
+                peticionesServer.añadirObjeto(objeto, devolver_IP());
                 this.inventarioWiggle.push("Llave cocinas");
                 var objeto = {
                     nombre: "Llave cocinas",
                     jugador: "W",
                     nombreUsuario: equipo
                 }
-                peticionesServer.añadirObjeto(objeto);
+                peticionesServer.añadirObjeto(objeto, devolver_IP());
             }
         }
 
@@ -4312,7 +4313,7 @@ class SceneGame extends Phaser.Scene {
                         jugador: "R",
                         nombreUsuario: equipo
                     }
-                    peticionesServer.añadirObjeto(objeto);
+                    peticionesServer.añadirObjeto(objeto, devolver_IP());
                 }
                 if(this.resuelveFogones==="W") {
                     this.MostrarTexto2(frase);
@@ -4322,7 +4323,7 @@ class SceneGame extends Phaser.Scene {
                         jugador: "W",
                         nombreUsuario: equipo
                     }
-                    peticionesServer.añadirObjeto(objeto);
+                    peticionesServer.añadirObjeto(objeto, devolver_IP());
                 }
             }
         }
@@ -4407,14 +4408,14 @@ class SceneGame extends Phaser.Scene {
                     jugador: "W",
                     nombreUsuario: equipo
                 }
-                peticionesServer.añadirObjeto(objeto);
+                peticionesServer.añadirObjeto(objeto, devolver_IP());
                 this.inventarioRiddle.push("Candelabro");
                 var objeto = {
                     nombre: "Candelabro",
                     jugador: "R",
                     nombreUsuario: equipo
                 }
-                peticionesServer.añadirObjeto(objeto);
+                peticionesServer.añadirObjeto(objeto, devolver_IP());
             }
         }
         PrepararVelasRiddle() {
@@ -5228,14 +5229,16 @@ class SceneGame extends Phaser.Scene {
                 // Se obtiene la longitud de los objetos
                 var longitud = 0;
                 $.ajax({
-                    url: 'http://localhost:8080/objetos'
+                    url: 'http://'+devolver_IP()+'/objetos'
                 }).done(function(objetos) {
                     console.log('Objetos cargados: '+ JSON.stringify(objetos));
                     longitud = objetos.length;
                     // Se eliminan los objetos por su identificador
                     for(var i=0; i<longitud; i++) {
-                        peticionesServer.destruirObjeto(i+1);
+                        peticionesServer.destruirObjeto(i+1, devolver_IP());
                     }
+                }).fail(function() {
+                    console.log('ERROR de conexión, los datos no se podrán almacenar en el servidor.');       
                 })
                 this.reiniciado = true;
             }
@@ -5298,15 +5301,19 @@ class SceneGame extends Phaser.Scene {
             }
             this.inventarioRiddleImg.visible = true;
             $.ajax({
-                url: 'http://localhost:8080/objetos'
+                url: 'http://'+devolver_IP()+'/objetos'
             }).done(function(objetos) {
                 var indice = 0;
                 for(var i=0; i<objetos.length; i++) {
-                    if(objetos[i].jugador=="R" && nombreEquipo == equipo) {
-                        textoObjetosRiddle[indice].setText(objetos[i].nombre);
-                        indice++;
+                    if(objetos[i]!=null) {         
+                        if(objetos[i].jugador=="R" && objetos[i].nombreEquipo == equipo) {
+                            textoObjetosRiddle[indice].setText(objetos[i].nombre);
+                            indice++;
+                        }
                     }
                 }
+            }).fail(function() {
+                console.log('ERROR de conexión, los datos no se podrán almacenar en el servidor.');       
             })
         }
 
@@ -5383,15 +5390,19 @@ class SceneGame extends Phaser.Scene {
             }
             this.inventarioWiggleImg.visible = true;
             $.ajax({
-                url: 'http://localhost:8080/objetos'
+                url: 'http://'+devolver_IP()+'/objetos'
             }).done(function(objetos) {
                 var indice = 0;
                 for(var i=0; i<objetos.length; i++) {
-                    if(objetos[i].jugador=="W" && nombreEquipo == equipo) {
-                        textoObjetosWiggle[indice].setText(objetos[i].nombre);
-                        indice++;
+                    if(objetos[i]!=null) {                      
+                        if(objetos[i].jugador=="W" && objetos[i].nombreEquipo == equipo) {
+                            textoObjetosWiggle[indice].setText(objetos[i].nombre);
+                            indice++;
+                        }
                     }
                 }
+            }).fail(function() {
+                console.log('ERROR de conexión, los datos no se podrán almacenar en el servidor.');       
             })
         }
 
@@ -5421,15 +5432,17 @@ class SceneGame extends Phaser.Scene {
                     nombreEquipo : equipo
                 }
                 var recordsOrdenados = new Array(5);
-                peticionesServer.añadirRecordTiempo(record);
+                peticionesServer.añadirRecordTiempo(record, devolver_IP());
                 $.ajax({
-                    url: 'http://localhost:8080/tiempo'
+                    url: 'http://'+devolver_IP()+'/tiempo'
                 }).done(function(records) {
                     var numRecordsEquipo = 0;
 
                     for(var i = 0; i<records.length;i++){
-                        if(records.nombreEquipo == equipo){
-                            numRecordsEquipo++;
+                        if(records[i]!=null) {
+                            if(records[i].nombreEquipo == equipo){
+                                numRecordsEquipo++;
+                            }
                         }
                     }
 
@@ -5447,10 +5460,12 @@ class SceneGame extends Phaser.Scene {
                                     encontrado = true;
                                 }
                             }
-                            if(records.nombreEquipo == equipo &&(records[i].minutos>maximoMinutos||(records[i].minutos==maximoMinutos&&records[i].segundos>maximoSegundos))&&!encontrado) {
-                                indiceMayor = i;
-                                maximoMinutos = records[i].minutos;
-                                maximoSegundos = records[i].segundos;
+                            if(records[i]!=null) {
+                                if(records[i].nombreEquipo == equipo &&(records[i].minutos>maximoMinutos||(records[i].minutos==maximoMinutos&&records[i].segundos>maximoSegundos))&&!encontrado) {
+                                    indiceMayor = i;
+                                    maximoMinutos = records[i].minutos;
+                                    maximoSegundos = records[i].segundos;
+                                }
                             }
                         }
                         recordsOrdenados[indiceRecords] = records[indiceMayor];
@@ -5458,25 +5473,27 @@ class SceneGame extends Phaser.Scene {
                         indiceRecords++;
                     }
 
-                    titulo.setText('- Mejores tiempos -');
+                    titulo.setText('- Mejores tiempos del equipo 1-');
     
                     // Después, se muestran esos records en la pantalla de victoria
                     if(numRecordsEquipo>0) {
-                        textoRecords[0].setText('Equipo: '+equipo+' 1- '+(39-recordsOrdenados[0].minutos)+ ' minutos y '+(60-recordsOrdenados[0].segundos)+ ' segundos');
+                        textoRecords[0].setText(' 1- '+(39-recordsOrdenados[0].minutos)+ ' minutos y '+(60-recordsOrdenados[0].segundos)+ ' segundos');
                         if(numRecordsEquipo>1) {
-                            textoRecords[1].setText('Equipo: '+equipo+' 2- '+(39-recordsOrdenados[1].minutos)+ ' minutos y '+(60-recordsOrdenados[1].segundos)+ ' segundos');
+                            textoRecords[1].setText(' 2- '+(39-recordsOrdenados[1].minutos)+ ' minutos y '+(60-recordsOrdenados[1].segundos)+ ' segundos');
                             if(numRecordsEquipo>2) {
-                                textoRecords[2].setText('Equipo: '+equipo+' 3- '+(39-recordsOrdenados[2].minutos)+ ' minutos y '+(60-recordsOrdenados[2].segundos)+ ' segundos');
+                                textoRecords[2].setText(' 3- '+(39-recordsOrdenados[2].minutos)+ ' minutos y '+(60-recordsOrdenados[2].segundos)+ ' segundos');
                                 if(numRecordsEquipo>3) {
-                                    textoRecords[3].setText('Equipo: '+equipo+' 4- '+(39-recordsOrdenados[3].minutos)+ ' minutos y '+(60-recordsOrdenados[3].segundos)+ ' segundos');
+                                    textoRecords[3].setText(' 4- '+(39-recordsOrdenados[3].minutos)+ ' minutos y '+(60-recordsOrdenados[3].segundos)+ ' segundos');
                                     if(numRecordsEquipo>4) {
-                                        textoRecords[4].setText('Equipo: '+equipo+' 5- '+(39-recordsOrdenados[4].minutos)+ ' minutos y '+(60-recordsOrdenados[4].segundos)+ ' segundos');
+                                        textoRecords[4].setText(' 5- '+(39-recordsOrdenados[4].minutos)+ ' minutos y '+(60-recordsOrdenados[4].segundos)+ ' segundos');
                                     }
                                 }
                             }
                         }
                     }
 
+                }).fail(function() {
+                    console.log('ERROR de conexión, los datos no se podrán almacenar en el servidor.');       
                 })
             }
 
