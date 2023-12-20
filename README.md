@@ -590,34 +590,34 @@ Los efectos de sonido van a  depender de las acciones del jugador, ya sea andar,
 
 **12.1 Pantallas**
 
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/title%20screen%202.png)
+![Image text](https://github.com/joseeeema/JeR_08/tree/main/API_REST/src/main/resources/static/Assets/title%20screen%202.png)
 
 *Figura 32 - Menú principal*
 
 **Menú principal:** Se tuvo en cuenta el diseño de la fase anterior, pero una modificación fue colocar el texto de las opciones en Phaser directamente en lugar de en la imagen para tener mayor precisión al seleccionarlas con el puntero.
 
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/introduction1.png)
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/introduction2.jpg)
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/introduction3.png)
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/introduction4.png)
+![Image text](https://github.com/joseeeema/JeR_08/tree/main/API_REST/src/main/resources/static/Assets/introduction2.jpg)
+![Image text](https://github.com/joseeeema/JeR_08/tree/main/API_REST/src/main/resources/static/Assets/introduction2.jpg)
+![Image text](https://github.com/joseeeema/JeR_08/tree/main/API_REST/src/main/resources/static/Assets/introduction3.png)
+![Image text](https://github.com/joseeeema/JeR_08/tree/main/API_REST/src/main/resources/static/Assets/introduction4.png)
 
 *Figura 33 - Pantallas de introducción*
 
 **Pantallas de introducción:** Se diseñaron con el fin de contar brevemente la historia del juego y explicar como utilizar las mecánicas básicas del videojuego.
 
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/Gameplay.png)
+![Image text](https://github.com/joseeeema/JeR_08/tree/main/API_REST/src/main/resources/static/Assets/Gameplay.png)
 
 *Figura 34 - Pantalla del juego*
 
 **Pantalla del juego:** Dos cámaras que enfocan a Wiggle y Riddle con una división clara en el medio.
 
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/victory.png)
+![Image text](https://github.com/joseeeema/JeR_08/tree/main/API_REST/src/main/resources/static/Assets/victory.png)
 
 *Figura 35 - Pantalla de victoria*
 
 **Pantalla de victoria:** Pantalla mostrada tras completar el último puzzle y ganar. Se quería representar el escape de Riddle y Wiggle de las casas encantadas.
 
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/GameOver.png)
+![Image text](https://github.com/joseeeema/JeR_08/tree/main/API_REST/src/main/resources/static/Assets/GameOver.png)
 
 *Figura 36 - Pantalla de derrota*
 
@@ -625,7 +625,7 @@ Los efectos de sonido van a  depender de las acciones del jugador, ya sea andar,
 
 **12.2 Diagrama de navegación**
 
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/Riddle%20&%20Wiggle%20Juego/Assets/Tablero_en_blanco.png)
+![Image text](https://github.com/joseeeema/JeR_08/tree/main/API_REST/src/main/resources/static/Assets/Tablero_en_blanco.png)
 
 *Figura 37 - Diagrama de navegación*
 
