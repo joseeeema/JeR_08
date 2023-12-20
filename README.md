@@ -633,3 +633,28 @@ Los efectos de sonido van a  depender de las acciones del jugador, ya sea andar,
 
 Para el desarrollo de esta fase, se han llevado a cabo una serie de simplificaciones respecto al documento original, debido a decisiones de diseño y a ajustarse a la fecha de entrega. Se ha suprimido el puzle número 7, ya que se ha prescindido de la habitación del almacén en el diseño del mapa. Además, no se han implementado elementos de interfaz del juego principal, como el inventario o el menú de pausa, quedando únicamente un contador de tiempo en el que se indica lo que les queda a los jugadores para poder superar el juego. El resto de puzles y mecánicas han sido incluidas casi en su totalidad.
 
+**13. MODIFICACIONES FASE 3**
+
+**13.1 Diagrama de navegación**
+
+Para esta fase, no se han implementado nuevas escenas o pantallas, por lo que el diagrama de navegación se mantiene respecto a la fase 2.
+
+**13.2 Diagrama de clases y API REST**
+
+A continuación se presenta el diagrama de clases .java que se han implementado en el servidor, para las siguientes funcionalidades:
+- Historial de equipos. Se ha añadido que al iniciar el juego la pareja de jugadores introduzca un nombre de equipo, el cual se comunica
+al servidor y se añade con un POST. Si dicho nombre de equipo ya ha sido introducido previamente, se avisa a los jugadores de que su puntuación
+(tiempo que tarden en completar en juego) se almacenará junto a las anteriores.
+
+- Objetos e inventario. Se ha gestionado que los objetos que obtienen ambos jugadores en la partida, se comunican al servidor mediante POST,
+para, en un futuro, gestionar que no se encuentren de forma simultánea en ambos escenarios. Se pueden consultar los inventarios de los personajes
+mediante las teclas M y Z respectivamente en cualquier momento de la partida, obteniendo los objetos del servidor mediante un GET.
+
+- Récords de tiempo. Se ha implementado la funcionalidad encargada de mostrar por pantalla en la escena de victoria un ranking de los mejores 5 tiempos
+que ha hecho cada equipo, identificado por su nombre. Esto se ha llevado a cabo mediante POST y GET. Una vez obtenidos los tiempos realizados por el equipo
+que está jugando, se ordenan de mejor a peor y se queda con los 5 mejores.
+
+Se ha gestionado que haya persistencia de estos datos mediante ficheros .dat, en el caso del historial de equipos y los records de tiempo, ya que, en el caso
+de los inventarios no tiene mucho sentido.
+
+
