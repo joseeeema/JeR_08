@@ -290,6 +290,7 @@ class SceneGame extends Phaser.Scene {
     intermedioDemo1;
     intermedioDemo2;
     continuarDemo = false;
+    puzlesSaltados = false;
 
 
     constructor ()
@@ -2546,10 +2547,10 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.startFollow(this.Riddle); 
                 
             }
-            if(this.intermedioDemo1.visible&&this.juegoDemo) {
+            if(this.intermedioDemo1.visible&&this.continuarDemo) {
                 this.intermedioDemo1.visible = false;
                 this.intermedioDemo2.visible = true;
-                this.juegoDemo = false;
+                this.continuarDemo = false;
                 this.eventoDemo = this.time.addEvent({
                     delay: 3000,
                     loop: false,
@@ -3273,8 +3274,9 @@ class SceneGame extends Phaser.Scene {
         // Se le añade de nuevo el evento para que pueda volver a suceder
         this.eventoTiempo = this.time.addEvent({ delay: this.tiempoTexto, callback: this.DesaparecerCuadro, callbackScope: this});
         this.eventoTiempo.paused = true;
-        if(this.juegoDemo) {
+        if(this.juegoDemo && !this.puzlesSaltados) {
             this.PrepararDemo();
+            this.puzlesSaltados = true;
         }
     }
 
@@ -3303,7 +3305,7 @@ class SceneGame extends Phaser.Scene {
                         this.MostrarTexto(frase);
                         this.inicioAbarrotado = true;
                     }
-                    if(objeto === "piano") {
+                    if(objeto === "piano" && juegoLocal) {
                         var frase;
                         if(this.estanteria1_interactuada&&this.estanteria2_interactuada) {
                             frase = "Estoy seguro de que el piano es la clave para seguir avanzando, pero yo no sé tocarlo...";
@@ -3313,12 +3315,12 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto(frase);
                     }
-                    if(objeto === "estanteria1") {
+                    if(objeto === "estanteria1"&& juegoLocal) {
                         var frase = "En este libro aparece un mensaje muy raro... A C# D F E, no sé qué querrá decir.";
                         this.MostrarTexto(frase);
                         this.estanteria1_interactuada = true;
                     }
-                    if(objeto === "estanteria2") {
+                    if(objeto === "estanteria2"&& juegoLocal) {
                         var frase = "Aquí aparece una imagen de un teclado con unas letras.";
                         this.MostrarTexto(frase);
                         this.estanteria2_interactuada = true;
@@ -3328,7 +3330,7 @@ class SceneGame extends Phaser.Scene {
                         var frase = "No tenemos la llave para abrir esta puerta...";
                         this.MostrarTexto(frase);
                     }
-                    if(objeto === "mesaLlave" && !this.fragmentoMesa) {
+                    if(objeto === "mesaLlave" && !this.fragmentoMesa&& juegoLocal) {
                         this.numeroFragmentosLlave++;
                         this.inventarioRiddle.push("Fragmento de llave");
                         var objeto = {
@@ -3355,7 +3357,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto(frase);
                     }
-                    if(objeto === "cajonesLlave"&&!this.fragmentoCajones) {
+                    if(objeto === "cajonesLlave"&&!this.fragmentoCajones&& juegoLocal) {
                         this.numeroFragmentosLlave++;
                         this.inventarioRiddle.push("Fragmento de llave");
                         var objeto = {
@@ -3383,7 +3385,7 @@ class SceneGame extends Phaser.Scene {
                         this.MostrarTexto(frase);
 
                     }
-                    if(objeto === "fragmentoLlaveB"&&!this.fragmentoSuelo) {
+                    if(objeto === "fragmentoLlaveB"&&!this.fragmentoSuelo&& juegoLocal) {
                         this.numeroFragmentosLlave++;
                         this.inventarioRiddle.push("Fragmento de llave");
                         var objeto = {
@@ -3412,7 +3414,7 @@ class SceneGame extends Phaser.Scene {
                         this.fragmento1LlaveB.disableBody(true,true);
 
                     }
-                    if(objeto ==="puertaB") {
+                    if(objeto ==="puertaB"&& juegoLocal) {
                         var llave = false;
                         for(var i=0; i<this.inventarioRiddle.length; i++) {
                             if(this.inventarioRiddle[i]==="Llave jardines") {
@@ -3431,7 +3433,7 @@ class SceneGame extends Phaser.Scene {
                         }
                     }
 
-                    if(objeto ==="puertaB2") {
+                    if(objeto ==="puertaB2"&& juegoLocal) {
                         var llave = false;
                         for(var i=0; i<this.inventarioRiddle.length; i++) {
                             if(this.inventarioRiddle[i]==="Llave jardines") {
@@ -3450,7 +3452,7 @@ class SceneGame extends Phaser.Scene {
                         }
                     }
 
-                    if(objeto === "mesaJardin1") {
+                    if(objeto === "mesaJardin1"&& juegoLocal) {
                         var frase;
                         if(!this.cuadrosInteractuados) {
                             frase = "Unos girasoles, unas rosas rojas y unos claveles hay en este jardín, qué bonitas flores. "
@@ -3465,7 +3467,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto(frase);
                     }
-                    if(objeto === "mesaJardin2") {
+                    if(objeto === "mesaJardin2"&& juegoLocal) {
                         var frase;
                         if(!this.cuadrosInteractuados) {
                             frase = "Unas rosas blancas, unos lirios y unos tulipanes hay en este jardín, qué bonitas flores. "
@@ -3480,7 +3482,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto(frase);
                     }
-                    if(objeto === "cuadro1") {
+                    if(objeto === "cuadro1"&& juegoLocal) {
                         var frase = "¡Si son las flores del jardín de Wiggle: lirio, tulipán y rosa blanca! ¿Habrá que colocarlas así?";
                         if(this.jardinEnArmonia) {
                             frase = "Colocadas como en los cuadros, las flores quedan más bonitas."
@@ -3488,7 +3490,7 @@ class SceneGame extends Phaser.Scene {
                         this.MostrarTexto(frase);
                         this.cuadrosInteractuados = true;
                     }
-                    if(objeto === "cuadro2") {
+                    if(objeto === "cuadro2"&& juegoLocal) {
                         var frase = "¡Si son las flores de mi jardín: rosa roja, girasol y clavel! ¿Habrá que colocarlas así?";
                         if(this.jardinEnArmonia) {
                             frase = "Colocadas como en los cuadros, las flores quedan más bonitas."
@@ -3496,7 +3498,7 @@ class SceneGame extends Phaser.Scene {
                         this.MostrarTexto(frase);
                         this.cuadrosInteractuados = true;
                     }
-                    if(objeto === "puertaC") {
+                    if(objeto === "puertaC"&& juegoLocal) {
                         var llave = false;
                         for(var i=0; i<this.inventarioRiddle.length; i++) {
                             if(this.inventarioRiddle[i]==="Llave cocinas") {
@@ -3514,7 +3516,7 @@ class SceneGame extends Phaser.Scene {
                             this.MostrarTexto(frase);
                         }
                     }
-                    if(objeto === "puertaC2") {
+                    if(objeto === "puertaC2"&& juegoLocal) {
                         var llave = false;
                         for(var i=0; i<this.inventarioRiddle.length; i++) {
                             if(this.inventarioRiddle[i]==="Llave cocinas") {
@@ -3532,11 +3534,11 @@ class SceneGame extends Phaser.Scene {
                             this.MostrarTexto(frase);
                         }
                     }
-                    if(objeto === "muebleCocina") {
+                    if(objeto === "muebleCocina"&& juegoLocal) {
                         this.secretoFogones = true;
                         this.resuelveFogones = "R";
                     }
-                    if(objeto === "puertaD") {
+                    if(objeto === "puertaD"&& juegoLocal) {
                         var llave = false;
                         for(var i=0; i<this.inventarioRiddle.length; i++) {
                             if(this.inventarioRiddle[i]==="Llave baño") {
@@ -3555,19 +3557,19 @@ class SceneGame extends Phaser.Scene {
                             this.MostrarTexto(frase);
                         }
                     }
-                    if(objeto === "simboloPared") {
+                    if(objeto === "simboloPared"&& juegoLocal) {
                         frase = "Estos signos son muy raros, no entiendo nada.";
                         this.MostrarTexto(frase);
                         this.juegoDetenidoRiddle = true;
                         this.puzleSimbolosRiddleVisible = true;
                     }
-                    if(objeto === "puertaAlmacen"&&this.puertaAlmacen.visible) {
+                    if(objeto === "puertaAlmacen"&&this.puertaAlmacen.visible&& juegoLocal) {
                         var frase = "Esta puerta no tiene cerradura, pero tiene un cartel y varios números... Sus símbolos me suenan.";
                         this.MostrarTexto(frase);
                         this.juegoDetenidoRiddle = true;
                         this.panelContraseñaRiddleVisible = true;
                     }
-                    if(objeto === "candelabro") {
+                    if(objeto === "candelabro"&& juegoLocal) {
                         var frase = "Este candelabro encendido no encaja del todo en el almacén. Voy a guardarlo por si luego es útil .";
                         this.MostrarTexto(frase);
                         this.candelabro.visible = false;
@@ -3579,7 +3581,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         peticionesServer.añadirObjeto(objeto, devolver_IP());
                     }
-                    if(objeto === "comodaGatos") {
+                    if(objeto === "comodaGatos"&& juegoLocal) {
                         var frase;
                         var candelabro = false;
                         for(var i=0; i<this.inventarioRiddle.length; i++) {
@@ -3603,7 +3605,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto(frase);
                     }
-                    if(objeto === "comodaMensaje") {
+                    if(objeto === "comodaMensaje"&& juegoLocal) {
                         var frase = "En el cajón de esta cómoda hay una nota muy sospechosa... Esos colores me recuerdan a algo.";
                         this.MostrarTexto(frase);
                         this.juegoDetenidoRiddle = true;
@@ -3686,7 +3688,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto(frase);
                     }
-                    if(objeto==="puertaBR"||objeto==="puertaBW"||objeto==="puertaLR"||objeto==="puertaLW") {
+                    if((objeto==="puertaBR"||objeto==="puertaBW"||objeto==="puertaLR"||objeto==="puertaLW")&& (juegoLocal)) {
                         var frase = "No tenemos la llave para abrir esta puerta...";
                         this.MostrarTexto(frase);
                     }
@@ -3698,7 +3700,7 @@ class SceneGame extends Phaser.Scene {
                         var frase = "Estas cajas son demasiado pesadas y me impiden salir de la habitación. Quizá Riddle me pueda ayudar...";
                         this.MostrarTexto2(frase);
                     }
-                    if(objeto === "piano") {
+                    if(objeto === "piano"&& juegoLocal) {
                         var frase;
                         if(this.estanteria1_interactuada&&this.estanteria2_interactuada&&!this.sinfoniaSecreta) {
                             frase = "Ahora lo entiendo, lo que decía en los libros... ¡Debo tocar las notas correctas!";
@@ -3713,12 +3715,12 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto2(frase);
                     }
-                    if(objeto === "estanteria1") {
+                    if(objeto === "estanteria1"&& juegoLocal) {
                         var frase = "En este libro aparece un mensaje muy raro... A C# D F E, no sé qué querrá decir.";
                         this.MostrarTexto2(frase);
                         this.estanteria1_interactuada = true;
                     }
-                    if(objeto === "estanteria2") {
+                    if(objeto === "estanteria2"&& juegoLocal) {
                         var frase = "Aquí aparece una imagen de un teclado con unas letras.";
                         this.MostrarTexto2(frase);
                         this.estanteria2_interactuada = true;
@@ -3742,7 +3744,7 @@ class SceneGame extends Phaser.Scene {
                             this.MostrarTexto2(frase);
                         }
                     }
-                    if(objeto === "mesaLlave" && !this.fragmentoMesa) {
+                    if(objeto === "mesaLlave" && !this.fragmentoMesa&& juegoLocal) {
                         this.numeroFragmentosLlave++;
                         this.inventarioWiggle.push("Fragmento de llave");
                         var objeto = {
@@ -3769,7 +3771,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto2(frase);
                     }
-                    if(objeto === "cajonesLlave"&&!this.fragmentoCajones) {
+                    if(objeto === "cajonesLlave"&&!this.fragmentoCajones&& juegoLocal) {
                         this.numeroFragmentosLlave++;
                         this.inventarioWiggle.push("Fragmento de llave");
                         var objeto = {
@@ -3797,7 +3799,7 @@ class SceneGame extends Phaser.Scene {
                         this.MostrarTexto2(frase);
                     }
 
-                    if(objeto === "fragmentoLlaveB"&&!this.fragmentoSuelo) {
+                    if(objeto === "fragmentoLlaveB"&&!this.fragmentoSuelo&& juegoLocal) {
                         this.numeroFragmentosLlave++;
                         this.inventarioWiggle.push("Fragmento de llave");
                         var objeto = {
@@ -3826,7 +3828,7 @@ class SceneGame extends Phaser.Scene {
                         this.fragmento1LlaveB.disableBody(true,true);
                     }
 
-                    if(objeto ==="puertaB") {
+                    if(objeto ==="puertaB"&& juegoLocal) {
                         var llave = false;
                         for(var i=0; i<this.inventarioWiggle.length; i++) {
                             if(this.inventarioWiggle[i]==="Llave jardines") {
@@ -3844,7 +3846,7 @@ class SceneGame extends Phaser.Scene {
                             this.MostrarTexto2(frase);
                         }
                     }
-                    if(objeto ==="puertaB2") {
+                    if(objeto ==="puertaB2"&& juegoLocal) {
                         var llave = false;
                         for(var i=0; i<this.inventarioWiggle.length; i++) {
                             if(this.inventarioWiggle[i]==="Llave jardines") {
@@ -3862,7 +3864,7 @@ class SceneGame extends Phaser.Scene {
                             this.MostrarTexto2(frase);
                         }
                     }
-                    if(objeto === "mesaJardin1") {
+                    if(objeto === "mesaJardin1"&& juegoLocal) {
                         var frase;
                         if(!this.cuadrosInteractuados) {
                             frase = "Unos girasoles, unas rosas rojas y unos claveles hay en este jardín, qué bonitas flores. ";
@@ -3877,7 +3879,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto2(frase);
                     }
-                    if(objeto === "mesaJardin2") {
+                    if(objeto === "mesaJardin2"&& juegoLocal) {
                         var frase;
                         if(!this.cuadrosInteractuados) {
                             frase = "Unas rosas blancas, unos lirios y unos tulipanes hay en este jardín, qué bonitas flores. ";
@@ -3892,7 +3894,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto2(frase);
                     }
-                    if(objeto === "cuadro1") {
+                    if(objeto === "cuadro1"&& juegoLocal) {
                         var frase = "¡Si son las flores de mi jardín: lirio, tulipán y rosa blanca! ¿Habrá que colocarlas así?";
                         if(this.jardinEnArmonia) {
                             frase = "Colocadas como en los cuadros, las flores quedan más bonitas."
@@ -3900,7 +3902,7 @@ class SceneGame extends Phaser.Scene {
                         this.MostrarTexto2(frase);
                         this.cuadrosInteractuados = true;
                     }
-                    if(objeto === "cuadro2") {
+                    if(objeto === "cuadro2"&& juegoLocal) {
                         var frase = "¡Si son las flores del jardín de Riddle: rosa roja, girasol y clavel! ¿Habrá que colocarlas así?";
                         if(this.jardinEnArmonia) {
                             frase = "Colocadas como en los cuadros, las flores quedan más bonitas."
@@ -3908,7 +3910,7 @@ class SceneGame extends Phaser.Scene {
                         this.MostrarTexto2(frase);
                         this.cuadrosInteractuados = true;
                     }
-                    if(objeto === "puertaC") {
+                    if(objeto === "puertaC"&& juegoLocal) {
                         var llave = false;
                         for(var i=0; i<this.inventarioWiggle.length; i++) {
                             if(this.inventarioWiggle[i]==="Llave cocinas") {
@@ -3926,11 +3928,11 @@ class SceneGame extends Phaser.Scene {
                             this.MostrarTexto2(frase);
                         }
                     }
-                    if(objeto === "muebleCocina") {
+                    if(objeto === "muebleCocina"&& juegoLocal) {
                         this.secretoFogones = true;
                         this.resuelveFogones = "W";   
                     }
-                    if(objeto === "puertaD") {
+                    if(objeto === "puertaD"&& juegoLocal) {
                         var llave = false;
                         for(var i=0; i<this.inventarioWiggle.length; i++) {
                             if(this.inventarioWiggle[i]==="Llave baño") {
@@ -3949,19 +3951,19 @@ class SceneGame extends Phaser.Scene {
                             this.MostrarTexto2(frase);
                         }
                     }
-                    if(objeto === "simboloPared") {
+                    if(objeto === "simboloPared"&& juegoLocal) {
                         frase = "Estos signos parecen formar una ecuación, pero no sé qué número representan...";
                         this.MostrarTexto2(frase);
                         this.juegoDetenidoWiggle = true;
                         this.puzleSimbolosWiggleVisible = true;
                     }
-                    if(objeto === "puertaAlmacen"&&this.puertaAlmacen.visible) {
+                    if(objeto === "puertaAlmacen"&&this.puertaAlmacen.visible&& juegoLocal) {
                         var frase = "Esta puerta no tiene cerradura, pero tiene un cartel y varios números... Sus símbolos me suenan.";
                         this.MostrarTexto2(frase);
                         this.juegoDetenidoWiggle = true;
                         this.panelContraseñaWiggleVisible = true;
                     }
-                    if(objeto === "candelabro") {
+                    if(objeto === "candelabro"&& juegoLocal) {
                         var frase = "Este candelabro encendido no encaja del todo en el almacén. Voy a guardarlo por si luego es útil.";
                         this.MostrarTexto2(frase);
                         this.candelabro.visible = false;
@@ -3973,7 +3975,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         peticionesServer.añadirObjeto(objeto, devolver_IP());
                     }
-                    if(objeto === "comodaGatos") {
+                    if(objeto === "comodaGatos"&& juegoLocal) {
                         var frase;
                         var candelabro = false;
                         for(var i=0; i<this.inventarioWiggle.length; i++) {
@@ -3997,7 +3999,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto2(frase);
                     }
-                    if(objeto === "comodaMensaje") {
+                    if(objeto === "comodaMensaje"&& juegoLocal) {
                         var frase = "En el cajón de esta cómoda hay una nota muy sospechosa...";
                         this.MostrarTexto2(frase);
                         this.mensajeGatosVisibleWiggle = true;
@@ -4076,7 +4078,7 @@ class SceneGame extends Phaser.Scene {
                         }
                         this.MostrarTexto2(frase);
                     }
-                    if(objeto==="puertaBR"||objeto==="puertaBW"||objeto==="puertaLR"||objeto==="puertaLW") {
+                    if((objeto==="puertaBR"||objeto==="puertaBW"||objeto==="puertaLR"||objeto==="puertaLW") && (juegoLocal)) {
                         var frase = "No tenemos la llave para abrir esta puerta...";
                         this.MostrarTexto2(frase);
                     }
@@ -4097,27 +4099,27 @@ class SceneGame extends Phaser.Scene {
             this.libroPiano1.visible = false;
             this.libroPianoVisibleRiddle = false;
             this.fondoRiddle.visible = false;
-        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
-        this.camera2.startFollow(this.Riddle);
+            this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+            this.camera2.startFollow(this.Riddle);
         }
 
         OcultarLibro2() {
             this.libroPiano2.visible = false;
             this.libroPianoVisibleWiggle = false;
             this.fondoRiddle.visible = false;
-        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
-        this.camera1.startFollow(this.Wiggle);
+            this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+            this.camera1.startFollow(this.Wiggle);
         }
 
         OcultarPuzlePiano() {
             this.puzlePianoVisible = false;
             this.puzlePiano.visible = false;
             this.fondoWiggle.visible = false;
-        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
-        this.camera1.startFollow(this.Wiggle);
+            this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+            this.camera1.startFollow(this.Wiggle);
         }
 
         ComprobarComboPiano() {
@@ -4170,9 +4172,9 @@ class SceneGame extends Phaser.Scene {
             this.puzleFloresRiddleVisible1 = false;
             this.puzleFloresR1.visible = false;
             this.fondoRiddle.visible = false;
-        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
-        this.camera2.startFollow(this.Riddle);
+            this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+            this.camera2.startFollow(this.Riddle);
         }
 
         OcultarPuzleR2() {
@@ -4182,9 +4184,9 @@ class SceneGame extends Phaser.Scene {
             this.puzleFloresR2.visible = false;
             this.fondoWiggle.visible = false;
             this.puzleFloresRiddleVisible2 = false;
-        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
-        this.camera2.startFollow(this.Riddle);
+            this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+            this.camera2.startFollow(this.Riddle);
         }
 
         OcultarPuzleW1() {
@@ -4194,9 +4196,9 @@ class SceneGame extends Phaser.Scene {
             this.puzleFloresW1.visible = false;
             this.fondoRiddle.visible = false;
             this.puzleFloresWiggleVisible1 = false;
-        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
-        this.camera1.startFollow(this.Wiggle);
+            this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+            this.camera1.startFollow(this.Wiggle);
         }
 
         OcultarPuzleW2() {
@@ -4206,9 +4208,9 @@ class SceneGame extends Phaser.Scene {
             this.puzleFloresW2.visible = false;
             this.fondoWiggle.visible = false;
             this.puzleFloresWiggleVisible2 = false;
-        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
-        this.camera1.startFollow(this.Wiggle);
+            this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+            this.camera1.startFollow(this.Wiggle);
         }
 
         ColocarFlores1() {
@@ -4383,18 +4385,18 @@ class SceneGame extends Phaser.Scene {
 
         OcultarPuzleSimbolos1() {
             this.puzleSimbolosRiddleVisible = false;
-        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
-        this.camera2.startFollow(this.Riddle);
+            this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+            this.camera2.startFollow(this.Riddle);
             this.fondoWiggle.visible = false;
             this.puzleSimbolos.visible =false;
         }
 
         OcultarPuzleSimbolos2() {
             this.puzleSimbolosWiggleVisible = false;
-        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
-        this.camera1.startFollow(this.Wiggle);
+            this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+            this.camera1.startFollow(this.Wiggle);
             this.fondoWiggle.visible = false;
             this.puzleSimbolos2.visible =false;
         }
@@ -4403,9 +4405,9 @@ class SceneGame extends Phaser.Scene {
             this.panelContraseña1.visible = false;
             this.contraseña1.setText('');
             this.panelContraseñaRiddleVisible = false;
-        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
-        this.camera2.startFollow(this.Riddle);
+            this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+            this.camera2.startFollow(this.Riddle);
             this.fondoWiggle.visible = false;
         }
 
@@ -4413,9 +4415,9 @@ class SceneGame extends Phaser.Scene {
             this.panelContraseña2.visible = false;
             this.contraseña2.setText('');
             this.panelContraseñaWiggleVisible = false;
-        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
-        this.camera1.startFollow(this.Wiggle);
+            this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+            this.camera1.startFollow(this.Wiggle);
             this.fondoWiggle.visible = false;
         }
 
@@ -4553,9 +4555,9 @@ class SceneGame extends Phaser.Scene {
             this.vela5AN.visible = false;
             this.puzleGatosVisibleRiddle = false;
             this.fondoWiggle.visible = false;
-        this.camera2.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
-        this.camera2.startFollow(this.Riddle);
+            this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+            this.camera2.startFollow(this.Riddle);
         }
 
         OcultarPuzleGatos2() {
@@ -4572,9 +4574,9 @@ class SceneGame extends Phaser.Scene {
             this.vela5BN.visible = false;
             this.puzleGatosVisibleWiggle = false;
             this.fondoWiggle.visible = false;
-        this.camera1.setZoom(3); // Ajusta el valor según sea necesario
-        this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
-        this.camera1.startFollow(this.Wiggle);
+            this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+            this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+            this.camera1.startFollow(this.Wiggle);
         }
 
         ComprobarVelasEncendidas() {
@@ -5359,7 +5361,7 @@ class SceneGame extends Phaser.Scene {
                 var indice = 0;
                 for(var i=0; i<objetos.length; i++) {
                     if(objetos[i]!=null) {         
-                        if(objetos[i].jugador=="R" && objetos[i].nombreEquipo == equipo) {
+                        if(objetos[i].jugador=="R" && objetos[i].usuario == equipo) {
                             textoObjetosRiddle[indice].setText(objetos[i].nombre);
                             indice++;
                         }
@@ -5448,7 +5450,7 @@ class SceneGame extends Phaser.Scene {
                 var indice = 0;
                 for(var i=0; i<objetos.length; i++) {
                     if(objetos[i]!=null) {                      
-                        if(objetos[i].jugador=="W" && objetos[i].nombreEquipo == equipo) {
+                        if(objetos[i].jugador=="W" && objetos[i].usuario == equipo) {
                             textoObjetosWiggle[indice].setText(objetos[i].nombre);
                             indice++;
                         }
@@ -5526,7 +5528,7 @@ class SceneGame extends Phaser.Scene {
                         indiceRecords++;
                     }
 
-                    titulo.setText('- Mejores tiempos del equipo 1-');
+                    titulo.setText('- Mejores tiempos del equipo -' + equipo);
     
                     // Después, se muestran esos records en la pantalla de victoria
                     if(numRecordsEquipo>0) {
@@ -5568,6 +5570,7 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.setZoom(1);
                 // Variable que controla si el juego se ha detenido
                 this.juegoDemo = true;
+                this.continuarDemo = true;
                 this.intermedioDemo1.visible = true;
                 // Se coloca a Riddle y Wiggle
                 this.NuevaPosicionJugadores();
@@ -5596,6 +5599,7 @@ class SceneGame extends Phaser.Scene {
             this.resolucionMostradaJardin = true;
             // El Secreto de los Fogones
             this.secretoFogones = true;
+            this.resolucionMostradaCocina = true;
             // Enigma del Almacén
             this.enigmaAlmacen = true;
             this.resolucionMostradaAlmacen = true;
@@ -5603,6 +5607,13 @@ class SceneGame extends Phaser.Scene {
             this.mensajeObtenido = true;
             this.llamasFelinas = false;
             this.mensajeGatosMostrado = false;
+            // DESACTIVACIÓN DE TODAS LAS PUERTAS
+            this.puertaA.disableBody(true,true);
+            this.puertaB.disableBody(true,true);
+            this.puertaB2.disableBody(true,true);
+            this.puertaC.disableBody(true,true);
+            this.puertaC2.disableBody(true,true);
+            this.puertaD.disableBody(true,true);
             this.puertaBibliotecaRiddle.disableBody(true,true);
             this.puertaBibliotecaWiggle.disableBody(true,true);
             this.puertaLaboratorioRiddle.disableBody(true,true);
