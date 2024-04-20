@@ -1,5 +1,6 @@
 import { devolver_nombre_equipo } from "./Menu.js";
 import { devolver_IP } from "./Menu.js";
+import { devolver_local } from "./Menu.js";
 // Variables necesarias para realizar funciones con peticiones al servidor
 var peticionesServer = new PeticionesServidor();
 var textoObjetosRiddle = new Array(23);
@@ -7,6 +8,7 @@ var textoObjetosWiggle = new Array(23);
 var textoRecords = new Array(5);
 var titulo;
 var equipo;
+var juegoLocal;
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
@@ -283,6 +285,13 @@ class SceneGame extends Phaser.Scene {
     victoria;
     derrota;
 
+    // VARIABLES PARA CONTROLAR LA DEMO PARA LOS WEBSOCKETS
+    juegoDemo = false;
+    intermedioDemo1;
+    intermedioDemo2;
+    continuarDemo = false;
+
+
     constructor ()
     {
         super({ key: 'SceneGame' });
@@ -409,10 +418,16 @@ class SceneGame extends Phaser.Scene {
 
         // Pantalla de derrota
         this.load.image('derrota', 'assets/GameOver.png');
+
+        // DEMO
+        this.load.image('demo1', 'Assets/demo1.png');
+        this.load.image('demo2', 'Assets/demo2.png');
     }
 
     create (data)
     {
+        juegoLocal = devolver_local();
+        console.log(juegoLocal);
         equipo = devolver_nombre_equipo();
         this.ReiniciarObjetos();        
         this.backgroundMusic = this.sound.add("backgroundMusic", { loop: true });
@@ -2479,6 +2494,12 @@ class SceneGame extends Phaser.Scene {
         this.record5.setText('');
         this.derrota = this.add.image(400,300,'derrota');
         this.derrota.visible = false;
+
+        // IMÁGENES DE LA DEMO - WEBSOCKETS
+        this.intermedioDemo1 = this.add.image(400,300,'demo1');
+        this.intermedioDemo1.visible = false;
+        this.intermedioDemo2 = this.add.image(400,300,'demo2');
+        this.intermedioDemo2.visible = false;
         
     }
 
@@ -2486,25 +2507,25 @@ class SceneGame extends Phaser.Scene {
     {
         // Introducción
         this.input.keyboard.on('keydown_ENTER', () =>{ 
-            if(this.introduccion1.visible&&this.nuevoIntento) {
+            if(this.introduccion1.visible&&this.nuevoIntento&&!this.juegoDemo) {
                 this.introduccion1.visible = false;
                 this.introduccion2.visible = true;
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
             }
-            if(this.introduccion2.visible&&this.nuevoIntento) {
+            if(this.introduccion2.visible&&this.nuevoIntento&&!this.juegoDemo) {
                 this.introduccion2.visible = false;
                 this.introduccion3.visible = true;
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
             }
-            if(this.introduccion3.visible&&this.nuevoIntento) {
+            if(this.introduccion3.visible&&this.nuevoIntento&&!this.juegoDemo) {
                 this.introduccion3.visible = false;
                 this.introduccion4.visible = true;
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
             }
-            if(this.introduccion4.visible&&this.nuevoIntento) {
+            if(this.introduccion4.visible&&this.nuevoIntento&&!this.juegoDemo) {
                 this.introduccion4.visible = false;
                 this.juegoDetenidoRiddle = false;
                 this.juegoDetenidoWiggle = false;
@@ -2524,6 +2545,31 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                 this.camera2.startFollow(this.Riddle); 
                 
+            }
+            if(this.intermedioDemo1.visible&&this.juegoDemo) {
+                this.intermedioDemo1.visible = false;
+                this.intermedioDemo2.visible = true;
+                this.juegoDemo = false;
+                this.eventoDemo = this.time.addEvent({
+                    delay: 3000,
+                    loop: false,
+                    callback: () => {
+                        this.seguirDemo();
+                    }
+                });
+                
+            }
+            if(this.intermedioDemo2.visible&&this.continuarDemo) {
+                this.continuarDemo = false;
+                this.intermedioDemo2.visible = false;
+
+                this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+                this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+                this.camera1.startFollow(this.Wiggle);
+
+                this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+                this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+                this.camera2.startFollow(this.Riddle); 
             }
         
         });
@@ -3227,6 +3273,9 @@ class SceneGame extends Phaser.Scene {
         // Se le añade de nuevo el evento para que pueda volver a suceder
         this.eventoTiempo = this.time.addEvent({ delay: this.tiempoTexto, callback: this.DesaparecerCuadro, callbackScope: this});
         this.eventoTiempo.paused = true;
+        if(this.juegoDemo) {
+            this.PrepararDemo();
+        }
     }
 
     DesaparecerCuadro2() {
@@ -4038,6 +4087,10 @@ class SceneGame extends Phaser.Scene {
             if(this.inicioAbarrotado) {
                 // Acciones que suceden tras resolver el puzle
                 this.caja.disableBody(true, true);
+                ////////// 
+                if (!juegoLocal && !this.juegoDemo) {
+                    this.juegoDemo = true;
+                }
             }
         }
         OcultarLibro1() {
@@ -5497,6 +5550,77 @@ class SceneGame extends Phaser.Scene {
                 })
             }
 
+        }
+
+        //////// FUNCIONES PARA WEBSOCKETS Y DEMO
+
+        // FUNCIÓN PARA PREPARAR EL JUEGO PARA LA DEMO
+        PrepararDemo() {
+                // Se detiene a Riddle y Wiggle
+                this.juegoDetenidoRiddle = true;
+                this.juegoDetenidoWiggle = true;
+                // Primero se desactivan las cámaras
+                this.camera1.stopFollow();
+                this.camera1.centerOn(200,400);
+                this.camera1.setZoom(1);
+                this.camera2.stopFollow();
+                this.camera2.centerOn(600,400);
+                this.camera2.setZoom(1);
+                // Variable que controla si el juego se ha detenido
+                this.juegoDemo = true;
+                this.intermedioDemo1.visible = true;
+                // Se coloca a Riddle y Wiggle
+                this.NuevaPosicionJugadores();
+                // Se saltan todos los puzles
+                this.ResolverPuzles();
+        }
+
+        ResolverPuzles() {
+            // RESOLUCIÓN DE TODOS LOS PUZLES AUTOMÁTICAMENTE
+            // Inicio Abarrotado
+            this.inicioAbarrotado = true;
+            this.estanteria1_interactuada = true;
+            this.estanteria2_interactuada = true;
+            // Sinfonía secreta
+            this.sinfoniaSecreta = true;
+            this.resolucionMostradaPiano = true;
+            // Entre Pétalos y Enigmas
+            this.numeroFragmentosLlave = 3;
+            this.fragmentoMesa = true;
+            this.fragmentoSuelo = true;
+            this.fragmentoCajones = true;
+            this.entrePetalos = true;
+            // El Jardín en Armonía
+            this.cuadrosInteractuados = true;
+            this.jardinEnArmonia = true;
+            this.resolucionMostradaJardin = true;
+            // El Secreto de los Fogones
+            this.secretoFogones = true;
+            // Enigma del Almacén
+            this.enigmaAlmacen = true;
+            this.resolucionMostradaAlmacen = true;
+            // Llamas Felinas
+            this.mensajeObtenido = true;
+            this.llamasFelinas = false;
+            this.mensajeGatosMostrado = false;
+            this.puertaBibliotecaRiddle.disableBody(true,true);
+            this.puertaBibliotecaWiggle.disableBody(true,true);
+            this.puertaLaboratorioRiddle.disableBody(true,true);
+            this.puertaLaboratorioWiggle.disableBody(true,true);
+        }
+
+        NuevaPosicionJugadores() {
+            // Se coloca a Riddle y Wiggle en las bibliotecas, para que comiencen el último puzle
+            this.Riddle.x = 495;
+            this.Riddle.y = 325;
+            this.Wiggle.x = 50;
+            this.Wiggle.y = 105;
+            this.juegoDetenidoRiddle = false;
+            this.juegoDetenidoWiggle = false;
+        }
+
+        seguirDemo() {
+            this.continuarDemo = true;
         }
 }
 export default SceneGame;
