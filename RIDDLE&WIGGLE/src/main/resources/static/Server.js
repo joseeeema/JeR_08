@@ -1,5 +1,3 @@
-
-
 class PeticionesServidor {
 
     // Función para cargar la lista de objetos del servidor

@@ -1,37 +1,24 @@
 class GestionWS{
 
-    EstablecerConexion(){
+    conexion;
 
-    //Conexión con los WebSockets
-    var websocketIP = 'ws://' +location.host+ '/app';
-    console.log(location.host);
+    EstablecerConexion(IP_Servidor){
+        if(this.conexion != null) {
+            return;
+        }
+        var puerto = ":8080";
+        //Conexión con los WebSockets
+        var websocketIP = 'ws://' + IP_Servidor + puerto +'/game';
+        this.conexion = new WebSocket(websocketIP);
+        console.log("IP del WebSocket: " + websocketIP);
+        return this.conexion;
+    }        
 
-    conexion= new WebSocket(websocketIP);
-    console.log("IP del WebSocket: " +websocketIP);
-
-    //CONFIGURACIÓN
-    conexion.onopen = function(){
-        console.log("Conexión establecida");
-        conexionWB = true;
-    }
-
-    conexion.onclose = function(){
-        console.log("Conexión finalizada");
-        conexionWB = false;
-    }
-
-    connection.onmessage = function(mensaje) {
-            var mensaje2 = JSON.parse(mensaje.data)
-            console.log(mensaje2)
-             
-    }
-
-    function EnviarMensaje(type, content){
+    EnviarMensaje(type, content){
             var mensaje = {
                 type : type,
                 content : content
             }
             conexion.send(JSON.stringify(mensaje)); 
     }
- }
 }

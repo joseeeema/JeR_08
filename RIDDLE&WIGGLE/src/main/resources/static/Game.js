@@ -1,6 +1,7 @@
 import { devolver_nombre_equipo } from "./Menu.js";
 import { devolver_IP } from "./Menu.js";
 import { devolver_local } from "./Menu.js";
+import { devolver_IP_Servidor } from "./Menu.js";
 // Variables necesarias para realizar funciones con peticiones al servidor
 var peticionesServer = new PeticionesServidor();
 var textoObjetosRiddle = new Array(23);
@@ -9,6 +10,9 @@ var textoRecords = new Array(5);
 var titulo;
 var equipo;
 var juegoLocal;
+var IPServidor;
+var gestorWS = new GestionWS();
+var conexionWS;
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
@@ -423,14 +427,38 @@ class SceneGame extends Phaser.Scene {
         // DEMO
         this.load.image('demo1', 'Assets/demo1.png');
         this.load.image('demo2', 'Assets/demo2.png');
+
     }
 
     create (data)
     {
         juegoLocal = devolver_local();
-        console.log(juegoLocal);
         equipo = devolver_nombre_equipo();
-        this.ReiniciarObjetos();        
+        if(!juegoLocal) {         
+            // CREACIÓN DE LA CONEXIÓN
+            IPServidor = devolver_IP_Servidor();
+            console.log(IPServidor);
+            // Se entabla la conexión con el servidor
+            conexionWS = gestorWS.EstablecerConexion(IPServidor);
+            if(conexionWS != null) {
+                // CONFIGURACIÓN DE LA CONEXIÓN
+                conexionWS.onopen = function(){
+                    console.log("Conexión establecida");
+                }
+                
+                conexionWS.onclose = function(){
+                    console.log("Conexión finalizada");
+                }
+                
+                conexionWS.onmessage = function(mensaje) {
+                    var mensaje2 = JSON.parse(mensaje.data)
+                    console.log(mensaje2)             
+                }
+            }
+        }
+
+        this.ReiniciarObjetos();
+        
         this.backgroundMusic = this.sound.add("backgroundMusic", { loop: true });
         this.backgroundMusic.play();
         this.add.image(400, 300, 'sky').setScale(10);

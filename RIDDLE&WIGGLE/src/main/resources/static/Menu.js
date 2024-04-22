@@ -1,6 +1,7 @@
 var nombreUsuario;
 var local;
 var peticionesServidor = new PeticionesServidor();
+var IPServidor;
 function devolver_nombre_equipo (){
     return nombreUsuario;
 }
@@ -13,6 +14,10 @@ function devolver_local () {
     return local;
 }
 export {devolver_local};
+function devolver_IP_Servidor() {
+    return IPServidor;
+}
+export {devolver_IP_Servidor};
 
 class SceneMenu extends Phaser.Scene {
     wake = false;
@@ -20,6 +25,8 @@ class SceneMenu extends Phaser.Scene {
     nombreIntroducido = false;
     nuevoIntento = true;
     cursors;
+    introducirIP = false;
+
     constructor ()
     {
         super({ key: 'SceneMenu' });
@@ -45,6 +52,7 @@ class SceneMenu extends Phaser.Scene {
         this.titulo1 = this.add.text(20, 340, 'INTRODUCE UN NOMBRE DE EQUIPO', { fontFamily: 'Times, serif',color: 'silver'});
         this.titulo2 = this.add.text(20, 360, 'Después, pulsa Enter para continuar', { fontFamily: 'Times, serif',color: 'silver'});
         this.nombreEquipo = this.add.text(20,400, '', { fontFamily: 'Times, serif',color: 'silver'});
+        this.IPIntroducida = this.add.text(20,400, '', { fontFamily: 'Times, serif',color: 'silver'});
         //this.add.text(120, 340, 'NUEVA PARTIDA', { fontFamily: 'Times, serif',color: 'silver'});
         //this.add.text(120, 380, 'SALIR', { fontFamily: 'Times, serif',color: 'silver'});
 
@@ -74,12 +82,20 @@ class SceneMenu extends Phaser.Scene {
 
         this.input.keyboard.on('keydown', event =>
         {
-            if (event.keyCode === 8 && this.nombreEquipo.text.length > 0)
+            if (event.keyCode === 8 && this.nombreEquipo.text.length > 0 && !this.introducirIP)
             {
                 this.nombreEquipo.setText(this.nombreEquipo.text.substr(0, this.nombreEquipo.text.length - 1));
             }
-            if(event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90)) {
+            if((event.keyCode === 32 || (event.keyCode >= 48 && event.keyCode < 90)) && !this.introducirIP) {
                 this.nombreEquipo.setText(this.nombreEquipo.text+event.key);
+            }
+
+            if (event.keyCode === 8 && this.IPIntroducida.text.length > 0 && this.introducirIP)
+            {
+                this.IPIntroducida.setText(this.IPIntroducida.text.substr(0, this.IPIntroducida.text.length - 1));
+            }
+            if((event.keyCode === 190 || (event.keyCode >= 48 && event.keyCode < 58)) && this.introducirIP) {
+                this.IPIntroducida.setText(this.IPIntroducida.text+event.key);
             }
 
         });
@@ -105,21 +121,31 @@ class SceneMenu extends Phaser.Scene {
 
         this.input.keyboard.on('keydown_ENTER', () =>{ 
             if(this.nombreIntroducido&&this.nuevoIntento) {
-                if(!this.wake && this.pointer.y == 348){
+                if(!this.wake && this.pointer.y == 348 && !this.introducirIP){
                     local = true;
                     this.scene.wake('SceneGame');
                     this.scene.stop('SceneMenu');
                     this.scene.start('SceneGame');
                     this.wake = true;
                 }
-                if(!this.wake && this.pointer.y == 388) {
-                    local = false;
+                if(this.introducirIP && !this.wake) {
                     this.scene.wake('SceneGame');
                     this.scene.stop('SceneMenu');
                     this.scene.start('SceneGame');
                     this.wake = true;
+                    IPServidor = this.IPIntroducida.text;
                 }
-                
+                if(!this.wake && this.pointer.y == 388) {
+                    local = false;
+                    this.opcion1.setText();
+                    this.opcion2.setText();
+                    this.opcion3.setText();
+                    this.titulo1.setText("INTRODUCE LA IP DEL SERVIDOR");
+                    this.titulo2.setText('Después, pulsa Enter para continuar');
+                    this.textbox1.visible = true;
+                    this.introducirIP = true;
+                    this.pointer.visible = false;
+                }                
                 else 
                 {
                     //window.close();
@@ -143,9 +169,9 @@ class SceneMenu extends Phaser.Scene {
                 this.titulo1.setText('');
                 this.titulo2.setText('');
                 this.nombreEquipo.setText('');
-                this.add.text(120, 340, 'NUEVA PARTIDA LOCAL', { fontFamily: 'Times, serif',color: 'silver'});
-                this.add.text(120, 380, 'NUEVA PARTIDA - DEMO ONLINE', { fontFamily: 'Times, serif',color: 'silver'});
-                this.add.text(120, 420, 'SALIR', { fontFamily: 'Times, serif',color: 'silver'});
+                this.opcion1 = this.add.text(120, 340, 'NUEVA PARTIDA LOCAL', { fontFamily: 'Times, serif',color: 'silver'});
+                this.opcion2 = this.add.text(120, 380, 'NUEVA PARTIDA - DEMO ONLINE', { fontFamily: 'Times, serif',color: 'silver'});
+                this.opcion3 = this.add.text(120, 420, 'SALIR', { fontFamily: 'Times, serif',color: 'silver'});
                 this.pointer = this.add.image(110, 348, 'pointer').setScale(0.55);
             }
 

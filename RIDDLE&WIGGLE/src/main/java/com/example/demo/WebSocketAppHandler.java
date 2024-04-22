@@ -26,20 +26,21 @@ public class WebSocketAppHandler extends TextWebSocketHandler {
 
     @Override
 	public void afterConnectionEstablished(@NonNull WebSocketSession session) throws Exception {
-		System.out.println("Nuevo usuario: " + session.getId());
 
-		//Asignamos uan sesion a cada jugador 
+		//Asignamos una sesion a cada jugador 
 		if(sesionRiddle == null){
 
 			sesionRiddle = session;
-
+			System.out.println("Nuevo usuario: " + session.getId());
 
 		}else if(sesionWiggle == null){
 
 			sesionWiggle = session;
+			System.out.println("Nuevo usuario: " + session.getId());
 
 
 		}else{
+			// Si ya hay dos sesiones conectadas, no se pueden añadir más jugadores
 			System.out.println("Numero maximo de jugadores alcanzado.");
 		}
 		
@@ -48,6 +49,7 @@ public class WebSocketAppHandler extends TextWebSocketHandler {
     @Override
 	public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) throws Exception {
 		System.out.println("Sesion cerrada: " + session.getId());
+		// Se cierra la sesión correspondiente
 		if(session == sesionRiddle) {sesionRiddle = null;}
 		else if ( session == sesionWiggle) {sesionWiggle = null;}
 		
@@ -81,7 +83,7 @@ public class WebSocketAppHandler extends TextWebSocketHandler {
 			);
 
 		}else{
-			System.out.println("Una sesion desconocida esta intantado mandar informacion.");
+			System.out.println("Una sesion desconocida esta intentado mandar informacion.");
 		}
 		
 	}
