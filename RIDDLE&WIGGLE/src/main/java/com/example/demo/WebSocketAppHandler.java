@@ -32,16 +32,19 @@ public class WebSocketAppHandler extends TextWebSocketHandler {
 
 			sesionRiddle = session;
 			System.out.println("Nuevo usuario: " + session.getId());
+			EnviarMensaje(session, "Inicio", "R");
 
 		}else if(sesionWiggle == null){
 
 			sesionWiggle = session;
 			System.out.println("Nuevo usuario: " + session.getId());
+			EnviarMensaje(session, "Inicio", "W");
 
 
 		}else{
 			// Si ya hay dos sesiones conectadas, no se pueden añadir más jugadores
 			System.out.println("Numero maximo de jugadores alcanzado.");
+			EnviarMensaje(session, "Error", "Numero maximo de jugadores alcanzado.");
 		}
 		
 	}
