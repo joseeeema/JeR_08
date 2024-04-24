@@ -13,6 +13,7 @@ var juegoLocal;
 var IPServidor;
 var gestorWS = new GestionWS();
 var conexionWS;
+var jugadorAsignado;
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
@@ -452,7 +453,58 @@ class SceneGame extends Phaser.Scene {
                 
                 conexionWS.onmessage = function(mensaje) {
                     var mensaje2 = JSON.parse(mensaje.data)
-                    console.log(mensaje2)             
+                    console.log(mensaje2)
+                    switch(mensaje2.tipo){
+                        case "Inicio":
+                            jugadorAsignado = mensaje2.contenido;
+                        break;
+                        case "Movimiento":
+                            switch(mensaje2.contenido){
+                                case "W":
+                                    if(jugadorAsignado=="W"){
+                                        this.Riddle.setVelocityY(-40)
+                                    }
+                                    if(jugadorAsignado=="R"){
+                                        this.Wiggle.setVelocityY(-40)
+                                    }
+                                    break;
+                                case "A":
+                                    if(jugadorAsignado=="W"){
+                                         this.Riddle.setVelocityX(-40)
+                                        }
+                                    if(jugadorAsignado=="R"){
+                                         this.Wiggle.setVelocityX(-40)
+                                        }
+                                    break;
+                                case "S":
+                                    if(jugadorAsignado=="W"){
+                                         this.Riddle.setVelocityY(40)
+                                        }
+                                    if(jugadorAsignado=="R"){
+                                         this.Wiggle.setVelocityY(40)
+                                        }
+                                    break;
+                                case "D":
+                                    if(jugadorAsignado=="W"){
+                                         this.Riddle.setVelocityX(40)
+                                        }
+                                    if(jugadorAsignado=="R"){
+                                         this.Wiggle.setVelocityX(40)
+                                        }
+                                    break;
+                                case "Soltar":
+                                    if(jugadorAsignado=="W"){
+                                        this.Riddle.setVelocityX(0)
+                                        this.Riddle.setVelocityY(0)
+                                       }
+                                   if(jugadorAsignado=="R"){
+                                        this.Wiggle.setVelocityX(0)
+                                        this.Wiggle.setVelocityY(0)
+                                       }
+                                   break;   
+                            }    
+                        break;                 
+                    }             
                 }
             }
         }
@@ -2626,7 +2678,8 @@ class SceneGame extends Phaser.Scene {
 
         //Controles Riddle
         //Movimiento horizontal
-        if(!this.juegoDetenidoRiddle) {
+
+        if(!this.juegoDetenidoRiddle && juegoLocal) {
 
             if (this.cursors.left.isDown)
                 {
@@ -2655,7 +2708,7 @@ class SceneGame extends Phaser.Scene {
         }
 
         this.input.keyboard.on('keydown_Z', () =>{
-            if(this.nuevoIntento) {
+            if(this.nuevoIntento && juegoLocal) {
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
                 this.camera2.stopFollow();
@@ -2669,7 +2722,7 @@ class SceneGame extends Phaser.Scene {
             }
         });
 
-        if(this.inventarioRiddleImg.visible) {
+        if(this.inventarioRiddleImg.visible && juegoLocal) {
             this.juegoDetenidoRiddle = true;
             this.input.keyboard.on('keydown_SHIFT', () =>{ 
                     this.juegoDetenidoRiddle = false;
@@ -2678,7 +2731,7 @@ class SceneGame extends Phaser.Scene {
 
 
         this.input.keyboard.on('keydown_M', () =>{
-            if(this.nuevoIntento) {
+            if(this.nuevoIntento && juegoLocal) {
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
                 this.camera1.stopFollow();
@@ -2692,45 +2745,34 @@ class SceneGame extends Phaser.Scene {
             }
         });
 
-        if(this.inventarioWiggleImg.visible) {
+        if(this.inventarioWiggleImg.visible && juegoLocal) {
             this.juegoDetenidoWiggle = true;
             this.input.keyboard.on('keydown_ENTER', () =>{ 
                     this.juegoDetenidoWiggle = false;
                 this.OcultarInventarioWiggle(); });
         }
 
+        //CONTROLES WIGGLE
+
             this.input.keyboard.on('keydown_W', () =>{
-                    if(!this.juegoDetenidoWiggle) {
+                    if(!this.juegoDetenidoWiggle && juegoLocal) {
                         this.Wiggle.setVelocityY(-40);
                     } 
                  });
             this.input.keyboard.on('keydown_A', () =>{ 
-                if(!this.juegoDetenidoWiggle) {
+                if(!this.juegoDetenidoWiggle && juegoLocal) {
                     this.Wiggle.setVelocityX(-40);
                 } 
                  });
             this.input.keyboard.on('keydown_S', () =>{ 
-                if(!this.juegoDetenidoWiggle) {
+                if(!this.juegoDetenidoWiggle && juegoLocal) {
                     this.Wiggle.setVelocityY(40);
                 } 
                  });
             this.input.keyboard.on('keydown_D', () =>{ 
-                if(!this.juegoDetenidoWiggle) {
+                if(!this.juegoDetenidoWiggle && juegoLocal) {
                     this.Wiggle.setVelocityX(40);
                 } 
-                 });
-
-            this.input.keyboard.on('keyup_W', () =>{ 
-                    this.Wiggle.setVelocityY(0);
-                 });
-            this.input.keyboard.on('keyup_A', () =>{ 
-                    this.Wiggle.setVelocityX(0);
-                 });
-            this.input.keyboard.on('keyup_S', () =>{ 
-                    this.Wiggle.setVelocityY(0);
-                 });
-            this.input.keyboard.on('keyup_D', () =>{ 
-                    this.Wiggle.setVelocityX(0);
                  });
         
         // Cuando Wiggle interactua con un objeto
@@ -2740,143 +2782,254 @@ class SceneGame extends Phaser.Scene {
         this.input.keyboard.on('keydown_SPACE', () =>{ 
                 this.ComprobarObjetoInteractuableJ1(); });
         
-                if(this.cajaTexto.visible){
+                if(this.cajaTexto.visible && juegoLocal){
                     this.juegoDetenidoRiddle = true;
                 }
-                if(this.cajaTexto2.visible){
+                if(this.cajaTexto2.visible && juegoLocal){
                     this.juegoDetenidoWiggle = true;
                 }
-                if(this.libroPiano1.visible) {
+                if(this.libroPiano1.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_SHIFT', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarLibro1(); });
                 }
     
-                if(this.libroPiano2.visible) {
+                if(this.libroPiano2.visible && juegoLocal) {
                     this.juegoDetenidoWiggle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoWiggle = false;
                     this.OcultarLibro2(); });
                 }
     
-                if(this.puzlePiano.visible) {
+                if(this.puzlePiano.visible && juegoLocal ) {
                     this.juegoDetenidoWiggle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoWiggle = false;
                     this.OcultarPuzlePiano(); });
                 }
 
-                if(this.puzleFloresR1.visible) {
+                if(this.puzleFloresR1.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_SHIFT', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarPuzleR1(); });
                 }
     
-                if(this.puzleFloresR2.visible) {
+                if(this.puzleFloresR2.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_SHIFT', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarPuzleR2(); });
                 }
-                if(this.puzleFloresW1.visible) {
+                if(this.puzleFloresW1.visible && juegoLocal) {
                     this.juegoDetenidoWiggle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoWiggle = false;
                     this.OcultarPuzleW1(); });
                 }
-                if(this.puzleFloresW2.visible) {
+                if(this.puzleFloresW2.visible && juegoLocal) {
                     this.juegoDetenidoWiggle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoWiggle = false;
                     this.OcultarPuzleW2(); });
                 }
-                if(this.puzleSimbolos.visible) {
+                if(this.puzleSimbolos.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_SHIFT', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarPuzleSimbolos1(); });
                 }
-                if(this.puzleSimbolos2.visible) {
+                if(this.puzleSimbolos2.visible && juegoLocal) {
                     this.juegoDetenidoWiggle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoWiggle = false;
                     this.OcultarPuzleSimbolos2(); });
                 }
-                if(this.panelContraseña1.visible) {
+                if(this.panelContraseña1.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_SHIFT', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarPuzleContraseña1(); });
                 }
-                if(this.panelContraseña2.visible) {
+                if(this.panelContraseña2.visible && juegoLocal) {
                     this.juegoDetenidoWiggle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoWiggle = false;
                     this.OcultarPuzleContraseña2(); });
                 }
-                if(this.puzleGatos1.visible) {
+                if(this.puzleGatos1.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_SHIFT', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarPuzleGatos1(); });
                 }
-                if(this.puzleGatos2.visible) {
+                if(this.puzleGatos2.visible && juegoLocal) {
                     this.juegoDetenidoWiggle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoWiggle = false;
                     this.OcultarPuzleGatos2(); });
                 }
-                if(this.mensajeGatos1.visible) {
+                if(this.mensajeGatos1.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_SHIFT', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarMensajeGatos1(); });
                 }
-                if(this.mensajeGatos2.visible) {
+                if(this.mensajeGatos2.visible && juegoLocal) {
                     this.juegoDetenidoWiggle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoWiggle = false;
                     this.OcultarMensajeGatos2(); });
                 }
 
-                if(this.ingredientesNeveraR1.visible) {
+                if(this.ingredientesNeveraR1.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_SHIFT', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarIngredientesNeveraR1(); });
                 }
-                if(this.ingredientesNeveraR2.visible) {
+                if(this.ingredientesNeveraR2.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_SHIFT', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarIngredientesNeveraR2(); });
                 }
-                if(this.ingredientesNeveraW1.visible) {
+                if(this.ingredientesNeveraW1.visible && juegoLocal) {
                     this.juegoDetenidoWiggle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoWiggle= false;
                     this.OcultarIngredientesNeveraW1(); });
                 }
-                if(this.ingredientesNeveraW2.visible) {
+                if(this.ingredientesNeveraW2.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarIngredientesNeveraW2(); });
                 }
-                if(this.ingredientesCaldero1.visible) {
+                if(this.ingredientesCaldero1.visible && juegoLocal) {
                     this.juegoDetenidoRiddle = true;
                     this.input.keyboard.on('keydown_SHIFT', () =>{ 
                         this.juegoDetenidoRiddle = false;
                     this.OcultarIngredientesCaldero1(); });
                 }
-                if(this.ingredientesCaldero2.visible) {
-                    this.juegoDetenidoWiddle = true;
+                if(this.ingredientesCaldero2.visible && juegoLocal) {
+                    this.juegoDetenidoWiggle = true;
                     this.input.keyboard.on('keydown_ENTER', () =>{ 
                         this.juegoDetenidoWiggle = false;
                     this.OcultarIngredientesCaldero2(); });
                 }
+
+                //CONTROLES JUEGO DEMO 
+                this.input.keyboard.on('keydown_W', () =>{ 
+                   if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
+                        this.Wiggle.setVelocityY(-40);
+                        gestorWS.EnviarMensaje("Movimiento","W")
+                     }
+                    if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
+                        this.Riddle.setVelocityY(-40);
+                        gestorWS.EnviarMensaje("Movimiento","W")
+                     }       
+                 });
+
+                 this.input.keyboard.on('keydown_S', () =>{ 
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
+                         this.Wiggle.setVelocityY(40);
+                         gestorWS.EnviarMensaje("Movimiento","S")
+                      }
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
+                         this.Riddle.setVelocityY(40);
+                         gestorWS.EnviarMensaje("Movimiento","S")
+                      }       
+                  });
+
+                  this.input.keyboard.on('keydown_A', () =>{ 
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
+                         this.Wiggle.setVelocityX(-40);
+                         gestorWS.EnviarMensaje("Movimiento","A")
+                      }
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
+                         this.Riddle.setVelocityX(-40);
+                         gestorWS.EnviarMensaje("Movimiento","A")
+                      }       
+                  });
+
+                  this.input.keyboard.on('keydown_D', () =>{ 
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
+                         this.Wiggle.setVelocityX(40);
+                         gestorWS.EnviarMensaje("Movimiento","D")
+                      }
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
+                         this.Riddle.setVelocityX(40);
+                         gestorWS.EnviarMensaje("Movimiento","D")
+                      }       
+                  });
+                  
+                  this.input.keyboard.on('keyup_W', () =>{ 
+                    if(!juegoLocal){
+                        gestorWS.EnviarMensaje("Movimiento","Soltar");
+                        if(jugadorAsignado=="R"){
+                            this.Riddle.setVelocityX(0);
+                            this.Riddle.setVelocityY(0);
+                        }
+                        if(jugadorAsignado=="W"){
+                            this.Wiggle.setVelocityX(0);
+                            this.Wiggle.setVelocityY(0);
+                        }
+                    }else{
+                        this.Wiggle.setVelocityX(0);
+                        this.Wiggle.setVelocityY(0);
+                    }
+                 });
+                  this.input.keyboard.on('keyup_A', () =>{ 
+                    if(!juegoLocal){
+                        gestorWS.EnviarMensaje("Movimiento","Soltar");
+                        if(jugadorAsignado=="R"){
+                            this.Riddle.setVelocityX(0);
+                            this.Riddle.setVelocityY(0);
+                        }
+                        if(jugadorAsignado=="W"){
+                            this.Wiggle.setVelocityX(0);
+                            this.Wiggle.setVelocityY(0);
+                        }
+                    }else{
+                        this.Wiggle.setVelocityX(0);
+                        this.Wiggle.setVelocityY(0);
+                    }
+                    
+                 });
+                  this.input.keyboard.on('keyup_S', () =>{ 
+                    if(!juegoLocal){
+                        gestorWS.EnviarMensaje("Movimiento","Soltar");
+                        if(jugadorAsignado=="R"){
+                            this.Riddle.setVelocityX(0);
+                            this.Riddle.setVelocityY(0);
+                        }
+                        if(jugadorAsignado=="W"){
+                            this.Wiggle.setVelocityX(0);
+                            this.Wiggle.setVelocityY(0);
+                        }
+                    }else{
+                        this.Wiggle.setVelocityX(0);
+                        this.Wiggle.setVelocityY(0);
+                    }
+                 });
+                  this.input.keyboard.on('keyup_D', () =>{ 
+                    if(!juegoLocal){
+                        gestorWS.EnviarMensaje("Movimiento","Soltar");
+                        if(jugadorAsignado=="R"){
+                            this.Riddle.setVelocityX(0);
+                            this.Riddle.setVelocityY(0);
+                        }
+                        if(jugadorAsignado=="W"){
+                            this.Wiggle.setVelocityX(0);
+                            this.Wiggle.setVelocityY(0);
+                        }
+                    }else{
+                        this.Wiggle.setVelocityX(0);
+                        this.Wiggle.setVelocityY(0);
+                    }
+                 });
 
                 this.input.keyboard.on('keycombomatch', event =>
                 {
