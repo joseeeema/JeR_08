@@ -2924,50 +2924,50 @@ class SceneGame extends Phaser.Scene {
                 this.input.keyboard.on('keydown_W', () =>{ 
                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
                         this.Wiggle.setVelocityY(-40);
-                        gestorWS.EnviarMensaje("Movimiento","W")
+                        gestorWS.EnviarMensaje("Movimiento","W", conexionWS)
                      }
                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
                         this.Riddle.setVelocityY(-40);
-                        gestorWS.EnviarMensaje("Movimiento","W")
+                        gestorWS.EnviarMensaje("Movimiento","W", conexionWS)
                      }       
                  });
 
                  this.input.keyboard.on('keydown_S', () =>{ 
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
                          this.Wiggle.setVelocityY(40);
-                         gestorWS.EnviarMensaje("Movimiento","S")
+                         gestorWS.EnviarMensaje("Movimiento","S", conexionWS)
                       }
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
                          this.Riddle.setVelocityY(40);
-                         gestorWS.EnviarMensaje("Movimiento","S")
+                         gestorWS.EnviarMensaje("Movimiento","S", conexionWS)
                       }       
                   });
 
                   this.input.keyboard.on('keydown_A', () =>{ 
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
                          this.Wiggle.setVelocityX(-40);
-                         gestorWS.EnviarMensaje("Movimiento","A")
+                         gestorWS.EnviarMensaje("Movimiento","A", conexionWS)
                       }
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
                          this.Riddle.setVelocityX(-40);
-                         gestorWS.EnviarMensaje("Movimiento","A")
+                         gestorWS.EnviarMensaje("Movimiento","A", conexionWS)
                       }       
                   });
 
                   this.input.keyboard.on('keydown_D', () =>{ 
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
                          this.Wiggle.setVelocityX(40);
-                         gestorWS.EnviarMensaje("Movimiento","D")
+                         gestorWS.EnviarMensaje("Movimiento","D", conexionWS)
                       }
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
                          this.Riddle.setVelocityX(40);
-                         gestorWS.EnviarMensaje("Movimiento","D")
+                         gestorWS.EnviarMensaje("Movimiento","D", conexionWS)
                       }       
                   });
                   
                   this.input.keyboard.on('keyup_W', () =>{ 
                     if(!juegoLocal){
-                        gestorWS.EnviarMensaje("Movimiento","Soltar");
+                        gestorWS.EnviarMensaje("Movimiento","Soltar", conexionWS);
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -2983,7 +2983,7 @@ class SceneGame extends Phaser.Scene {
                  });
                   this.input.keyboard.on('keyup_A', () =>{ 
                     if(!juegoLocal){
-                        gestorWS.EnviarMensaje("Movimiento","Soltar");
+                        gestorWS.EnviarMensaje("Movimiento","Soltar", conexionWS);
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -3000,7 +3000,7 @@ class SceneGame extends Phaser.Scene {
                  });
                   this.input.keyboard.on('keyup_S', () =>{ 
                     if(!juegoLocal){
-                        gestorWS.EnviarMensaje("Movimiento","Soltar");
+                        gestorWS.EnviarMensaje("Movimiento","Soltar", conexionWS);
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -3016,7 +3016,7 @@ class SceneGame extends Phaser.Scene {
                  });
                   this.input.keyboard.on('keyup_D', () =>{ 
                     if(!juegoLocal){
-                        gestorWS.EnviarMensaje("Movimiento","Soltar");
+                        gestorWS.EnviarMensaje("Movimiento","Soltar", conexionWS);
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);

@@ -14,7 +14,7 @@ class GestionWS{
         return this.conexion;
     }        
 
-    EnviarMensaje(type, content){
+    EnviarMensaje(type, content, conexion){
             var mensaje = {
                 type : type,
                 content : content

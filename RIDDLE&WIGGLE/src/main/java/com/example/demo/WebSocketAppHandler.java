@@ -107,6 +107,4 @@ public class WebSocketAppHandler extends TextWebSocketHandler {
 		return Objects.requireNonNull(jsonNode.toString());
 	}
 
-
-
 }
