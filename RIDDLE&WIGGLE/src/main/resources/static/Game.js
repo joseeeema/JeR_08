@@ -3182,6 +3182,119 @@ class SceneGame extends Phaser.Scene {
                     }
                  });
 
+                 this.input.keyboard.on('keydown_SPACE', () =>{ 
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && !juegoLocal){
+                         this.ComprobarObjetoInteractuableJ2();
+                         if(this.nuevoIntento) {
+                             this.nuevoIntento = false;
+                             this.temporizadorNuevoIntento.paused = false;
+                         }
+                      }
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && !juegoLocal){
+                         this.ComprobarObjetoInteractuableJ1();
+                         if(this.nuevoIntento){
+                             this.nuevoIntento = false;
+                             this.temporizadorNuevoIntento.paused = false;
+                         }
+                      }       
+                  });
+
+                  this.input.keyboard.on('keydown_T', () =>{ 
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && !juegoLocal){
+                         this.IntercambiarPosiciones();
+                         if(this.nuevoIntento) {
+                             this.EnviarMensaje("Teletransporte","T");
+                             this.nuevoIntento = false;
+                             this.temporizadorNuevoIntento.paused = false;
+                         }
+                      }
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && !juegoLocal){
+                         this.IntercambiarPosiciones();
+                         if(this.nuevoIntento){
+                             this.EnviarMensaje("Teletransporte","T");
+                             this.nuevoIntento = false;
+                             this.temporizadorNuevoIntento.paused = false;
+                         }
+                      }       
+                  });
+                  
+                   
+                        if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.ingredientesNeveraR1.visible && !juegoLocal) {
+                            this.juegoDetenidoRiddle = true;
+                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                            this.juegoDetenidoRiddle = false;
+                            this.OcultarIngredientesNeveraR1(); });
+                        if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.ingredientesNeveraR2.visible && !juegoLocal) {
+                            this.juegoDetenidoRiddle = true;
+                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                            this.juegoDetenidoRiddle = false;
+                            this.OcultarIngredientesNeveraR2(); });
+                        }
+                        if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.ingredientesNeveraW1.visible && !juegoLocal) {
+                            this.juegoDetenidoWiggle = true;
+                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                                this.juegoDetenidoWiggle= false;
+                            this.OcultarIngredientesNeveraW1(); });
+                        }
+                        if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.ingredientesNeveraW2.visible && !juegoLocal) {
+                            this.juegoDetenidoWiggle = true;
+                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                                this.juegoDetenidoWiggle = false;
+                            this.OcultarIngredientesNeveraW2(); });
+                        }
+                        if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.ingredientesCaldero1.visible && !juegoLocal) {
+                            this.juegoDetenidoRiddle = true;
+                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                                this.juegoDetenidoRiddle = false;
+                            this.OcultarIngredientesCaldero1(); });
+                        }
+                        if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.ingredientesCaldero2.visible && !juegoLocal) {
+                            this.juegoDetenidoWiggle = true;
+                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                                this.juegoDetenidoWiggle = false;
+                            this.OcultarIngredientesCaldero2(); });
+                        }}
+
+                        this.input.keyboard.on('keydown_I', () =>{
+                            if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.nuevoIntento && !juegoLocal) {
+                                this.nuevoIntento = false;
+                                this.temporizadorNuevoIntento.paused = false;
+                                this.camera2.stopFollow();
+                                if(this.Riddle.x>400) {
+                                    this.camera2.centerOn(600,300);
+                                } else {
+                                    this.camera2.centerOn(200,300);
+                                }
+                                this.camera2.setZoom(1);
+                                this.MostrarInventarioRiddle();
+                            }
+                            if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.nuevoIntento && !juegoLocal) {
+                                this.nuevoIntento = false;
+                                this.temporizadorNuevoIntento.paused = false;
+                                this.camera2.stopFollow();
+                                if(this.Riddle.x>400) {
+                                    this.camera2.centerOn(600,300);
+                                } else {
+                                    this.camera2.centerOn(200,300);
+                                }
+                                this.camera2.setZoom(1);
+                                this.MostrarInventarioWiggle();
+                            }
+                        });
+
+                        if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.inventarioRiddleImg.visible && !juegoLocal) {
+                            this.juegoDetenidoRiddle = true;
+                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                                    this.juegoDetenidoRiddle = false;
+                                this.OcultarInventarioRiddle(); });
+                        }
+                        if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.inventarioWiggleImg.visible && juegoLocal) {
+                            this.juegoDetenidoWiggle = true;
+                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                                    this.juegoDetenidoWiggle = false;
+                                this.OcultarInventarioWiggle(); });
+                        }
+
                 this.input.keyboard.on('keycombomatch', event =>
                 {
                     this.ComprobarComboPiano();
