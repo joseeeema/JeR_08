@@ -297,6 +297,7 @@ class SceneGame extends Phaser.Scene {
     intermedioDemo2;
     continuarDemo = false;
     puzlesSaltados = false;
+    camarasInicializadas = false;
 
 
     constructor ()
@@ -1443,7 +1444,7 @@ class SceneGame extends Phaser.Scene {
         this.plantaB2.setText('');
         this.plantaC2 = this.add.text(250, 310, 'Flor 3', { fontSize: '12px', fill: '#ffffff' });
         this.plantaC2.setText('');
-        this.temporizadorNuevoIntento = this.time.addEvent({ delay: 500, callback: this.NuevoIntentoPlantas, callbackScope: this});
+        this.temporizadorNuevoIntento = this.time.addEvent({ delay: 300, callback: this.NuevoIntentoPlantas, callbackScope: this});
         this.temporizadorNuevoIntento.paused = true;
 
         // TEXTO SOBRE EL PUZLE DE LOS SÍMBOLOS
@@ -2544,8 +2545,6 @@ class SceneGame extends Phaser.Scene {
             }
         }
         contador = 1;        
-        this.temporizadorPosicion = this.time.addEvent({ delay: 500, callback: this.actualizarPosicion, callbackScope: this, loop: true});
-        this.temporizadorPosicion.paused = true;
     }
 
     update ()
@@ -2614,19 +2613,53 @@ class SceneGame extends Phaser.Scene {
                             this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                             this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                             this.camera2.startFollow(this.Riddle);
-                            this.temporizadorPosicion.paused = false;
+                        }
+                        break;
+                case "Movimiento":
+                    switch(informacionRecibida.contenido) {
+                        case '"W"':
+                            if(jugadorAsignado == "R") {
+                                this.Wiggle.setVelocityY(-40);
+                            }
+                            else {
+                                this.Riddle.setVelocityY(-40);
+                            }
+                            break;
+                        case '"S"':
+                            if(jugadorAsignado == "R") {
+                                this.Wiggle.setVelocityY(40);
+                            }
+                            else {
+                                this.Riddle.setVelocityY(40);
+                            }
+                            break;
+                        case '"A"':
+                            if(jugadorAsignado == "R") {
+                                this.Wiggle.setVelocityX(-40);
+                            }
+                            else {
+                                this.Riddle.setVelocityX(-40);
+                            }
+                            break;                       
+                        case '"D"':
+                            if(jugadorAsignado == "R") {
+                                this.Wiggle.setVelocityX(40);
+                            }
+                            else {
+                                this.Riddle.setVelocityX(40);
+                            }
+                            break; 
+                        case '"Soltar"':
+                            if(jugadorAsignado == "R") {
+                                this.Wiggle.setVelocityX(0);
+                                this.Wiggle.setVelocityY(0);
+                            }
+                            else {
+                                this.Riddle.setVelocityX(0);
+                                this.Riddle.setVelocityY(0);
+                            }
                             break;
                     }
-                case "Movimiento":
-                        if (jugadorAsignado == "R"){
-                            this.Wiggle.x = informacionRecibida.contenido{0};
-                            this.Wiggle.y = informacionRecibida.contenido{0};
-                        }
-
-                        if (jugadorAsignado == "W"){
-                            this.Riddle.x = informacionRecibida.contenido{0};
-                            this.Wiggle.y = informacionRecibida.contenido{0};
-                        }
                 break;                 
             }             
         }
@@ -2662,14 +2695,13 @@ class SceneGame extends Phaser.Scene {
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
                 this.eventoContador.paused = false;
-                this.temporizadorPosicion.paused = false;
-                
+                this.camarasInicializadas = true;
                 //CAMERA 1
                 this.camera1 = this.cameras.add(0, 0, 400, 800);
                 this.camera1.setZoom(3); // Ajusta el valor según sea necesario
                 this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
                 this.camera1.startFollow(this.Wiggle);
-
+                
                 // CAMERA 2
                 this.camera2 = this.cameras.add(400, 0, 400, 800);
                 this.camera2.setZoom(3); // Ajusta el valor según sea necesario
@@ -2975,7 +3007,7 @@ class SceneGame extends Phaser.Scene {
                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
                         this.Wiggle.setVelocityY(-40);
                         if(this.nuevoIntento) {
-                            this.EnviarMensaje("Movimiento", this.Wiggle.x, this.Wiggle.y);
+                            this.EnviarMensaje("Movimiento","W");
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                         }
@@ -3049,14 +3081,24 @@ class SceneGame extends Phaser.Scene {
                   
                   this.input.keyboard.on('keyup_W', () =>{ 
                     if(!juegoLocal){
-                        this.EnviarMensaje("Movimiento","Soltar");
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
+                            if(this.nuevoIntento) {
+                                this.EnviarMensaje("Movimiento","Soltar");
+                                this.nuevoIntento = false;
+                                this.temporizadorNuevoIntento.paused = false;
+                            }
+
                         }
                         if(jugadorAsignado=="W"){
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
+                            if(this.nuevoIntento) {
+                                this.EnviarMensaje("Movimiento","Soltar");
+                                this.nuevoIntento = false;
+                                this.temporizadorNuevoIntento.paused = false;
+                            }
                         }
                     }else{
                         this.Wiggle.setVelocityX(0);
@@ -3065,14 +3107,23 @@ class SceneGame extends Phaser.Scene {
                  });
                   this.input.keyboard.on('keyup_A', () =>{ 
                     if(!juegoLocal){
-                        this.EnviarMensaje("Movimiento","Soltar");
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
+                            if(this.nuevoIntento) {
+                                this.EnviarMensaje("Movimiento","Soltar");
+                                this.nuevoIntento = false;
+                                this.temporizadorNuevoIntento.paused = false;
+                            }
                         }
                         if(jugadorAsignado=="W"){
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
+                            if(this.nuevoIntento) {
+                                this.EnviarMensaje("Movimiento","Soltar");
+                                this.nuevoIntento = false;
+                                this.temporizadorNuevoIntento.paused = false;
+                            }
                         }
                     }else{
                         this.Wiggle.setVelocityX(0);
@@ -3082,14 +3133,23 @@ class SceneGame extends Phaser.Scene {
                  });
                   this.input.keyboard.on('keyup_S', () =>{ 
                     if(!juegoLocal){
-                        this.EnviarMensaje("Movimiento","Soltar");
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
+                            if(this.nuevoIntento) {
+                                this.EnviarMensaje("Movimiento","Soltar");
+                                this.nuevoIntento = false;
+                                this.temporizadorNuevoIntento.paused = false;
+                            }
                         }
                         if(jugadorAsignado=="W"){
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
+                            if(this.nuevoIntento) {
+                                this.EnviarMensaje("Movimiento","Soltar");
+                                this.nuevoIntento = false;
+                                this.temporizadorNuevoIntento.paused = false;
+                            }
                         }
                     }else{
                         this.Wiggle.setVelocityX(0);
@@ -3098,14 +3158,23 @@ class SceneGame extends Phaser.Scene {
                  });
                   this.input.keyboard.on('keyup_D', () =>{ 
                     if(!juegoLocal){
-                        this.EnviarMensaje("Movimiento","Soltar");
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
+                            if(this.nuevoIntento) {
+                                this.EnviarMensaje("Movimiento","Soltar");
+                                this.nuevoIntento = false;
+                                this.temporizadorNuevoIntento.paused = false;
+                            }
                         }
                         if(jugadorAsignado=="W"){
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
+                            if(this.nuevoIntento) {
+                                this.EnviarMensaje("Movimiento","Soltar");
+                                this.nuevoIntento = false;
+                                this.temporizadorNuevoIntento.paused = false;
+                            }
                         }
                     }else{
                         this.Wiggle.setVelocityX(0);
@@ -5895,21 +5964,6 @@ class SceneGame extends Phaser.Scene {
 
         seguirDemo() {
             this.continuarDemo = true;
-        }
-
-        actualizarPosicion(){
-            if (jugadorAsignado == "R"){
-                var posX = this.Riddle.x;
-                var posY = this.Riddle.y;
-                this.EnviarMensaje("Movimiento", {posX, posY});
-            }
-            
-            if (jugadorAsignado == "W"){
-                var posX = this.Wiggle.x;
-                var posY = this.Wiggle.y;
-                this.EnviarMensaje("Movimiento", {posX, posY});
-            }
-
         }
 
         EnviarMensaje(type, content){
