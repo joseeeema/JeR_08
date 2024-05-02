@@ -141,6 +141,7 @@ class SceneGame extends Phaser.Scene {
     clavesIntroducidas = 0;
     nuevaPosicionFlores = new Array(3);
     nuevoIntento = true;
+    nuevoIntento2 = true;
     jardinEnArmonia = false;
     resolucionMostradaJardin = false;
     secretoFogones = false;
@@ -428,10 +429,9 @@ class SceneGame extends Phaser.Scene {
         this.load.image('derrota', 'assets/GameOver.png');
 
         // DEMO
-        this.load.image('demo1', 'Assets/demo1.png');
-        this.load.image('demo2', 'Assets/demo2.png');
-        this.load.image('pantallaCarga', 'Assets/demo3.png');
-
+        this.load.image('demo1', 'Assets/demoEspera1.png');
+        this.load.image('demo2', 'Assets/demoEspera2.png');
+        this.load.image('pantallaCarga', 'Assets/pantallaCarga.png');
     }
 
     create (data)
@@ -1444,7 +1444,9 @@ class SceneGame extends Phaser.Scene {
         this.plantaB2.setText('');
         this.plantaC2 = this.add.text(250, 310, 'Flor 3', { fontSize: '12px', fill: '#ffffff' });
         this.plantaC2.setText('');
-        this.temporizadorNuevoIntento = this.time.addEvent({ delay: 300, callback: this.NuevoIntentoPlantas, callbackScope: this});
+        this.temporizadorNuevoIntento = this.time.addEvent({ delay: 100, callback: this.NuevoIntentoPlantas, callbackScope: this});
+        this.temporizadorNuevoIntento2 = this.time.addEvent({ delay: 100, callback: this.NuevoIntento2, callbackScope: this});
+        this.temporizadorNuevoIntento2.paused = true;
         this.temporizadorNuevoIntento.paused = true;
 
         // TEXTO SOBRE EL PUZLE DE LOS SÍMBOLOS
@@ -2660,7 +2662,43 @@ class SceneGame extends Phaser.Scene {
                             }
                             break;
                     }
-                break;                 
+                break; 
+                case "Caja":
+                    this.caja.disableBody(true, true);
+                    this.juegoDemo = true; 
+                    this.PrepararDemo();
+                    this.puzlesSaltados = true;
+                    break;
+                case "Teletransporte":
+                    this.IntercambiarPosiciones();
+                    break; 
+                case "Intermedio":
+                    switch(informacionRecibida.contenido) {
+                        case '"1"':
+                            this.intermedioDemo1.visible = false;
+                            this.intermedioDemo2.visible = true;
+                            this.continuarDemo = false;
+                            this.eventoDemo = this.time.addEvent({
+                                delay: 3000,
+                                loop: false,
+                                callback: () => {
+                                    this.seguirDemo();
+                                }
+                             });
+                        break;
+                        case '"2"':
+                            this.continuarDemo = false;
+                            this.intermedioDemo2.visible = false;
+
+                            this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+                            this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+                            this.camera1.startFollow(this.Wiggle);
+
+                            this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+                            this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+                            this.camera2.startFollow(this.Riddle);
+                        break; 
+                    }               
             }             
         }
         
@@ -2710,6 +2748,7 @@ class SceneGame extends Phaser.Scene {
                 
             }
             if(this.intermedioDemo1.visible&&this.continuarDemo) {
+                this.EnviarMensaje("Intermedio", "1");
                 this.intermedioDemo1.visible = false;
                 this.intermedioDemo2.visible = true;
                 this.continuarDemo = false;
@@ -2723,6 +2762,7 @@ class SceneGame extends Phaser.Scene {
                 
             }
             if(this.intermedioDemo2.visible&&this.continuarDemo) {
+                this.EnviarMensaje("Intermedio", "2");
                 this.continuarDemo = false;
                 this.intermedioDemo2.visible = false;
 
@@ -3084,20 +3124,20 @@ class SceneGame extends Phaser.Scene {
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
-                            if(this.nuevoIntento) {
+                            if(this.nuevoIntento2) {
                                 this.EnviarMensaje("Movimiento","Soltar");
-                                this.nuevoIntento = false;
-                                this.temporizadorNuevoIntento.paused = false;
+                                this.nuevoIntento2 = false;
+                                this.temporizadorNuevoIntento2.paused = false;
                             }
 
                         }
                         if(jugadorAsignado=="W"){
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
-                            if(this.nuevoIntento) {
+                            if(this.nuevoIntent2o) {
                                 this.EnviarMensaje("Movimiento","Soltar");
-                                this.nuevoIntento = false;
-                                this.temporizadorNuevoIntento.paused = false;
+                                this.nuevoIntento2 = false;
+                                this.temporizadorNuevoIntento2.paused = false;
                             }
                         }
                     }else{
@@ -3110,19 +3150,19 @@ class SceneGame extends Phaser.Scene {
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
-                            if(this.nuevoIntento) {
+                            if(this.nuevoIntento2) {
                                 this.EnviarMensaje("Movimiento","Soltar");
-                                this.nuevoIntento = false;
-                                this.temporizadorNuevoIntento.paused = false;
+                                this.nuevoIntento2 = false;
+                                this.temporizadorNuevoIntento2.paused = false;
                             }
                         }
                         if(jugadorAsignado=="W"){
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
-                            if(this.nuevoIntento) {
+                            if(this.nuevoIntento2) {
                                 this.EnviarMensaje("Movimiento","Soltar");
-                                this.nuevoIntento = false;
-                                this.temporizadorNuevoIntento.paused = false;
+                                this.nuevoIntento2 = false;
+                                this.temporizadorNuevoIntento2.paused = false;
                             }
                         }
                     }else{
@@ -3136,19 +3176,19 @@ class SceneGame extends Phaser.Scene {
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
-                            if(this.nuevoIntento) {
+                            if(this.nuevoIntento2) {
                                 this.EnviarMensaje("Movimiento","Soltar");
-                                this.nuevoIntento = false;
-                                this.temporizadorNuevoIntento.paused = false;
+                                this.nuevoIntento2 = false;
+                                this.temporizadorNuevoIntento2.paused = false;
                             }
                         }
                         if(jugadorAsignado=="W"){
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
-                            if(this.nuevoIntento) {
+                            if(this.nuevoIntento2) {
                                 this.EnviarMensaje("Movimiento","Soltar");
-                                this.nuevoIntento = false;
-                                this.temporizadorNuevoIntento.paused = false;
+                                this.nuevoIntento2 = false;
+                                this.temporizadorNuevoIntento2.paused = false;
                             }
                         }
                     }else{
@@ -3163,8 +3203,8 @@ class SceneGame extends Phaser.Scene {
                             this.Riddle.setVelocityY(0);
                             if(this.nuevoIntento) {
                                 this.EnviarMensaje("Movimiento","Soltar");
-                                this.nuevoIntento = false;
-                                this.temporizadorNuevoIntento.paused = false;
+                                this.nuevoIntento2 = false;
+                                this.temporizadorNuevoIntento2.paused = false;
                             }
                         }
                         if(jugadorAsignado=="W"){
@@ -3172,8 +3212,8 @@ class SceneGame extends Phaser.Scene {
                             this.Wiggle.setVelocityY(0);
                             if(this.nuevoIntento) {
                                 this.EnviarMensaje("Movimiento","Soltar");
-                                this.nuevoIntento = false;
-                                this.temporizadorNuevoIntento.paused = false;
+                                this.nuevoIntento2 = false;
+                                this.temporizadorNuevoIntento2.paused = false;
                             }
                         }
                     }else{
@@ -3259,20 +3299,20 @@ class SceneGame extends Phaser.Scene {
                             if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.nuevoIntento && !juegoLocal) {
                                 this.nuevoIntento = false;
                                 this.temporizadorNuevoIntento.paused = false;
-                                this.camera2.stopFollow();
+                                this.camera1.stopFollow();
                                 if(this.Riddle.x>400) {
-                                    this.camera2.centerOn(600,300);
+                                    this.camera1.centerOn(600,300);
                                 } else {
-                                    this.camera2.centerOn(200,300);
+                                    this.camera1.centerOn(200,300);
                                 }
-                                this.camera2.setZoom(1);
+                                this.camera1.setZoom(1);
                                 this.MostrarInventarioRiddle();
                             }
                             if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.nuevoIntento && !juegoLocal) {
                                 this.nuevoIntento = false;
                                 this.temporizadorNuevoIntento.paused = false;
                                 this.camera2.stopFollow();
-                                if(this.Riddle.x>400) {
+                                if(this.Wiggle.x>400) {
                                     this.camera2.centerOn(600,300);
                                 } else {
                                     this.camera2.centerOn(200,300);
@@ -3288,7 +3328,7 @@ class SceneGame extends Phaser.Scene {
                                     this.juegoDetenidoRiddle = false;
                                 this.OcultarInventarioRiddle(); });
                         }
-                        if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.inventarioWiggleImg.visible && juegoLocal) {
+                        if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.inventarioWiggleImg.visible && !juegoLocal) {
                             this.juegoDetenidoWiggle = true;
                             this.input.keyboard.on('keydown_SHIFT', () =>{ 
                                     this.juegoDetenidoWiggle = false;
@@ -4760,8 +4800,13 @@ class SceneGame extends Phaser.Scene {
 
         NuevoIntentoPlantas() {
             this.nuevoIntento = true;
-            this.temporizadorNuevoIntento = this.time.addEvent({ delay: 300, callback: this.NuevoIntentoPlantas, callbackScope: this});
+            this.temporizadorNuevoIntento = this.time.addEvent({ delay: 100, callback: this.NuevoIntentoPlantas, callbackScope: this});
             this.temporizadorNuevoIntento.paused = true;
+        }
+        NuevoIntento2() {
+            this.nuevoIntento2 = true;
+            this.temporizadorNuevoIntento2 = this.time.addEvent({ delay: 100, callback: this.NuevoIntento2, callbackScope: this});
+            this.temporizadorNuevoIntento2.paused = true;
         }
 
         ComprobarOrdenPlantas() {
@@ -6003,6 +6048,8 @@ class SceneGame extends Phaser.Scene {
 
         // FUNCIÓN PARA PREPARAR EL JUEGO PARA LA DEMO
         PrepararDemo() {
+                // Se comunica que se ha resuelto el puzle de la caja
+                this.EnviarMensaje("Caja", "R");
                 // Se detiene a Riddle y Wiggle
                 this.juegoDetenidoRiddle = true;
                 this.juegoDetenidoWiggle = true;
