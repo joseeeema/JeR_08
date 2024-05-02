@@ -38,9 +38,8 @@ public class WebSocketAppHandler extends TextWebSocketHandler {
 
 			sesionWiggle = session;
 			System.out.println("Nuevo usuario: " + session.getId());
-			EnviarMensaje(session, "Inicio", "W");
-
-
+			EnviarMensaje(session, "EmpezarPartida", "W");
+			EnviarMensaje(sesionRiddle, "EmpezarPartida", "W");
 		}else{
 			// Si ya hay dos sesiones conectadas, no se pueden añadir más jugadores
 			System.out.println("Numero maximo de jugadores alcanzado.");

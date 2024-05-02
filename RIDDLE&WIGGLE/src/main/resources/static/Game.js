@@ -429,6 +429,7 @@ class SceneGame extends Phaser.Scene {
         // DEMO
         this.load.image('demo1', 'Assets/demo1.png');
         this.load.image('demo2', 'Assets/demo2.png');
+        this.load.image('pantallaCarga', 'Assets/demo3.png');
 
     }
 
@@ -2480,6 +2481,10 @@ class SceneGame extends Phaser.Scene {
         this.introduccion3 = this.add.image(400,300,'introduccion3');
         this.introduccion2 = this.add.image(400,300,'introduccion2');
         this.introduccion1 = this.add.image(400,300,'introduccion1');
+        this.introduccion1.visible = false;
+        this.introduccion2.visible = false;
+        this.introduccion3.visible = false;
+        this.introduccion4.visible = false;
 
         // Imágenes de victoria y derrota
         this.victoria = this.add.image(400,300,'victoria');
@@ -2510,6 +2515,10 @@ class SceneGame extends Phaser.Scene {
         this.intermedioDemo2 = this.add.image(400,300,'demo2');
         this.intermedioDemo2.visible = false;
 
+        // PANTALLA DE CARGA
+        this.pantallaCarga = this.add.image(400,300,'pantallaCarga');
+        this.pantallaCarga.visible = true;
+
         if(!juegoLocal&&contador==1) {         
             // CREACIÓN DE LA CONEXIÓN
             // Se entabla la conexión con el servidor
@@ -2534,8 +2543,7 @@ class SceneGame extends Phaser.Scene {
                 }
             }
         }
-        contador = 1;
-        
+        contador = 1;        
     }
 
     update ()
@@ -2546,7 +2554,66 @@ class SceneGame extends Phaser.Scene {
             switch(informacionRecibida.tipo){
                 case "Inicio":
                     jugadorAsignado = informacionRecibida.contenido;
+                    if(jugadorAsignado=="R") {
+                        this.pantallaCarga.visible = true;
+                        this.juegoDetenidoRiddle = true;
+                        this.juegoDetenidoWiggle = true;
+                        window.alert("Eres el J1, Riddle. Tienes que esperar a que se una otro jugador como Wiggle!");
+                    }
                 break;
+                case "EmpezarPartida":
+                    if(jugadorAsignado=="R") {
+                        this.pantallaCarga.visible = false;
+                        this.introduccion1.visible = true;
+                        window.alert("Ya se ha unido otro usuario, podéis comenzar a jugar.");
+                    }
+                    else {
+                        jugadorAsignado = "W";
+                        this.pantallaCarga.visible = false;
+                        this.introduccion1.visible = true;
+                        window.alert("Eres el J2, Wiggle. Podéis comenzar la partida!");
+                    }
+                case "Pantalla":
+                    switch(informacionRecibida.contenido) {
+                        case '"1"':
+                            this.introduccion1.visible = false;
+                            this.introduccion2.visible = true;
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                            break;
+                        case '"2"':
+                            this.introduccion2.visible = false;
+                            this.introduccion3.visible = true;
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                            break;
+                        case '"3"':
+                            this.introduccion3.visible = false;
+                            this.introduccion4.visible = true;
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                            break;
+                        case '"4"':
+                            this.introduccion4.visible = false;
+                            this.juegoDetenidoRiddle = false;
+                            this.juegoDetenidoWiggle = false;
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                            this.eventoContador.paused = false;
+                
+                            //CAMERA 1
+                            this.camera1 = this.cameras.add(0, 0, 400, 800);
+                            this.camera1.setZoom(3); // Ajusta el valor según sea necesario
+                            this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
+                            this.camera1.startFollow(this.Wiggle);
+
+                            // CAMERA 2
+                            this.camera2 = this.cameras.add(400, 0, 400, 800);
+                            this.camera2.setZoom(3); // Ajusta el valor según sea necesario
+                            this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
+                            this.camera2.startFollow(this.Riddle);
+                            break;
+                    }
                 case "Movimiento":
                     switch(informacionRecibida.contenido){
                         case '"W"':
@@ -2599,24 +2666,28 @@ class SceneGame extends Phaser.Scene {
         // Introducción
         this.input.keyboard.on('keydown_ENTER', () =>{ 
             if(this.introduccion1.visible&&this.nuevoIntento&&!this.juegoDemo) {
+                this.EnviarMensaje("Pantalla", "1");
                 this.introduccion1.visible = false;
                 this.introduccion2.visible = true;
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
             }
             if(this.introduccion2.visible&&this.nuevoIntento&&!this.juegoDemo) {
+                this.EnviarMensaje("Pantalla", "2");
                 this.introduccion2.visible = false;
                 this.introduccion3.visible = true;
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
             }
             if(this.introduccion3.visible&&this.nuevoIntento&&!this.juegoDemo) {
+                this.EnviarMensaje("Pantalla", "3");
                 this.introduccion3.visible = false;
                 this.introduccion4.visible = true;
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
             }
             if(this.introduccion4.visible&&this.nuevoIntento&&!this.juegoDemo) {
+                this.EnviarMensaje("Pantalla", "4");
                 this.introduccion4.visible = false;
                 this.juegoDetenidoRiddle = false;
                 this.juegoDetenidoWiggle = false;
@@ -2664,7 +2735,7 @@ class SceneGame extends Phaser.Scene {
             }
         
         });
-        if(!this.introduccion4.visible) {
+        if(!this.introduccion4.visible&&!this.juegoDetenidoRiddle) {
             if(this.fondoWiggle.visible) {
                 this.textoTemp.x = 50;
                 this.textoTemp.y = 30;
