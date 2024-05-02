@@ -1,7 +1,6 @@
 var nombreUsuario;
 var local;
 var peticionesServidor = new PeticionesServidor();
-var IPServidor;
 function devolver_nombre_equipo (){
     return nombreUsuario;
 }
@@ -14,10 +13,6 @@ function devolver_local () {
     return local;
 }
 export {devolver_local};
-function devolver_IP_Servidor() {
-    return IPServidor;
-}
-export {devolver_IP_Servidor};
 
 class SceneMenu extends Phaser.Scene {
     wake = false;
@@ -128,29 +123,17 @@ class SceneMenu extends Phaser.Scene {
                     this.scene.start('SceneGame');
                     this.wake = true;
                 }
-                if(this.introducirIP && !this.wake) {
+                if(!this.wake && this.pointer.y == 388) {
+                    local = false;
                     this.scene.wake('SceneGame');
                     this.scene.stop('SceneMenu');
                     this.scene.start('SceneGame');
                     this.wake = true;
-                    IPServidor = this.IPIntroducida.text;
-                }
-                if(!this.wake && this.pointer.y == 388) {
-                    local = false;
-                    this.opcion1.setText();
-                    this.opcion2.setText();
-                    this.opcion3.setText();
-                    this.titulo1.setText("INTRODUCE LA IP DEL SERVIDOR");
-                    this.titulo2.setText('Después, pulsa Enter para continuar');
-                    this.textbox1.visible = true;
-                    this.introducirIP = true;
-                    this.pointer.visible = false;
                 }                
                 else 
                 {
                     //window.close();
                     this.exit = this.add.image(400, 300, 'exit').setScale(1.5);
-                    
                     this.scene.stop('SceneMenu');
                 }
                 this.nuevoIntento = false;

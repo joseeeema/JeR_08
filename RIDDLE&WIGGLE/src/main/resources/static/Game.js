@@ -1,7 +1,6 @@
 import { devolver_nombre_equipo } from "./Menu.js";
 import { devolver_IP } from "./Menu.js";
 import { devolver_local } from "./Menu.js";
-import { devolver_IP_Servidor } from "./Menu.js";
 // Variables necesarias para realizar funciones con peticiones al servidor
 var peticionesServer = new PeticionesServidor();
 var textoObjetosRiddle = new Array(23);
@@ -11,9 +10,11 @@ var titulo;
 var equipo;
 var juegoLocal;
 var IPServidor;
-var gestorWS = new GestionWS();
 var conexionWS;
 var jugadorAsignado;
+var contador = 0;
+var informacionRecibida;
+var informacionProcesada = true;
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
@@ -435,79 +436,6 @@ class SceneGame extends Phaser.Scene {
     {
         juegoLocal = devolver_local();
         equipo = devolver_nombre_equipo();
-        if(!juegoLocal) {         
-            // CREACIÓN DE LA CONEXIÓN
-            IPServidor = devolver_IP_Servidor();
-            console.log(IPServidor);
-            // Se entabla la conexión con el servidor
-            conexionWS = gestorWS.EstablecerConexion(IPServidor);
-            if(conexionWS != null) {
-                // CONFIGURACIÓN DE LA CONEXIÓN
-                conexionWS.onopen = function(){
-                    console.log("Conexión establecida");
-                }
-                
-                conexionWS.onclose = function(){
-                    console.log("Conexión finalizada");
-                }
-                
-                conexionWS.onmessage = function(mensaje) {
-                    var mensaje2 = JSON.parse(mensaje.data)
-                    console.log(mensaje2)
-                    switch(mensaje2.tipo){
-                        case "Inicio":
-                            jugadorAsignado = mensaje2.contenido;
-                        break;
-                        case "Movimiento":
-                            switch(mensaje2.contenido){
-                                case "W":
-                                    if(jugadorAsignado=="W"){
-                                        this.Riddle.setVelocityY(-40)
-                                    }
-                                    if(jugadorAsignado=="R"){
-                                        this.Wiggle.setVelocityY(-40)
-                                    }
-                                    break;
-                                case "A":
-                                    if(jugadorAsignado=="W"){
-                                         this.Riddle.setVelocityX(-40)
-                                        }
-                                    if(jugadorAsignado=="R"){
-                                         this.Wiggle.setVelocityX(-40)
-                                        }
-                                    break;
-                                case "S":
-                                    if(jugadorAsignado=="W"){
-                                         this.Riddle.setVelocityY(40)
-                                        }
-                                    if(jugadorAsignado=="R"){
-                                         this.Wiggle.setVelocityY(40)
-                                        }
-                                    break;
-                                case "D":
-                                    if(jugadorAsignado=="W"){
-                                         this.Riddle.setVelocityX(40)
-                                        }
-                                    if(jugadorAsignado=="R"){
-                                         this.Wiggle.setVelocityX(40)
-                                        }
-                                    break;
-                                case "Soltar":
-                                    if(jugadorAsignado=="W"){
-                                        this.Riddle.setVelocityX(0)
-                                        this.Riddle.setVelocityY(0)
-                                       }
-                                   if(jugadorAsignado=="R"){
-                                        this.Wiggle.setVelocityX(0)
-                                        this.Wiggle.setVelocityY(0)
-                                       }
-                                   break;   
-                            }    
-                        break;                 
-                    }             
-                }
-            }
-        }
 
         this.ReiniciarObjetos();
         
@@ -2581,11 +2509,93 @@ class SceneGame extends Phaser.Scene {
         this.intermedioDemo1.visible = false;
         this.intermedioDemo2 = this.add.image(400,300,'demo2');
         this.intermedioDemo2.visible = false;
+
+        if(!juegoLocal&&contador==1) {         
+            // CREACIÓN DE LA CONEXIÓN
+            // Se entabla la conexión con el servidor
+            IPServidor = location.host;
+            var websocketIP = 'ws://' + IPServidor +'/game';
+            conexionWS = new WebSocket(websocketIP);
+            if(conexionWS != null) {
+                // CONFIGURACIÓN DE LA CONEXIÓN
+                conexionWS.onopen = function(){
+                    console.log("Conexión establecida");
+                }
+                
+                conexionWS.onclose = function(){
+                    console.log("Conexión finalizada");
+                }
+                
+                conexionWS.onmessage = function(mensaje) {
+                    informacionProcesada = false;
+                    var mensajeJSON = JSON.parse(mensaje.data)
+                    console.log(mensajeJSON)
+                    informacionRecibida = {tipo: mensajeJSON.tipo, contenido: mensajeJSON.contenido};
+                }
+            }
+        }
+        contador = 1;
         
     }
 
     update ()
     {
+        // GESTIÓN DE MENSAJES DE WEBSOCKETS
+        if(!informacionProcesada) {
+            informacionProcesada = true;
+            switch(informacionRecibida.tipo){
+                case "Inicio":
+                    jugadorAsignado = informacionRecibida.contenido;
+                break;
+                case "Movimiento":
+                    switch(informacionRecibida.contenido){
+                        case '"W"':
+                            if(jugadorAsignado=="W"){
+                                this.Riddle.setVelocityY(-40)
+                            }
+                            if(jugadorAsignado=="R"){
+                                this.Wiggle.setVelocityY(-40)
+                            }
+                            break;
+                        case '"A"':
+                            if(jugadorAsignado=="W"){
+                                 this.Riddle.setVelocityX(-40)
+                                }
+                            if(jugadorAsignado=="R"){
+                                 this.Wiggle.setVelocityX(-40)
+                                }
+                            break;
+                        case '"S"':
+                            if(jugadorAsignado=="W"){
+                                 this.Riddle.setVelocityY(40)
+                                }
+                            if(jugadorAsignado=="R"){
+                                 this.Wiggle.setVelocityY(40)
+                                }
+                            break;
+                        case '"D"':
+                            if(jugadorAsignado=="W"){
+                                 this.Riddle.setVelocityX(40)
+                                }
+                            if(jugadorAsignado=="R"){
+                                 this.Wiggle.setVelocityX(40)
+                                }
+                            break;
+                        case '"Soltar"':
+                            if(jugadorAsignado=="W"){
+                                this.Riddle.setVelocityX(0)
+                                this.Riddle.setVelocityY(0)
+                               }
+                           if(jugadorAsignado=="R"){
+                                this.Wiggle.setVelocityX(0)
+                                this.Wiggle.setVelocityY(0)
+                               }
+                           break;   
+                    }    
+                break;                 
+            }             
+        }
+        
         // Introducción
         this.input.keyboard.on('keydown_ENTER', () =>{ 
             if(this.introduccion1.visible&&this.nuevoIntento&&!this.juegoDemo) {
@@ -2924,50 +2934,82 @@ class SceneGame extends Phaser.Scene {
                 this.input.keyboard.on('keydown_W', () =>{ 
                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
                         this.Wiggle.setVelocityY(-40);
-                        gestorWS.EnviarMensaje("Movimiento","W", conexionWS)
+                        if(this.nuevoIntento) {
+                            this.EnviarMensaje("Movimiento","W");
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                        }
                      }
                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
                         this.Riddle.setVelocityY(-40);
-                        gestorWS.EnviarMensaje("Movimiento","W", conexionWS)
+                        if(this.nuevoIntento) {
+                            this.EnviarMensaje("Movimiento","W");
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                        }
                      }       
                  });
 
                  this.input.keyboard.on('keydown_S', () =>{ 
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
                          this.Wiggle.setVelocityY(40);
-                         gestorWS.EnviarMensaje("Movimiento","S", conexionWS)
+                         if(this.nuevoIntento) {
+                            this.EnviarMensaje("Movimiento","S");
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                        }
                       }
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
                          this.Riddle.setVelocityY(40);
-                         gestorWS.EnviarMensaje("Movimiento","S", conexionWS)
+                         if(this.nuevoIntento) {
+                            this.EnviarMensaje("Movimiento","S");
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                        }
                       }       
                   });
 
                   this.input.keyboard.on('keydown_A', () =>{ 
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
                          this.Wiggle.setVelocityX(-40);
-                         gestorWS.EnviarMensaje("Movimiento","A", conexionWS)
+                         if(this.nuevoIntento) {
+                            this.EnviarMensaje("Movimiento","A");
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                        }
                       }
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
                          this.Riddle.setVelocityX(-40);
-                         gestorWS.EnviarMensaje("Movimiento","A", conexionWS)
+                         if(this.nuevoIntento) {
+                            this.EnviarMensaje("Movimiento","A");
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                        }
                       }       
                   });
 
                   this.input.keyboard.on('keydown_D', () =>{ 
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
                          this.Wiggle.setVelocityX(40);
-                         gestorWS.EnviarMensaje("Movimiento","D", conexionWS)
+                         if(this.nuevoIntento) {
+                            this.EnviarMensaje("Movimiento","D");
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                        }
                       }
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
                          this.Riddle.setVelocityX(40);
-                         gestorWS.EnviarMensaje("Movimiento","D", conexionWS)
+                         if(this.nuevoIntento) {
+                            this.EnviarMensaje("Movimiento","D");
+                            this.nuevoIntento = false;
+                            this.temporizadorNuevoIntento.paused = false;
+                        }
                       }       
                   });
                   
                   this.input.keyboard.on('keyup_W', () =>{ 
                     if(!juegoLocal){
-                        gestorWS.EnviarMensaje("Movimiento","Soltar", conexionWS);
+                        this.EnviarMensaje("Movimiento","Soltar");
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -2983,7 +3025,7 @@ class SceneGame extends Phaser.Scene {
                  });
                   this.input.keyboard.on('keyup_A', () =>{ 
                     if(!juegoLocal){
-                        gestorWS.EnviarMensaje("Movimiento","Soltar", conexionWS);
+                        this.EnviarMensaje("Movimiento","Soltar");
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -3000,7 +3042,7 @@ class SceneGame extends Phaser.Scene {
                  });
                   this.input.keyboard.on('keyup_S', () =>{ 
                     if(!juegoLocal){
-                        gestorWS.EnviarMensaje("Movimiento","Soltar", conexionWS);
+                        this.EnviarMensaje("Movimiento","Soltar");
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -3016,7 +3058,7 @@ class SceneGame extends Phaser.Scene {
                  });
                   this.input.keyboard.on('keyup_D', () =>{ 
                     if(!juegoLocal){
-                        gestorWS.EnviarMensaje("Movimiento","Soltar", conexionWS);
+                        this.EnviarMensaje("Movimiento","Soltar");
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -5813,6 +5855,14 @@ class SceneGame extends Phaser.Scene {
 
         seguirDemo() {
             this.continuarDemo = true;
+        }
+
+        EnviarMensaje(type, content){
+            var mensaje = {
+                tipo : type,
+                contenido : content
+            }
+            conexionWS.send(JSON.stringify(mensaje)); 
         }
 }
 export default SceneGame;
