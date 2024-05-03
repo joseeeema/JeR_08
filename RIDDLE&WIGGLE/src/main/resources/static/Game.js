@@ -15,14 +15,12 @@ var jugadorAsignado;
 var contador = 0;
 var informacionRecibida;
 var informacionProcesada = true;
+var mensajeCajaEnviado = false;
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
     vencido = false;
-    tiempo = {
-        minutos: '39',
-        segundos: '59'
-    }
+    tiempo;
     Riddle;
     Wiggle;
     cursors;
@@ -438,7 +436,18 @@ class SceneGame extends Phaser.Scene {
     {
         juegoLocal = devolver_local();
         equipo = devolver_nombre_equipo();
-
+        if(juegoLocal) {
+            this.tiempo = {
+                minutos: '39',
+                segundos: '59'
+            }
+        }
+        else {
+            this.tiempo = {
+                minutos: '4',
+                segundos: '59'
+            }
+        }
         this.ReiniciarObjetos();
         
         this.backgroundMusic = this.sound.add("backgroundMusic", { loop: true });
@@ -472,10 +481,10 @@ class SceneGame extends Phaser.Scene {
         //Añadimos unas coordenadas de aparición para los personajes
         this.Riddle = this.physics.add.sprite(750, 90, 'Riddle');
         //this.Riddle.setCollideWorldBounds(true);
-        this.Riddle.setBounce(0.2);
+        this.Riddle.setBounce(0);
         this.Wiggle = this.physics.add.sprite(90, 250, 'Wiggle');
         //this.Wiggle.setCollideWorldBounds(true);
-        this.Wiggle.setBounce(0.2);
+        this.Wiggle.setBounce(0);
         //Escalamos los sprites
         this.Riddle.setScale(0.07);
         this.Wiggle.setScale(0.085);
@@ -2484,10 +2493,12 @@ class SceneGame extends Phaser.Scene {
         this.introduccion3 = this.add.image(400,300,'introduccion3');
         this.introduccion2 = this.add.image(400,300,'introduccion2');
         this.introduccion1 = this.add.image(400,300,'introduccion1');
-        this.introduccion1.visible = false;
-        this.introduccion2.visible = false;
-        this.introduccion3.visible = false;
-        this.introduccion4.visible = false;
+        if(!juegoLocal) {
+            this.introduccion1.visible = false;
+            this.introduccion2.visible = false;
+            this.introduccion3.visible = false;
+            this.introduccion4.visible = false;
+        }
 
         // Imágenes de victoria y derrota
         this.victoria = this.add.image(400,300,'victoria');
@@ -2519,8 +2530,10 @@ class SceneGame extends Phaser.Scene {
         this.intermedioDemo2.visible = false;
 
         // PANTALLA DE CARGA
-        this.pantallaCarga = this.add.image(400,300,'pantallaCarga');
-        this.pantallaCarga.visible = true;
+        if(!juegoLocal) {
+            this.pantallaCarga = this.add.image(400,300,'pantallaCarga');
+            this.pantallaCarga.visible = true;
+        }
 
         if(!juegoLocal&&contador==1) {         
             // CREACIÓN DE LA CONEXIÓN
@@ -2698,35 +2711,74 @@ class SceneGame extends Phaser.Scene {
                             this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                             this.camera2.startFollow(this.Riddle);
                         break; 
-                    }               
+                    }
+                    break;
+                    case "Estanteria":
+                        switch(informacionRecibida.contenido) {
+                            case '"0"':
+                                this.estanteria3_interactuada = true;
+                                break;
+                            case '"1"':
+                                this.estanteria4_interactuada = true;
+                                break;
+                        }
+                        break;
+                    case "Elixir":
+                        switch(informacionRecibida.contenido) {
+                            case '"0"':
+                                this.caldero1rubi.visible = false;
+                                this.caldero2rubi.visible = true;
+                                this.elixirRubi = true;
+                                if(this.elixirZafiro) {
+                                    this.maestroMezclas = true;
+                                }
+                                break;
+                            case '"1"':
+                                this.caldero1zafiro.visible = false;
+                                this.caldero2zafiro.visible = true;
+                                this.elixirZafiro = true;
+                                if(this.elixirRubi) {
+                                    this.maestroMezclas = true;
+                                }
+                                break;
+                        }
+                    break;
             }             
         }
         
         // Introducción
         this.input.keyboard.on('keydown_ENTER', () =>{ 
             if(this.introduccion1.visible&&this.nuevoIntento&&!this.juegoDemo) {
-                this.EnviarMensaje("Pantalla", "1");
+                if(!juegoLocal) {
+                    this.EnviarMensaje("Pantalla", "1");
+                }
                 this.introduccion1.visible = false;
                 this.introduccion2.visible = true;
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
             }
             if(this.introduccion2.visible&&this.nuevoIntento&&!this.juegoDemo) {
-                this.EnviarMensaje("Pantalla", "2");
+                if(!juegoLocal) {
+                    this.EnviarMensaje("Pantalla", "2");
+                }
                 this.introduccion2.visible = false;
                 this.introduccion3.visible = true;
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
             }
             if(this.introduccion3.visible&&this.nuevoIntento&&!this.juegoDemo) {
-                this.EnviarMensaje("Pantalla", "3");
+                if(!juegoLocal) {
+                    this.EnviarMensaje("Pantalla", "3");
+                }
                 this.introduccion3.visible = false;
                 this.introduccion4.visible = true;
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
             }
             if(this.introduccion4.visible&&this.nuevoIntento&&!this.juegoDemo) {
-                this.EnviarMensaje("Pantalla", "4");
+                if(!juegoLocal) {
+                    this.EnviarMensaje("Pantalla", "4");
+                }
                 this.introduccion4.visible = false;
                 this.juegoDetenidoRiddle = false;
                 this.juegoDetenidoWiggle = false;
@@ -2898,11 +2950,17 @@ class SceneGame extends Phaser.Scene {
                  });
         
         // Cuando Wiggle interactua con un objeto
-        this.input.keyboard.on('keydown_Q', () =>{ 
-                this.ComprobarObjetoInteractuableJ2(); });
+        this.input.keyboard.on('keydown_Q', () =>{
+            if(juegoLocal) {
+                this.ComprobarObjetoInteractuableJ2();
+            } 
+                 });
         // Cuando Riddle interactua con un objeto
         this.input.keyboard.on('keydown_SPACE', () =>{ 
-                this.ComprobarObjetoInteractuableJ1(); });
+            if(juegoLocal) {
+                this.ComprobarObjetoInteractuableJ1();
+            }
+                 });
         
                 if(this.cajaTexto.visible && juegoLocal){
                     this.juegoDetenidoRiddle = true;
@@ -3044,7 +3102,7 @@ class SceneGame extends Phaser.Scene {
 
                 //CONTROLES JUEGO DEMO 
                 this.input.keyboard.on('keydown_W', () =>{ 
-                   if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
+                   if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
                         this.Wiggle.setVelocityY(-40);
                         if(this.nuevoIntento) {
                             this.EnviarMensaje("Movimiento","W");
@@ -3052,7 +3110,7 @@ class SceneGame extends Phaser.Scene {
                             this.temporizadorNuevoIntento.paused = false;
                         }
                      }
-                    if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
+                    if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
                         this.Riddle.setVelocityY(-40);
                         if(this.nuevoIntento) {
                             this.EnviarMensaje("Movimiento","W");
@@ -3063,7 +3121,7 @@ class SceneGame extends Phaser.Scene {
                  });
 
                  this.input.keyboard.on('keydown_S', () =>{ 
-                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
                          this.Wiggle.setVelocityY(40);
                          if(this.nuevoIntento) {
                             this.EnviarMensaje("Movimiento","S");
@@ -3071,7 +3129,7 @@ class SceneGame extends Phaser.Scene {
                             this.temporizadorNuevoIntento.paused = false;
                         }
                       }
-                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
                          this.Riddle.setVelocityY(40);
                          if(this.nuevoIntento) {
                             this.EnviarMensaje("Movimiento","S");
@@ -3082,7 +3140,7 @@ class SceneGame extends Phaser.Scene {
                   });
 
                   this.input.keyboard.on('keydown_A', () =>{ 
-                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
                          this.Wiggle.setVelocityX(-40);
                          if(this.nuevoIntento) {
                             this.EnviarMensaje("Movimiento","A");
@@ -3090,7 +3148,7 @@ class SceneGame extends Phaser.Scene {
                             this.temporizadorNuevoIntento.paused = false;
                         }
                       }
-                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
                          this.Riddle.setVelocityX(-40);
                          if(this.nuevoIntento) {
                             this.EnviarMensaje("Movimiento","A");
@@ -3101,7 +3159,7 @@ class SceneGame extends Phaser.Scene {
                   });
 
                   this.input.keyboard.on('keydown_D', () =>{ 
-                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle){
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
                          this.Wiggle.setVelocityX(40);
                          if(this.nuevoIntento) {
                             this.EnviarMensaje("Movimiento","D");
@@ -3109,7 +3167,7 @@ class SceneGame extends Phaser.Scene {
                             this.temporizadorNuevoIntento.paused = false;
                         }
                       }
-                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle){
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
                          this.Riddle.setVelocityX(40);
                          if(this.nuevoIntento) {
                             this.EnviarMensaje("Movimiento","D");
@@ -3134,7 +3192,7 @@ class SceneGame extends Phaser.Scene {
                         if(jugadorAsignado=="W"){
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
-                            if(this.nuevoIntent2o) {
+                            if(this.nuevoIntento2) {
                                 this.EnviarMensaje("Movimiento","Soltar");
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
@@ -3201,7 +3259,7 @@ class SceneGame extends Phaser.Scene {
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
-                            if(this.nuevoIntento) {
+                            if(this.nuevoIntento2) {
                                 this.EnviarMensaje("Movimiento","Soltar");
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
@@ -3210,7 +3268,7 @@ class SceneGame extends Phaser.Scene {
                         if(jugadorAsignado=="W"){
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
-                            if(this.nuevoIntento) {
+                            if(this.nuevoIntento2) {
                                 this.EnviarMensaje("Movimiento","Soltar");
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
@@ -3241,16 +3299,16 @@ class SceneGame extends Phaser.Scene {
 
                   this.input.keyboard.on('keydown_T', () =>{ 
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && !juegoLocal){
-                         this.IntercambiarPosiciones();
-                         if(this.nuevoIntento) {
+                        if(this.nuevoIntento) {
+                             this.IntercambiarPosiciones();
                              this.EnviarMensaje("Teletransporte","T");
                              this.nuevoIntento = false;
                              this.temporizadorNuevoIntento.paused = false;
                          }
                       }
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && !juegoLocal){
-                         this.IntercambiarPosiciones();
                          if(this.nuevoIntento){
+                             this.IntercambiarPosiciones();
                              this.EnviarMensaje("Teletransporte","T");
                              this.nuevoIntento = false;
                              this.temporizadorNuevoIntento.paused = false;
@@ -3259,42 +3317,44 @@ class SceneGame extends Phaser.Scene {
                   });
                   
                    
-                        if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.ingredientesNeveraR1.visible && !juegoLocal) {
+                        if(jugadorAsignado=="R" && this.ingredientesNeveraR1.visible && !juegoLocal) {
                             this.juegoDetenidoRiddle = true;
                             this.input.keyboard.on('keydown_SHIFT', () =>{ 
                             this.juegoDetenidoRiddle = false;
                             this.OcultarIngredientesNeveraR1(); });
-                        if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.ingredientesNeveraR2.visible && !juegoLocal) {
+                        }
+                        if(jugadorAsignado=="R" && this.ingredientesNeveraR2.visible && !juegoLocal) {
                             this.juegoDetenidoRiddle = true;
                             this.input.keyboard.on('keydown_SHIFT', () =>{ 
                             this.juegoDetenidoRiddle = false;
                             this.OcultarIngredientesNeveraR2(); });
                         }
-                        if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.ingredientesNeveraW1.visible && !juegoLocal) {
+                        if(jugadorAsignado=="W" && this.ingredientesNeveraW1.visible && !juegoLocal) {
                             this.juegoDetenidoWiggle = true;
-                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                            this.input.keyboard.on('keydown_ENTER', () =>{ 
                                 this.juegoDetenidoWiggle= false;
                             this.OcultarIngredientesNeveraW1(); });
                         }
-                        if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.ingredientesNeveraW2.visible && !juegoLocal) {
+                        if(jugadorAsignado=="W" && this.ingredientesNeveraW2.visible && !juegoLocal) {
                             this.juegoDetenidoWiggle = true;
-                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                            this.input.keyboard.on('keydown_ENTER', () =>{ 
                                 this.juegoDetenidoWiggle = false;
                             this.OcultarIngredientesNeveraW2(); });
                         }
-                        if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.ingredientesCaldero1.visible && !juegoLocal) {
+                        if(jugadorAsignado=="R" && this.ingredientesCaldero1.visible && !juegoLocal) {
                             this.juegoDetenidoRiddle = true;
                             this.input.keyboard.on('keydown_SHIFT', () =>{ 
                                 this.juegoDetenidoRiddle = false;
                             this.OcultarIngredientesCaldero1(); });
                         }
-                        if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && this.ingredientesCaldero2.visible && !juegoLocal) {
+                        if(jugadorAsignado=="W" && this.ingredientesCaldero2.visible && !juegoLocal) {
                             this.juegoDetenidoWiggle = true;
-                            this.input.keyboard.on('keydown_SHIFT', () =>{ 
+                            this.input.keyboard.on('keydown_ENTER', () =>{ 
                                 this.juegoDetenidoWiggle = false;
                             this.OcultarIngredientesCaldero2(); });
-                        }}
-
+                        }
+                        // INVENTARIO
+                        /*
                         this.input.keyboard.on('keydown_I', () =>{
                             if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.nuevoIntento && !juegoLocal) {
                                 this.nuevoIntento = false;
@@ -3321,7 +3381,8 @@ class SceneGame extends Phaser.Scene {
                                 this.MostrarInventarioWiggle();
                             }
                         });
-
+                        */
+                        /*
                         if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && this.inventarioRiddleImg.visible && !juegoLocal) {
                             this.juegoDetenidoRiddle = true;
                             this.input.keyboard.on('keydown_SHIFT', () =>{ 
@@ -3334,7 +3395,7 @@ class SceneGame extends Phaser.Scene {
                                     this.juegoDetenidoWiggle = false;
                                 this.OcultarInventarioWiggle(); });
                         }
-
+                        */
                 this.input.keyboard.on('keycombomatch', event =>
                 {
                     this.ComprobarComboPiano();
@@ -3507,7 +3568,7 @@ class SceneGame extends Phaser.Scene {
         this.LlamasFelinasResuelto();
         this.ComprobarMaestroMezclas();
 
-        if(this.tp.isDown&&!this.juegoDetenidoRiddle&&!this.juegoDetenidoWiggle){
+        if(this.tp.isDown&&!this.juegoDetenidoRiddle&&!this.juegoDetenidoWiggle&&juegoLocal){
             if(this.nuevoIntento) {
                 this.IntercambiarPosiciones();
                 this.nuevoIntento = false;
@@ -4104,6 +4165,7 @@ class SceneGame extends Phaser.Scene {
                             this.formulaRubi1.paused = false;
                         }
                         this.estanteria3_interactuada = true;
+                        this.EnviarMensaje("Estanteria", "0");
                     }
                     if(objeto==="estanteria4") {
                         var frase = "La frialdad de un amargo invierno se tiñe de azul y crea el elixir del zafiro.";
@@ -4112,6 +4174,7 @@ class SceneGame extends Phaser.Scene {
                             this.formulaZafiro1.paused = false;
                         }
                         this.estanteria4_interactuada = true;
+                        this.EnviarMensaje("Estanteria", "1");
                     }
                     if(objeto==="calderoRubi") {
                         var frase;
@@ -4497,6 +4560,7 @@ class SceneGame extends Phaser.Scene {
                             this.formulaRubi2.paused = false;
                         }
                         this.estanteria3_interactuada = true;
+                        this.EnviarMensaje("Estanteria", "0");
                     }
                     if(objeto==="estanteria4") {
                         var frase = "La frialdad de un amargo invierno se tiñe de azul y crea el elixir del zafiro.";
@@ -4505,6 +4569,7 @@ class SceneGame extends Phaser.Scene {
                             this.formulaZafiro2.paused = false;
                         }
                         this.estanteria4_interactuada = true;
+                        this.EnviarMensaje("Estanteria", "1");
                     }
                     if(objeto==="calderoRubi") {
                         var frase;
@@ -5650,6 +5715,7 @@ class SceneGame extends Phaser.Scene {
             }
             if(id5&&id8&&id10) {
                 // Cambiar icono caldero azul
+                this.EnviarMensaje("Elixir", "1");
                 this.caldero1zafiro.visible = false;
                 this.caldero2zafiro.visible = true;
                 this.elixirZafiro = true;
@@ -5687,6 +5753,7 @@ class SceneGame extends Phaser.Scene {
             }
             if(id1&&id3&&id9) {                       
                 // Cambiar icono caldero rojo
+                this.EnviarMensaje("Elixir","0");
                 this.caldero1rubi.visible = false;
                 this.caldero2rubi.visible = true;
                 this.elixirRubi = true;
@@ -6049,6 +6116,10 @@ class SceneGame extends Phaser.Scene {
         // FUNCIÓN PARA PREPARAR EL JUEGO PARA LA DEMO
         PrepararDemo() {
                 // Se comunica que se ha resuelto el puzle de la caja
+                if(this.mensajeCajaEnviado) {
+                    return;
+                }
+                this.mensajeCajaEnviado = true;
                 this.EnviarMensaje("Caja", "R");
                 // Se detiene a Riddle y Wiggle
                 this.juegoDetenidoRiddle = true;
