@@ -16,6 +16,12 @@ var contador = 0;
 var informacionRecibida;
 var informacionProcesada = true;
 var mensajeCajaEnviado = false;
+var posicionRecibida = false;
+let posXOtro = 0, posYOtro = 0;
+let prevPosXOtro = 0, prevPosYOtro = 0;
+let lastUpdateTime = 0;
+const UPDATE_INTERVAL = 250;  // Intervalo de actualización en ms
+const TOLERANCE = 0.5;
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
@@ -297,6 +303,7 @@ class SceneGame extends Phaser.Scene {
     continuarDemo = false;
     puzlesSaltados = false;
     camarasInicializadas = false;
+    realizandoTeletransporte = false;
 
 
     constructor ()
@@ -1466,7 +1473,7 @@ class SceneGame extends Phaser.Scene {
 
         this.victoriaJuego = this.time.addEvent({ delay: 15000, callback: this.FinJuego, callbackScope: this})
         this.victoriaJuego.paused = true;
-        this.derrotaJuego = this.time.addEvent({ delay: 5000, callback: this.DerrotaFin, callbackScope: this})
+        this.derrotaJuego = this.time.addEvent({ delay: 1000, callback: this.DerrotaFin, callbackScope: this})
         this.derrotaJuego.paused = true;
 
         // EVENTO PARA LA RESOLUCIÓN DEL PUZLE DE LAS FLORES
@@ -2559,12 +2566,52 @@ class SceneGame extends Phaser.Scene {
                 }
             }
         }
-        contador = 1;        
+        contador = 1;  
+        
+        // TEMPORIZADOR PARA ENVIAR PERIÓDICAMENTE LA POSICIÓN DEL JUGADOR
+        this.comienzoEnvioPosicion = this.time.addEvent({ delay: 100, callback: this.InicioPos, callbackScope: this});
+        this.comienzoEnvioPosicion.paused = true;
+
+        this.envioPosicion = this.time.addEvent({ delay: 250, callback: this.EnviarPosicion, callbackScope: this, loop: true});
+        this.envioPosicion.paused = true;
+
+        this.teletransportando = this.time.addEvent({ delay: 100, callback: this.FinTP, callbackScope: this});
+        this.teletransportando.paused = true;
     }
 
-    update ()
+    update (time, delta)
     {
-        // GESTIÓN DE MENSAJES DE WEBSOCKETS
+        // INTERPOLACIÓN DEL MOVIMIENTO DE LOS PERSONAJES //
+        const lerpFactor = 0.3 * (delta / 16.67);
+        const now = performance.now();
+    
+        if (jugadorAsignado == "R" && posicionRecibida && !this.realizandoTeletransporte && !this.envioPosicion.paused) {
+            const elapsed = now - lastUpdateTime;
+    
+            // Calcular la posición interpolada basada en el tiempo transcurrido
+            const extrapolatedX = posXOtro + ((posXOtro - prevPosXOtro) / UPDATE_INTERVAL) * elapsed;
+            const extrapolatedY = posYOtro + ((posYOtro - prevPosYOtro) / UPDATE_INTERVAL) * elapsed;
+    
+            if (Math.abs(this.Wiggle.x - extrapolatedX) > TOLERANCE || Math.abs(this.Wiggle.y - extrapolatedY) > TOLERANCE) {
+                this.Wiggle.x = Phaser.Math.Linear(this.Wiggle.x, extrapolatedX, lerpFactor);
+                this.Wiggle.y = Phaser.Math.Linear(this.Wiggle.y, extrapolatedY, lerpFactor);
+            }
+        }
+    
+        if (jugadorAsignado == "W" && posicionRecibida && !this.realizandoTeletransporte && !this.envioPosicion.paused) {
+            const elapsed = now - lastUpdateTime;
+    
+            // Calcular la posición interpolada basada en el tiempo transcurrido
+            const extrapolatedX = posXOtro + ((posXOtro - prevPosXOtro) / UPDATE_INTERVAL) * elapsed;
+            const extrapolatedY = posYOtro + ((posYOtro - prevPosYOtro) / UPDATE_INTERVAL) * elapsed;
+    
+            if (Math.abs(this.Riddle.x - extrapolatedX) > TOLERANCE || Math.abs(this.Riddle.y - extrapolatedY) > TOLERANCE) {
+                this.Riddle.x = Phaser.Math.Linear(this.Riddle.x, extrapolatedX, lerpFactor);
+                this.Riddle.y = Phaser.Math.Linear(this.Riddle.y, extrapolatedY, lerpFactor);
+            }
+        }
+
+        // Si el jugador asignado es Riddle, se debe gestionar la posición de Wiggle
         if(!informacionProcesada) {
             informacionProcesada = true;
             switch(informacionRecibida.tipo){
@@ -2576,10 +2623,21 @@ class SceneGame extends Phaser.Scene {
                         this.juegoDetenidoWiggle = true;
                         window.alert("Eres el J1, Riddle. Tienes que esperar a que se una otro jugador como Wiggle!");
                     }
-                break;
+                    this.EnviarMensaje("Equipo", equipo);
+                    break;
+                case "Equipo":
+                    var nuevoNombreEquipo = JSON.parse(informacionRecibida.contenido) +" y "+  equipo;
+                    equipo = nuevoNombreEquipo;
+                    console.log(equipo);
+                    this.EnviarMensaje("EquipoRW", equipo);
+                    break;
+                case "EquipoRW":
+                    equipo = JSON.parse(informacionRecibida.contenido);
+                    console.log(equipo);
+                    break;
                 case "EmpezarPartida":
-                    if(jugadorAsignado=="R") {
-                        this.pantallaCarga.visible = false;
+                        if(jugadorAsignado=="R") {
+                            this.pantallaCarga.visible = false;
                         this.introduccion1.visible = true;
                         window.alert("Ya se ha unido otro usuario, podéis comenzar a jugar.");
                     }
@@ -2587,8 +2645,20 @@ class SceneGame extends Phaser.Scene {
                         jugadorAsignado = "W";
                         this.pantallaCarga.visible = false;
                         this.introduccion1.visible = true;
-                        window.alert("Eres el J2, Wiggle. Podéis comenzar la partida!");
+                        window.alert("Eres el J2, Wiggle. Podéis comenzar la partida!");                    
                     }
+                    if(jugadorAsignado == "R") {
+                        posXOtro = this.Wiggle.x;
+                        posYOtro = this.Wiggle.y;
+                    }
+                    else {
+                        posXOtro = this.Riddle.x;
+                        posYOtro = this.Riddle.y;
+                    }
+                    prevPosXOtro = posXOtro;
+                    prevPosYOtro = posYOtro;
+                    break;
+
                 case "Pantalla":
                     switch(informacionRecibida.contenido) {
                         case '"1"':
@@ -2597,8 +2667,8 @@ class SceneGame extends Phaser.Scene {
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                             break;
-                        case '"2"':
-                            this.introduccion2.visible = false;
+                            case '"2"':
+                                this.introduccion2.visible = false;
                             this.introduccion3.visible = true;
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
@@ -2609,83 +2679,42 @@ class SceneGame extends Phaser.Scene {
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                             break;
-                        case '"4"':
-                            this.introduccion4.visible = false;
+                            case '"4"':
+                                this.introduccion4.visible = false;
                             this.juegoDetenidoRiddle = false;
                             this.juegoDetenidoWiggle = false;
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                             this.eventoContador.paused = false;
-                
+                            
                             //CAMERA 1
                             this.camera1 = this.cameras.add(0, 0, 400, 800);
                             this.camera1.setZoom(3); // Ajusta el valor según sea necesario
                             this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
                             this.camera1.startFollow(this.Wiggle);
-
+                            
                             // CAMERA 2
                             this.camera2 = this.cameras.add(400, 0, 400, 800);
                             this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                             this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                             this.camera2.startFollow(this.Riddle);
+                            
+                            this.comienzoEnvioPosicion.paused = false;
                         }
                         break;
-                case "Movimiento":
-                    switch(informacionRecibida.contenido) {
-                        case '"W"':
-                            if(jugadorAsignado == "R") {
-                                this.Wiggle.setVelocityY(-40);
-                            }
-                            else {
-                                this.Riddle.setVelocityY(-40);
-                            }
-                            break;
-                        case '"S"':
-                            if(jugadorAsignado == "R") {
-                                this.Wiggle.setVelocityY(40);
-                            }
-                            else {
-                                this.Riddle.setVelocityY(40);
-                            }
-                            break;
-                        case '"A"':
-                            if(jugadorAsignado == "R") {
-                                this.Wiggle.setVelocityX(-40);
-                            }
-                            else {
-                                this.Riddle.setVelocityX(-40);
-                            }
-                            break;                       
-                        case '"D"':
-                            if(jugadorAsignado == "R") {
-                                this.Wiggle.setVelocityX(40);
-                            }
-                            else {
-                                this.Riddle.setVelocityX(40);
-                            }
-                            break; 
-                        case '"Soltar"':
-                            if(jugadorAsignado == "R") {
-                                this.Wiggle.setVelocityX(0);
-                                this.Wiggle.setVelocityY(0);
-                            }
-                            else {
-                                this.Riddle.setVelocityX(0);
-                                this.Riddle.setVelocityY(0);
-                            }
-                            break;
-                    }
-                break; 
-                case "Caja":
-                    this.caja.disableBody(true, true);
-                    this.juegoDemo = true; 
-                    this.PrepararDemo();
-                    this.puzlesSaltados = true;
-                    break;
-                case "Teletransporte":
-                    this.IntercambiarPosiciones();
-                    break; 
-                case "Intermedio":
+                       
+                        
+                    case "Caja":
+                        this.caja.disableBody(true, true);
+                        this.juegoDemo = true; 
+                        this.PrepararDemo();
+                        this.puzlesSaltados = true;
+                        break;
+                    case "Teletransporte":
+                        this.realizandoTeletransporte = true;
+                        this.IntercambiarPosiciones();
+                        break; 
+                    case "Intermedio":
                     switch(informacionRecibida.contenido) {
                         case '"1"':
                             this.intermedioDemo1.visible = false;
@@ -2698,32 +2727,33 @@ class SceneGame extends Phaser.Scene {
                                     this.seguirDemo();
                                 }
                              });
-                        break;
-                        case '"2"':
+                             break;
+                             case '"2"':
                             this.continuarDemo = false;
                             this.intermedioDemo2.visible = false;
-
+                            
                             this.camera1.setZoom(3); // Ajusta el valor según sea necesario
                             this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
                             this.camera1.startFollow(this.Wiggle);
-
+                            
                             this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                             this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                             this.camera2.startFollow(this.Riddle);
-                        break; 
-                    }
-                    break;
-                    case "Estanteria":
-                        switch(informacionRecibida.contenido) {
-                            case '"0"':
-                                this.estanteria3_interactuada = true;
-                                break;
-                            case '"1"':
-                                this.estanteria4_interactuada = true;
-                                break;
+                            this.comienzoEnvioPosicion.paused = false;
+                            break; 
                         }
                         break;
-                    case "Elixir":
+                        case "Estanteria":
+                            switch(informacionRecibida.contenido) {
+                                case '"0"':
+                                    this.estanteria3_interactuada = true;
+                                    break;
+                                    case '"1"':
+                                        this.estanteria4_interactuada = true;
+                                        break;
+                                    }
+                        break;
+                        case "Elixir":
                         switch(informacionRecibida.contenido) {
                             case '"0"':
                                 this.caldero1rubi.visible = false;
@@ -2733,19 +2763,32 @@ class SceneGame extends Phaser.Scene {
                                     this.maestroMezclas = true;
                                 }
                                 break;
-                            case '"1"':
-                                this.caldero1zafiro.visible = false;
+                                case '"1"':
+                                    this.caldero1zafiro.visible = false;
                                 this.caldero2zafiro.visible = true;
                                 this.elixirZafiro = true;
                                 if(this.elixirRubi) {
                                     this.maestroMezclas = true;
                                 }
                                 break;
-                        }
+                            }
                     break;
-            }             
-        }
-        
+                    case "Correccion":
+                        posicionRecibida = true;
+                        var posicionProcesada = JSON.parse(informacionRecibida.contenido);
+                        prevPosXOtro = posXOtro;
+                        prevPosYOtro = posYOtro;
+                        posXOtro = posicionProcesada.posicionX;
+                        posYOtro = posicionProcesada.posicionY;
+                        lastUpdateTime = performance.now();
+                        break;
+
+                    case "Derrota":
+                        this.DerrotaFin();
+                        break;
+                    }             
+    }
+
         // Introducción
         this.input.keyboard.on('keydown_ENTER', () =>{ 
             if(this.introduccion1.visible&&this.nuevoIntento&&!this.juegoDemo) {
@@ -2797,6 +2840,8 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                 this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                 this.camera2.startFollow(this.Riddle); 
+
+                this.comienzoEnvioPosicion.paused = false;
                 
             }
             if(this.intermedioDemo1.visible&&this.continuarDemo) {
@@ -2825,6 +2870,7 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                 this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                 this.camera2.startFollow(this.Riddle); 
+                this.comienzoEnvioPosicion.paused = false;
             }
         
         });
@@ -3300,6 +3346,7 @@ class SceneGame extends Phaser.Scene {
                   this.input.keyboard.on('keydown_T', () =>{ 
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && !juegoLocal){
                         if(this.nuevoIntento) {
+                            this.realizandoTeletransporte = true;
                              this.IntercambiarPosiciones();
                              this.EnviarMensaje("Teletransporte","T");
                              this.nuevoIntento = false;
@@ -3308,6 +3355,7 @@ class SceneGame extends Phaser.Scene {
                       }
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && !juegoLocal){
                          if(this.nuevoIntento){
+                            this.realizandoTeletransporte = true;
                              this.IntercambiarPosiciones();
                              this.EnviarMensaje("Teletransporte","T");
                              this.nuevoIntento = false;
@@ -3570,6 +3618,7 @@ class SceneGame extends Phaser.Scene {
 
         if(this.tp.isDown&&!this.juegoDetenidoRiddle&&!this.juegoDetenidoWiggle&&juegoLocal){
             if(this.nuevoIntento) {
+                this.realizandoTeletransporte = true;
                 this.IntercambiarPosiciones();
                 this.nuevoIntento = false;
                 this.temporizadorNuevoIntento.paused = false;
@@ -5786,6 +5835,7 @@ class SceneGame extends Phaser.Scene {
             if(this.tiempo.segundos==0){
                 if(this.tiempo.minutos=="00") {
                     this.derrotaJuego.paused = false;
+                    this.EnviarMensaje("Derrota", 0);
                 } else {
                     this.tiempo.segundos = '59'
                     this.tiempo.minutos--;
@@ -5796,15 +5846,19 @@ class SceneGame extends Phaser.Scene {
             this.textoTemp.setText('Tiempo restante: ' +this.tiempo.minutos + ':' +this.tiempo.segundos);
         }
         IntercambiarPosiciones(player, player2) {
+
+            this.realizandoTeletransporte = true;
             // Intercambiar las posiciones x e y de los objetos
-            var tempX = this.Riddle.x;
-            var tempY = this.Riddle.y;
+            var tempX = Math.round(this.Riddle.x);
+            var tempY = Math.round(this.Riddle.y);
         
-            this.Riddle.x = this.Wiggle.x;
-            this.Riddle.y = this.Wiggle.y;
+            this.Riddle.x = Math.round(this.Wiggle.x);
+            this.Riddle.y = Math.round(this.Wiggle.y);
         
             this.Wiggle.x = tempX;
             this.Wiggle.y = tempY;
+
+            this.teletransportando.paused = false;
             
         }
 
@@ -6135,6 +6189,7 @@ class SceneGame extends Phaser.Scene {
                 this.juegoDemo = true;
                 this.continuarDemo = true;
                 this.intermedioDemo1.visible = true;
+                this.envioPosicion.paused = true;
                 // Se coloca a Riddle y Wiggle
                 this.NuevaPosicionJugadores();
                 // Se saltan todos los puzles
@@ -6195,6 +6250,36 @@ class SceneGame extends Phaser.Scene {
 
         seguirDemo() {
             this.continuarDemo = true;
+        }
+
+        InicioPos() {
+            this.envioPosicion.paused = false;
+        }
+
+        EnviarPosicion() {
+            var posX, posY;
+            if(jugadorAsignado == "R") {
+                posX = this.Riddle.x;
+                posY = this.Riddle.y;
+            }
+            else {
+                posX = this.Wiggle.x;
+                posY = this.Wiggle.y;
+            }
+            var posicion = {
+                posicionX : posX,
+                posicionY: posY
+            }
+            if(!this.intermedioDemo1.visible && !this.intermedioDemo2.visible) {
+                this.EnviarMensaje("Correccion", posicion);
+            }
+            
+        }
+
+        FinTP() {
+            this.realizandoTeletransporte = false;
+            this.teletransportando = this.time.addEvent({ delay: 700, callback: this.FinTP, callbackScope: this});
+            this.teletransportando.paused = true;
         }
 
         EnviarMensaje(type, content){
