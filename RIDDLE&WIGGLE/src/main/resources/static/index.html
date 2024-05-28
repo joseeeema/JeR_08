@@ -1,21 +1,98 @@
 <!doctype html>
-<html lang="en"> 
-<head> 
+<html lang="en">
+<head>
     <meta charset="UTF-8" />
     <title>Puzles Riddle & Wiggle</title>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
-    <script type= "module" src="Main.js"></script>
-    <script type ="text/javascript" src="Main.js"></script>
-    <script type ="text/javascript" src="Menu.js"></script>
-    <script type ="text/javascript" src="Server.js"></script>
-    <script type ="text/javascript" src="Game.js"></script>
-        
+    <script type="module" src="Main.js"></script>
+    <script src="Menu.js"></script>
+    <script src="Server.js"></script>
+    <script src="Game.js"></script>
     <style type="text/css">
         body {
             margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: black;
+            color: rgb(255, 255, 255);
+        }
+
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .game {
+            width: 500px; /* Ajusta el ancho según sea necesario */
+            height: 500px; /* Ajusta la altura según sea necesario */
+            background-size: cover;
+        }
+
+        .chat {
+            display: none;
+            flex-direction: column;
+            margin-right: 20px;
+            height: 500px; /*Asegúrate de que coincida con la altura del juego */
+        }
+
+        #mensajeChat {
+            flex: 1;
+            overflow-y: scroll;
+            border: 1px solid rgb(122, 99, 64);
+            padding: 10px;
+            background-color: rgb(122, 99, 64);
+            color: black;
+        }
+
+        #formaMensaje {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #mensaje {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid rgb(63, 61, 61);
+        }
+
+        button {
+            padding: 5px;
+            background-color: rgb(48, 46, 46);
+            color: white;
+            border: none;
         }
     </style>
 </head>
-<body> </body>
+<body>
+        <div class="chat">
+            <div style="text-align: center;">
+                <h3>Chat</h3>
+            </div>
+            <div id="mensajeChat"></div>
+            <form id="formaMensaje">
+                <input type="text" id="mensaje">
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+<script>
+        $(document).ready(function() {
+            $('#formaMensaje').submit(function(event) {
+                event.preventDefault();
+                var mensaje = $('#mensaje').val();
+                if (mensaje) {
+                    $('#mensajeChat').append('<p>' + mensaje + '</p>');
+                    $('#mensaje').val('');
+                }
+            });
+        });
+    </script>
+</body>
 </html>
+
+
+

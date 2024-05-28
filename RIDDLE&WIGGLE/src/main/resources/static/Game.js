@@ -442,6 +442,10 @@ class SceneGame extends Phaser.Scene {
     create (data)
     {
         juegoLocal = devolver_local();
+        if (!juegoLocal){
+
+            //$('.chat').show();
+        }
         equipo = devolver_nombre_equipo();
         if(juegoLocal) {
             this.tiempo = {
@@ -2585,7 +2589,7 @@ class SceneGame extends Phaser.Scene {
         const lerpFactor = 0.3 * (delta / 16.67);
         const now = performance.now();
     
-        if (jugadorAsignado == "R" && posicionRecibida && !this.realizandoTeletransporte && !this.envioPosicion.paused) {
+        if (jugadorAsignado == "R" && posicionRecibida && !this.realizandoTeletransporte && !this.envioPosicion.paused && !juegoLocal) {
             const elapsed = now - lastUpdateTime;
     
             // Calcular la posición interpolada basada en el tiempo transcurrido
@@ -2598,7 +2602,7 @@ class SceneGame extends Phaser.Scene {
             }
         }
     
-        if (jugadorAsignado == "W" && posicionRecibida && !this.realizandoTeletransporte && !this.envioPosicion.paused) {
+        if (jugadorAsignado == "W" && posicionRecibida && !this.realizandoTeletransporte && !this.envioPosicion.paused && !juegoLocal) {
             const elapsed = now - lastUpdateTime;
     
             // Calcular la posición interpolada basada en el tiempo transcurrido
@@ -6287,7 +6291,11 @@ class SceneGame extends Phaser.Scene {
                 tipo : type,
                 contenido : content
             }
-            conexionWS.send(JSON.stringify(mensaje)); 
+            if (!juegoLocal){
+                conexionWS.send(JSON.stringify(mensaje));
+            }
+
+             
         }
 }
 export default SceneGame;
