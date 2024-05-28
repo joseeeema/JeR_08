@@ -22,6 +22,40 @@ let prevPosXOtro = 0, prevPosYOtro = 0;
 let lastUpdateTime = 0;
 const UPDATE_INTERVAL = 250;  // Intervalo de actualización en ms
 const TOLERANCE = 0.5;
+// Captura la entrada de texto en el chat
+const chatInput = document.getElementById("mensaje");
+
+// Define una variable para controlar si el chat tiene el foco o no
+let chatFocused = false;
+
+
+    // Función para manejar el evento de cambio de foco en el chat
+    function handleChatFocus(focused) {
+        chatFocused = focused;
+        if (focused) {
+            // Si el chat está enfocado, desactiva los controles del juego
+            Phaser.Scene.input.keyboard.enabled = false;
+        } else {
+            // Si el chat no está enfocado, activa los controles del juego
+            Phaser.Scene.input.keyboard.enabled = true;
+        }
+    }
+
+    // Escucha el evento de foco en la barra de escribir del chat
+    chatInput.addEventListener('focus', () => handleChatFocus(true));
+
+    // Escucha el evento de pérdida de foco en la barra de escribir del chat
+    chatInput.addEventListener('blur', () => handleChatFocus(false));
+
+function devolverWS() {
+    return conexionWS;
+}
+export{devolverWS};
+function devolverJugador() {
+    return jugadorAsignado;
+}
+export {devolverJugador};
+
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
@@ -442,10 +476,6 @@ class SceneGame extends Phaser.Scene {
     create (data)
     {
         juegoLocal = devolver_local();
-        if (!juegoLocal){
-
-            //$('.chat').show();
-        }
         equipo = devolver_nombre_equipo();
         if(juegoLocal) {
             this.tiempo = {
@@ -2640,6 +2670,8 @@ class SceneGame extends Phaser.Scene {
                     console.log(equipo);
                     break;
                 case "EmpezarPartida":
+                    var chat = document.querySelector('.chat');
+                    chat.style.display = 'flex'; 
                         if(jugadorAsignado=="R") {
                             this.pantallaCarga.visible = false;
                         this.introduccion1.visible = true;
@@ -2789,6 +2821,18 @@ class SceneGame extends Phaser.Scene {
 
                     case "Derrota":
                         this.DerrotaFin();
+                        break;
+                    
+                    case "Mensaje":
+                        var mensajeChat = JSON.parse(informacionRecibida.contenido);
+                        var jugadorChat = "";
+                        if(jugadorAsignado == "R") {
+                            jugadorChat = "Wiggle";
+                        }
+                        else {
+                            jugadorChat = "Riddle";
+                        }
+                        $('#mensajeChat').append('<p>' + jugadorChat + ': ' + mensajeChat + '</p>');
                         break;
                     }             
     }
