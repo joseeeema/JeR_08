@@ -460,6 +460,12 @@ class SceneGame extends Phaser.Scene {
         this.load.image('introduccion2', 'Assets/introduction2.jpg');
         this.load.image('introduccion3', 'Assets/introduction3.png');
         this.load.image('introduccion4', 'Assets/introduction4.png');
+        //Red
+        this.load.image('introduccion1r', 'Assets/introduction1r.png');
+        this.load.image('introduccion2r', 'Assets/introduction2r.png');
+        this.load.image('introduccion3r', 'Assets/introduction3r.png');
+        this.load.image('introduccion4r', 'Assets/introduction4r.png');
+
 
         // Pantalla de victoria
         this.load.image('victoria', 'Assets/victory.png');
@@ -2530,15 +2536,25 @@ class SceneGame extends Phaser.Scene {
         //tiempo.minutos++;
         //});
         // Imágenes de introducción
-        this.introduccion4 = this.add.image(400,300,'introduccion4');
-        this.introduccion3 = this.add.image(400,300,'introduccion3');
-        this.introduccion2 = this.add.image(400,300,'introduccion2');
-        this.introduccion1 = this.add.image(400,300,'introduccion1');
         if(!juegoLocal) {
+
+            //Red
+            this.introduccion4 = this.add.image(400,300,'introduccion4r');
+            this.introduccion3 = this.add.image(400,300,'introduccion3r');
+            this.introduccion2 = this.add.image(400,300,'introduccion2r');
+            this.introduccion1 = this.add.image(400,300,'introduccion1r');
+            //Local
             this.introduccion1.visible = false;
             this.introduccion2.visible = false;
             this.introduccion3.visible = false;
             this.introduccion4.visible = false;
+        }
+        else{
+
+            this.introduccion4 = this.add.image(400,300,'introduccion4');
+            this.introduccion3 = this.add.image(400,300,'introduccion3');
+            this.introduccion2 = this.add.image(400,300,'introduccion2');
+            this.introduccion1 = this.add.image(400,300,'introduccion1');
         }
 
         // Imágenes de victoria y derrota
