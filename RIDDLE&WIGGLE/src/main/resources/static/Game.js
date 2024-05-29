@@ -23,29 +23,6 @@ let prevPosXOtro = 0, prevPosYOtro = 0;
 let lastUpdateTime = 0;
 const UPDATE_INTERVAL = 300;  // Intervalo de actualización en ms
 const TOLERANCE = 0.5;
-// Captura la entrada de texto en el chat
-const chatInput = document.getElementById("mensaje");
-
-// Define una variable para controlar si el chat tiene el foco o no
-let chatFocused = false;
-
-    // Función para manejar el evento de cambio de foco en el chat
-    function handleChatFocus(focused) {
-        chatFocused = focused;
-        if (focused) {
-            // Si el chat está enfocado, desactiva los controles del juego
-            Phaser.Scene.input.keyboard.enabled = false;
-        } else {
-            // Si el chat no está enfocado, activa los controles del juego
-            Phaser.Scene.input.keyboard.enabled = true;
-        }
-    }
-
-    // Escucha el evento de foco en la barra de escribir del chat
-    chatInput.addEventListener('focus', () => handleChatFocus(true));
-
-    // Escucha el evento de pérdida de foco en la barra de escribir del chat
-    chatInput.addEventListener('blur', () => handleChatFocus(false));
 
 function devolverWS() {
     return conexionWS;
@@ -55,6 +32,17 @@ function devolverJugador() {
     return jugadorAsignado;
 }
 export {devolverJugador};
+
+//Se controla si esta escribiendo o no 
+let isTyping = false;
+
+document.getElementById('mensaje').addEventListener('focus', function() {
+    isTyping = true;
+});
+
+document.getElementById('mensaje').addEventListener('blur', function() {
+    isTyping = false;
+});
 
 class SceneGame extends Phaser.Scene {
 
@@ -2631,6 +2619,14 @@ class SceneGame extends Phaser.Scene {
 
     update (time, delta)
     {
+
+        if (isTyping){
+            this.input.keyboard.enabled = false;
+        }else{
+            this.input.keyboard.enabled = true;
+        }
+
+
         // INTERPOLACIÓN DEL MOVIMIENTO DE LOS PERSONAJES //
         const lerpFactor = 0.3 * (delta / 16.67);
         const now = performance.now();
@@ -2686,8 +2682,8 @@ class SceneGame extends Phaser.Scene {
                     console.log(equipo);
                     break;
                 case "EmpezarPartida":
-                    var chat = document.querySelector('.chat');
-                    chat.style.display = 'flex'; 
+                    var chat = document.getElementById('chat-container');
+                    chat.style.visibility = 'visible'; 
                         if(jugadorAsignado=="R") {
                             this.pantallaCarga.visible = false;
                         this.introduccion1.visible = true;
@@ -2855,12 +2851,10 @@ class SceneGame extends Phaser.Scene {
                         var mensajeChat = JSON.parse(informacionRecibida.contenido);
                         var jugadorChat = "";
                         if(jugadorAsignado == "R") {
-                            jugadorChat = "Wiggle";
+                            $('#mensajeChat').append('<p><span style="color: #ccabe3;">WIGGLE:</span> <span style="color: white;">' + mensajeChat + '</span></p>');
+                        } else {
+                            $('#mensajeChat').append('<p><span style="color: #abdbe3;">RIDDLE:</span> <span style="color: white;">' + mensajeChat + '</span></p>');
                         }
-                        else {
-                            jugadorChat = "Riddle";
-                        }
-                        $('#mensajeChat').append('<p>' + jugadorChat + ': ' + mensajeChat + '</p>');
                         break;
                     }             
     }
@@ -3232,10 +3226,11 @@ class SceneGame extends Phaser.Scene {
                         this.juegoDetenidoWiggle = false;
                     this.OcultarIngredientesCaldero2(); });
                 }
-
+                
                 //CONTROLES JUEGO DEMO 
+                if(!isTyping){
                 this.input.keyboard.on('keydown_W', () =>{ 
-                   if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
+                   if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal&&!isTyping){
                         this.Wiggle.setVelocityY(-40);
                         if(this.nuevoIntento) {
                             // this.EnviarMensaje("Movimiento","W");
@@ -3244,7 +3239,7 @@ class SceneGame extends Phaser.Scene {
                             this.temporizadorNuevoIntento.paused = false;
                         }
                      }
-                    if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
+                    if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal&&!isTyping){
                         this.Riddle.setVelocityY(-40);
                         if(this.nuevoIntento) {
                             // this.EnviarMensaje("Movimiento","W");
@@ -3256,7 +3251,7 @@ class SceneGame extends Phaser.Scene {
                  });
 
                  this.input.keyboard.on('keydown_S', () =>{ 
-                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal&&!isTyping){
                          this.Wiggle.setVelocityY(40);
                          if(this.nuevoIntento) {
                             // this.EnviarMensaje("Movimiento","S");
@@ -3265,7 +3260,7 @@ class SceneGame extends Phaser.Scene {
                             this.temporizadorNuevoIntento.paused = false;
                         }
                       }
-                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal&&!isTyping){
                          this.Riddle.setVelocityY(40);
                          if(this.nuevoIntento) {
                             // this.EnviarMensaje("Movimiento","S");
@@ -3277,7 +3272,7 @@ class SceneGame extends Phaser.Scene {
                   });
 
                   this.input.keyboard.on('keydown_A', () =>{ 
-                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal&&!isTyping){
                          this.Wiggle.setVelocityX(-40);
                          if(this.nuevoIntento) {
                             // this.EnviarMensaje("Movimiento","A");
@@ -3286,7 +3281,7 @@ class SceneGame extends Phaser.Scene {
                             this.temporizadorNuevoIntento.paused = false;
                         }
                       }
-                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal&&!isTyping){
                          this.Riddle.setVelocityX(-40);
                          if(this.nuevoIntento) {
                             // this.EnviarMensaje("Movimiento","A");
@@ -3298,7 +3293,7 @@ class SceneGame extends Phaser.Scene {
                   });
 
                   this.input.keyboard.on('keydown_D', () =>{ 
-                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal&&!isTyping){
                          this.Wiggle.setVelocityX(40);
                          if(this.nuevoIntento) {
                             // this.EnviarMensaje("Movimiento","D");
@@ -3307,7 +3302,7 @@ class SceneGame extends Phaser.Scene {
                             this.temporizadorNuevoIntento.paused = false;
                         }
                       }
-                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal&&!isTyping){
                          this.Riddle.setVelocityX(40);
                          if(this.nuevoIntento) {
                             // this.EnviarMensaje("Movimiento","D");
@@ -3319,7 +3314,7 @@ class SceneGame extends Phaser.Scene {
                   });
                   
                   this.input.keyboard.on('keyup_W', () =>{ 
-                    if(!juegoLocal){
+                    if(!juegoLocal&&!isTyping){
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -3347,7 +3342,7 @@ class SceneGame extends Phaser.Scene {
                     }
                  });
                   this.input.keyboard.on('keyup_A', () =>{ 
-                    if(!juegoLocal){
+                    if(!juegoLocal&&!isTyping){
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -3375,7 +3370,7 @@ class SceneGame extends Phaser.Scene {
                     
                  });
                   this.input.keyboard.on('keyup_S', () =>{ 
-                    if(!juegoLocal){
+                    if(!juegoLocal&&!isTyping){
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -3402,7 +3397,7 @@ class SceneGame extends Phaser.Scene {
                     }
                  });
                   this.input.keyboard.on('keyup_D', () =>{ 
-                    if(!juegoLocal){
+                    if(!juegoLocal&&!isTyping){
                         if(jugadorAsignado=="R"){
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
@@ -3430,14 +3425,14 @@ class SceneGame extends Phaser.Scene {
                  });
 
                  this.input.keyboard.on('keydown_SPACE', () =>{ 
-                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && !juegoLocal){
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && !juegoLocal&&!isTyping){
                          this.ComprobarObjetoInteractuableJ2();
                          if(this.nuevoIntento) {
                              this.nuevoIntento = false;
                              this.temporizadorNuevoIntento.paused = false;
                          }
                       }
-                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && !juegoLocal){
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && !juegoLocal&&!isTyping){
                          this.ComprobarObjetoInteractuableJ1();
                          if(this.nuevoIntento){
                              this.nuevoIntento = false;
@@ -3445,9 +3440,9 @@ class SceneGame extends Phaser.Scene {
                          }
                       }       
                   });
-
+                
                   this.input.keyboard.on('keydown_T', () =>{ 
-                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && !juegoLocal){
+                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle && !juegoLocal&&!isTyping){
                         if(this.nuevoIntento) {
                             this.realizandoTeletransporte = true;
                              this.IntercambiarPosiciones();
@@ -3456,7 +3451,7 @@ class SceneGame extends Phaser.Scene {
                              this.temporizadorNuevoIntento.paused = false;
                          }
                       }
-                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && !juegoLocal){
+                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle && !juegoLocal&&!isTyping){
                          if(this.nuevoIntento){
                             this.realizandoTeletransporte = true;
                              this.IntercambiarPosiciones();
@@ -3466,7 +3461,7 @@ class SceneGame extends Phaser.Scene {
                          }
                       }       
                   });
-                  
+                }
                    
                         if(jugadorAsignado=="R" && this.ingredientesNeveraR1.visible && !juegoLocal) {
                             this.juegoDetenidoRiddle = true;

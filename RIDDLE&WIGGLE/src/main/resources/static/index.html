@@ -13,93 +13,104 @@
         body {
             margin: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
             background-image: url('assets/bg_game.png');
             background-position: center;
             background-size: cover;
         }
 
-        .container {
+        #game-container {
+            flex: 1;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            height: 100%;
         }
 
-        .game {
-            width: 500px; /* Ajusta el ancho según sea necesario */
-            height: 500px; /* Ajusta la altura según sea necesario */
-            background-size: cover;
+        canvas {
+            border: 5px solid rgb(126, 96, 0);
+            background-color: black; /* Fondo negro para el canvas */
         }
 
-        .chat {
-            display: none;
+        #chat-container {
+            width: 300px;
+            display: flex;
             flex-direction: column;
-            margin-right: 20px;
-            height: 500px; /*Asegúrate de que coincida con la altura del juego */
+            background-color:rgb(126, 96, 0);
+            padding: 10px;
+            box-sizing: border-box;
+            height: 100vh;
+            overflow-y: auto;
+            visibility: visible;
         }
 
         #mensajeChat {
             flex: 1;
-            overflow-y: scroll;
-            border: 1px solid rgb(122, 99, 64);
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid rgb(126, 96, 0);
             padding: 10px;
-            background-color: rgb(122, 99, 64);
-            color: black;
+            background-color: rgb(77, 59, 2);
+            color: rgb(212, 212, 212); 
         }
 
         #formaMensaje {
             display: flex;
-            margin-top: 10px;
+            background-color: rgb(77, 59, 2);
         }
 
         #mensaje {
             flex: 1;
             padding: 5px;
-            border: 1px solid rgb(63, 61, 61);
+            background-color: rgb(77, 59, 2);
+            color: rgb(212, 212, 212); 
         }
 
-        button {
-            padding: 5px;
-            background-color: rgb(48, 46, 46);
-            color: white;
-            border: none;
+        #mensaje::placeholder {
+            color: rgb(212, 212, 212); 
         }
+
+        #enviar {
+            padding: 5px;
+            background-color: rgb(56, 43, 2);
+            color: rgb(212, 212, 212); 
+        }
+
     </style>
 </head>
 <body>
-        <div class="chat">
-            <div style="text-align: center;">
-                <h3>Chat</h3>
-            </div>
-            <div id="mensajeChat"></div>
-            <form id="formaMensaje">
-                <input type="text" id="mensaje">
-                <button type="submit">Enviar</button>
-            </form>
+    <div id="container">
+        <div id="game-container">
+            <!-- El canvas del juego estará aquí -->
         </div>
     </div>
-<script type="module">
-    // Se cargan las variables de game
-    import {devolverWS} from "./Game.js";
-    import {devolverJugador} from "./Game.js";
+    <div id="chat-container" class="oculto">
+        <div id="mensajeChat"></div>
+        <form id="formaMensaje">
+            <input type="text" id="mensaje" placeholder="Escribe tu mensaje aquí" />
+            <button type="submit" id="enviar">Enviar</button>
+        </form>
+    </div>
+
+    <script type="module">
+        import {devolverWS} from "./Game.js";
+        import {devolverJugador} from "./Game.js";
+
         $(document).ready(function() {
             $('#formaMensaje').submit(function(event) {
                 event.preventDefault();
                 var mensaje = $('#mensaje').val();
                 if (mensaje) {
                     var mensajeObjeto = {
-                        tipo : "Mensaje",
-                        contenido : mensaje
-                    }
+                        tipo: "Mensaje",
+                        contenido: mensaje
+                    };
                     var jugadorAsignado = devolverJugador();
                     var conexionWS = devolverWS();
                     if(jugadorAsignado == "R") {
-                        $('#mensajeChat').append('<p>' +"Riddle: "+ mensaje + '</p>');
-                    }
-                    else {
-                        $('#mensajeChat').append('<p>' +"Wiggle: "+ mensaje + '</p>');
+                        $('#mensajeChat').append('<p><span style="color: #abdbe3;">RIDDLE:</span> <span style="color: white;">' + mensaje + '</span></p>');
+                    } else {
+                        $('#mensajeChat').append('<p><span style="color: #ccabe3;">WIGGLE:</span> <span style="color: white;">' + mensaje + '</span></p>');
                     }
                     conexionWS.send(JSON.stringify(mensajeObjeto));
                     $('#mensaje').val('');
@@ -109,3 +120,6 @@
     </script>
 </body>
 </html>
+
+
+

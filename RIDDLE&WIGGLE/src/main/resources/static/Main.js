@@ -4,7 +4,7 @@ import SceneGame from './Game.js';
 
 var config = {
     type: Phaser.AUTO,
-    parent: 'phaser-example',
+    parent: 'null',
     width: 800,
     height: 600,
     physics: {
