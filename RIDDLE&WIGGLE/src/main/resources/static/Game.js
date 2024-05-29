@@ -19,15 +19,15 @@ var mensajeCajaEnviado = false;
 var posicionRecibida = false;
 let posXOtro = 0, posYOtro = 0;
 let prevPosXOtro = 0, prevPosYOtro = 0;
+
 let lastUpdateTime = 0;
-const UPDATE_INTERVAL = 250;  // Intervalo de actualización en ms
+const UPDATE_INTERVAL = 300;  // Intervalo de actualización en ms
 const TOLERANCE = 0.5;
 // Captura la entrada de texto en el chat
 const chatInput = document.getElementById("mensaje");
 
 // Define una variable para controlar si el chat tiene el foco o no
 let chatFocused = false;
-
 
     // Función para manejar el evento de cambio de foco en el chat
     function handleChatFocus(focused) {
@@ -1494,7 +1494,7 @@ class SceneGame extends Phaser.Scene {
         this.plantaB2.setText('');
         this.plantaC2 = this.add.text(250, 310, 'Flor 3', { fontSize: '12px', fill: '#ffffff' });
         this.plantaC2.setText('');
-        this.temporizadorNuevoIntento = this.time.addEvent({ delay: 100, callback: this.NuevoIntentoPlantas, callbackScope: this});
+        this.temporizadorNuevoIntento = this.time.addEvent({ delay: 500, callback: this.NuevoIntentoPlantas, callbackScope: this});
         this.temporizadorNuevoIntento2 = this.time.addEvent({ delay: 100, callback: this.NuevoIntento2, callbackScope: this});
         this.temporizadorNuevoIntento2.paused = true;
         this.temporizadorNuevoIntento.paused = true;
@@ -2606,7 +2606,7 @@ class SceneGame extends Phaser.Scene {
         this.comienzoEnvioPosicion = this.time.addEvent({ delay: 100, callback: this.InicioPos, callbackScope: this});
         this.comienzoEnvioPosicion.paused = true;
 
-        this.envioPosicion = this.time.addEvent({ delay: 250, callback: this.EnviarPosicion, callbackScope: this, loop: true});
+        this.envioPosicion = this.time.addEvent({ delay: 300, callback: this.EnviarPosicion, callbackScope: this, loop: true});
         this.envioPosicion.paused = true;
 
         this.teletransportando = this.time.addEvent({ delay: 100, callback: this.FinTP, callbackScope: this});
@@ -2757,17 +2757,26 @@ class SceneGame extends Phaser.Scene {
                             this.intermedioDemo2.visible = true;
                             this.continuarDemo = false;
                             this.eventoDemo = this.time.addEvent({
-                                delay: 3000,
+                                delay: 700,
                                 loop: false,
                                 callback: () => {
                                     this.seguirDemo();
                                 }
                              });
                              break;
-                             case '"2"':
+                        case '"2"':
                             this.continuarDemo = false;
                             this.intermedioDemo2.visible = false;
-                            
+                            if(jugadorAsignado == "R") {
+                                posXOtro = this.Wiggle.x;
+                                posYOtro = this.Wiggle.y;
+                            }
+                            else {
+                                posXOtro = this.Riddle.x;
+                                posYOtro = this.Riddle.y;
+                            }
+                            prevPosXOtro = posXOtro;
+                            prevPosYOtro = posYOtro;                           
                             this.camera1.setZoom(3); // Ajusta el valor según sea necesario
                             this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
                             this.camera1.startFollow(this.Wiggle);
@@ -2775,7 +2784,8 @@ class SceneGame extends Phaser.Scene {
                             this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                             this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                             this.camera2.startFollow(this.Riddle);
-                            this.comienzoEnvioPosicion.paused = false;
+                            this.teletransportando.paused = false;
+                            this.envioPosicion.paused = false;
                             break; 
                         }
                         break;
@@ -2812,10 +2822,12 @@ class SceneGame extends Phaser.Scene {
                     case "Correccion":
                         posicionRecibida = true;
                         var posicionProcesada = JSON.parse(informacionRecibida.contenido);
-                        prevPosXOtro = posXOtro;
-                        prevPosYOtro = posYOtro;
-                        posXOtro = posicionProcesada.posicionX;
-                        posYOtro = posicionProcesada.posicionY;
+                        if(!this.realizandoTeletransporte) {
+                            prevPosXOtro = posXOtro;
+                            prevPosYOtro = posYOtro;
+                            posXOtro = posicionProcesada.posicionX;
+                            posYOtro = posicionProcesada.posicionY;
+                        }
                         lastUpdateTime = performance.now();
                         break;
 
@@ -2898,7 +2910,7 @@ class SceneGame extends Phaser.Scene {
                 this.intermedioDemo2.visible = true;
                 this.continuarDemo = false;
                 this.eventoDemo = this.time.addEvent({
-                    delay: 3000,
+                    delay: 700,
                     loop: false,
                     callback: () => {
                         this.seguirDemo();
@@ -2910,6 +2922,16 @@ class SceneGame extends Phaser.Scene {
                 this.EnviarMensaje("Intermedio", "2");
                 this.continuarDemo = false;
                 this.intermedioDemo2.visible = false;
+                if(jugadorAsignado == "R") {
+                    posXOtro = this.Wiggle.x;
+                    posYOtro = this.Wiggle.y;
+                }
+                else {
+                    posXOtro = this.Riddle.x;
+                    posYOtro = this.Riddle.y;
+                }
+                prevPosXOtro = posXOtro;
+                prevPosYOtro = posYOtro;
 
                 this.camera1.setZoom(3); // Ajusta el valor según sea necesario
                 this.camera1.centerOn(this.Wiggle.x, this.Wiggle.y);
@@ -2918,7 +2940,8 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                 this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                 this.camera2.startFollow(this.Riddle); 
-                this.comienzoEnvioPosicion.paused = false;
+                this.envioPosicion.paused = false;
+                this.teletransportando.paused = false;
             }
         
         });
@@ -3199,7 +3222,8 @@ class SceneGame extends Phaser.Scene {
                    if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
                         this.Wiggle.setVelocityY(-40);
                         if(this.nuevoIntento) {
-                            this.EnviarMensaje("Movimiento","W");
+                            // this.EnviarMensaje("Movimiento","W");
+                            this.EnviarPosicion();
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                         }
@@ -3207,7 +3231,8 @@ class SceneGame extends Phaser.Scene {
                     if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
                         this.Riddle.setVelocityY(-40);
                         if(this.nuevoIntento) {
-                            this.EnviarMensaje("Movimiento","W");
+                            // this.EnviarMensaje("Movimiento","W");
+                            this.EnviarPosicion();
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                         }
@@ -3218,7 +3243,8 @@ class SceneGame extends Phaser.Scene {
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
                          this.Wiggle.setVelocityY(40);
                          if(this.nuevoIntento) {
-                            this.EnviarMensaje("Movimiento","S");
+                            // this.EnviarMensaje("Movimiento","S");
+                            this.EnviarPosicion();
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                         }
@@ -3226,7 +3252,8 @@ class SceneGame extends Phaser.Scene {
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
                          this.Riddle.setVelocityY(40);
                          if(this.nuevoIntento) {
-                            this.EnviarMensaje("Movimiento","S");
+                            // this.EnviarMensaje("Movimiento","S");
+                            this.EnviarPosicion();
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                         }
@@ -3237,7 +3264,8 @@ class SceneGame extends Phaser.Scene {
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
                          this.Wiggle.setVelocityX(-40);
                          if(this.nuevoIntento) {
-                            this.EnviarMensaje("Movimiento","A");
+                            // this.EnviarMensaje("Movimiento","A");
+                            this.EnviarPosicion();
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                         }
@@ -3245,7 +3273,8 @@ class SceneGame extends Phaser.Scene {
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
                          this.Riddle.setVelocityX(-40);
                          if(this.nuevoIntento) {
-                            this.EnviarMensaje("Movimiento","A");
+                            // this.EnviarMensaje("Movimiento","A");
+                            this.EnviarPosicion();
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                         }
@@ -3256,7 +3285,8 @@ class SceneGame extends Phaser.Scene {
                     if(jugadorAsignado=="W" && !this.juegoDetenidoWiggle&&!juegoLocal){
                          this.Wiggle.setVelocityX(40);
                          if(this.nuevoIntento) {
-                            this.EnviarMensaje("Movimiento","D");
+                            // this.EnviarMensaje("Movimiento","D");
+                            this.EnviarPosicion();
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                         }
@@ -3264,7 +3294,8 @@ class SceneGame extends Phaser.Scene {
                      if(jugadorAsignado=="R" && !this.juegoDetenidoRiddle&&!juegoLocal){
                          this.Riddle.setVelocityX(40);
                          if(this.nuevoIntento) {
-                            this.EnviarMensaje("Movimiento","D");
+                            // this.EnviarMensaje("Movimiento","D");
+                            this.EnviarPosicion();
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                         }
@@ -3277,7 +3308,8 @@ class SceneGame extends Phaser.Scene {
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
                             if(this.nuevoIntento2) {
-                                this.EnviarMensaje("Movimiento","Soltar");
+                                // this.EnviarMensaje("Movimiento","Soltar");
+                                this.EnviarPosicion();
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
                             }
@@ -3287,7 +3319,8 @@ class SceneGame extends Phaser.Scene {
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
                             if(this.nuevoIntento2) {
-                                this.EnviarMensaje("Movimiento","Soltar");
+                                // this.EnviarMensaje("Movimiento","Soltar");
+                                this.EnviarPosicion();
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
                             }
@@ -3303,7 +3336,8 @@ class SceneGame extends Phaser.Scene {
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
                             if(this.nuevoIntento2) {
-                                this.EnviarMensaje("Movimiento","Soltar");
+                                // this.EnviarMensaje("Movimiento","Soltar");
+                                this.EnviarPosicion();
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
                             }
@@ -3312,7 +3346,8 @@ class SceneGame extends Phaser.Scene {
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
                             if(this.nuevoIntento2) {
-                                this.EnviarMensaje("Movimiento","Soltar");
+                                // this.EnviarMensaje("Movimiento","Soltar");
+                                this.EnviarPosicion();
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
                             }
@@ -3329,7 +3364,8 @@ class SceneGame extends Phaser.Scene {
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
                             if(this.nuevoIntento2) {
-                                this.EnviarMensaje("Movimiento","Soltar");
+                                // this.EnviarMensaje("Movimiento","Soltar");
+                                this.EnviarPosicion();
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
                             }
@@ -3338,7 +3374,8 @@ class SceneGame extends Phaser.Scene {
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
                             if(this.nuevoIntento2) {
-                                this.EnviarMensaje("Movimiento","Soltar");
+                                // this.EnviarMensaje("Movimiento","Soltar");
+                                this.EnviarPosicion();
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
                             }
@@ -3354,7 +3391,8 @@ class SceneGame extends Phaser.Scene {
                             this.Riddle.setVelocityX(0);
                             this.Riddle.setVelocityY(0);
                             if(this.nuevoIntento2) {
-                                this.EnviarMensaje("Movimiento","Soltar");
+                                // this.EnviarMensaje("Movimiento","Soltar");
+                                this.EnviarPosicion();
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
                             }
@@ -3363,7 +3401,8 @@ class SceneGame extends Phaser.Scene {
                             this.Wiggle.setVelocityX(0);
                             this.Wiggle.setVelocityY(0);
                             if(this.nuevoIntento2) {
-                                this.EnviarMensaje("Movimiento","Soltar");
+                                // this.EnviarMensaje("Movimiento","Soltar");
+                                this.EnviarPosicion();
                                 this.nuevoIntento2 = false;
                                 this.temporizadorNuevoIntento2.paused = false;
                             }
@@ -4962,7 +5001,7 @@ class SceneGame extends Phaser.Scene {
 
         NuevoIntentoPlantas() {
             this.nuevoIntento = true;
-            this.temporizadorNuevoIntento = this.time.addEvent({ delay: 100, callback: this.NuevoIntentoPlantas, callbackScope: this});
+            this.temporizadorNuevoIntento = this.time.addEvent({ delay: 500, callback: this.NuevoIntentoPlantas, callbackScope: this});
             this.temporizadorNuevoIntento.paused = true;
         }
         NuevoIntento2() {
@@ -5906,6 +5945,19 @@ class SceneGame extends Phaser.Scene {
             this.Wiggle.x = tempX;
             this.Wiggle.y = tempY;
 
+            if(!juegoLocal) {
+                if(jugadorAsignado == "R") {
+                    posXOtro = this.Wiggle.x;
+                    posYOtro = this.Wiggle.y;
+                }
+                else {
+                    posXOtro = this.Riddle.x;
+                    posYOtro = this.Riddle.y;
+                }
+                prevPosXOtro = posXOtro;
+                prevPosYOtro = posYOtro;
+            }
+
             this.teletransportando.paused = false;
             
         }
@@ -6187,19 +6239,23 @@ class SceneGame extends Phaser.Scene {
                         indiceRecords++;
                     }
 
-                    titulo.setText('- Mejores tiempos del equipo -' + equipo);
-    
+                    titulo.setText('- Mejores tiempos del equipo ' + equipo);
+                    var minutos = 59;
+                    if(!juegoLocal) {
+                        minutos = 4;
+                        titulo.setText('- Mejores tiempos del equipo de ' + equipo);
+                    }
                     // Después, se muestran esos records en la pantalla de victoria
                     if(numRecordsEquipo>0) {
-                        textoRecords[0].setText(' 1- '+(39-recordsOrdenados[0].minutos)+ ' minutos y '+(60-recordsOrdenados[0].segundos)+ ' segundos');
+                        textoRecords[0].setText(' 1- '+(minutos-recordsOrdenados[0].minutos)+ ' minutos y '+(60-recordsOrdenados[0].segundos)+ ' segundos');
                         if(numRecordsEquipo>1) {
-                            textoRecords[1].setText(' 2- '+(39-recordsOrdenados[1].minutos)+ ' minutos y '+(60-recordsOrdenados[1].segundos)+ ' segundos');
+                            textoRecords[1].setText(' 2- '+(minutos-recordsOrdenados[1].minutos)+ ' minutos y '+(60-recordsOrdenados[1].segundos)+ ' segundos');
                             if(numRecordsEquipo>2) {
-                                textoRecords[2].setText(' 3- '+(39-recordsOrdenados[2].minutos)+ ' minutos y '+(60-recordsOrdenados[2].segundos)+ ' segundos');
+                                textoRecords[2].setText(' 3- '+(minutos-recordsOrdenados[2].minutos)+ ' minutos y '+(60-recordsOrdenados[2].segundos)+ ' segundos');
                                 if(numRecordsEquipo>3) {
-                                    textoRecords[3].setText(' 4- '+(39-recordsOrdenados[3].minutos)+ ' minutos y '+(60-recordsOrdenados[3].segundos)+ ' segundos');
+                                    textoRecords[3].setText(' 4- '+(minutos-recordsOrdenados[3].minutos)+ ' minutos y '+(60-recordsOrdenados[3].segundos)+ ' segundos');
                                     if(numRecordsEquipo>4) {
-                                        textoRecords[4].setText(' 5- '+(39-recordsOrdenados[4].minutos)+ ' minutos y '+(60-recordsOrdenados[4].segundos)+ ' segundos');
+                                        textoRecords[4].setText(' 5- '+(minutos-recordsOrdenados[4].minutos)+ ' minutos y '+(60-recordsOrdenados[4].segundos)+ ' segundos');
                                     }
                                 }
                             }
@@ -6287,6 +6343,7 @@ class SceneGame extends Phaser.Scene {
         }
 
         NuevaPosicionJugadores() {
+            this.realizandoTeletransporte = true;
             // Se coloca a Riddle y Wiggle en las bibliotecas, para que comiencen el último puzle
             this.Riddle.x = 495;
             this.Riddle.y = 325;
