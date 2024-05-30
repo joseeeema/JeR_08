@@ -124,6 +124,15 @@ class SceneMenu extends Phaser.Scene {
                     this.add.text(40, 380, 'Santiago Rubio', { fontFamily: 'Times, serif',color: 'silver'});
                     this.add.text(40, 400, 'Jacobo Sánchez', { fontFamily: 'Times, serif',color: 'silver'});
                     this.add.text(40, 420, 'Jose María Soriano', { fontFamily: 'Times, serif',color: 'silver'});
+                    this.input.keyboard.on('keydown', event =>
+                        {
+                            if (event.keyCode === 13 )
+                            {
+                                window.location.reload();
+                            }
+                            
+                        });  
+                   
                     
                 }            
                 else 

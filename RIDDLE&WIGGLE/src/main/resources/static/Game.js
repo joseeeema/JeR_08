@@ -6010,7 +6010,14 @@ class SceneGame extends Phaser.Scene {
             // Gestión de records con el servidor
             this.victoria.visible = true;
             this.MostrarRecordsTiempo();
-            this.input.keyboard.on('keydown-ENTER', ReloadPage());
+            this.input.keyboard.on('keydown', event =>
+                {
+                    if (event.keyCode === 13 )
+                    {
+                        window.location.reload();
+                    }
+                    
+                });  
         }
 
         DerrotaFin() {
@@ -6024,7 +6031,14 @@ class SceneGame extends Phaser.Scene {
             this.camera2.stopFollow();
             this.camera2.centerOn(600, 400);
             this.derrota.visible = true;
-            this.input.keyboard.on('keydown-ENTER', ReloadPage());
+            this.input.keyboard.on('keydown', event =>
+                {
+                    if (event.keyCode === 13 )
+                    {
+                        window.location.reload();
+                    }
+                    
+                });  
         }
         ReloadPage() {
             window.location.reload();
