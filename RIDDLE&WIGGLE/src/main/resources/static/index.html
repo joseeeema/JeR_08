@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Puzles Riddle & Wiggle</title>
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
@@ -19,9 +19,7 @@
             background-position: center;
             background-size: cover;
             justify-content: center;
-        }
-
-        #game-container {
+            align-items: center; /* Centra el contenido verticalmente */
         }
 
         canvas {
@@ -36,7 +34,6 @@
     <div id="game-container">
         <!-- El canvas del juego estará aquí -->
     </div>
-<body>
 
     <script type="module">
         import {devolverWS} from "./Game.js";
