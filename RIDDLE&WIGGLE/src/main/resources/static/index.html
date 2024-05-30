@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8" />
     <title>Puzles Riddle & Wiggle</title>
-    <link rel="icon" type="image/x-icon" href="/AssetsGDD/chest_closed_anim_f0.png">
     <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
     <script type="module" src="Main.js"></script>
@@ -20,14 +19,6 @@
             background-size: cover;
         }
 
-        #game-container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
         canvas {
             border: 5px solid rgb(126, 96, 0);
             background-color: black; /* Fondo negro para el canvas */
@@ -42,7 +33,7 @@
             box-sizing: border-box;
             height: 100vh;
             overflow-y: auto;
-            visibility: hidden;
+            visibility: visible;
         }
 
         #mensajeChat {
@@ -80,12 +71,7 @@
     </style>
 </head>
 <body>
-    <div id="container">
-        <div id="game-container">
-            <!-- El canvas del juego estará aquí -->
-        </div>
-    </div>
-    <div id="chat-container" class="oculto">
+    <div id="chat-container">
         <div id="mensajeChat"></div>
         <form id="formaMensaje">
             <input type="text" id="mensaje" placeholder="Escribe tu mensaje aquí" />

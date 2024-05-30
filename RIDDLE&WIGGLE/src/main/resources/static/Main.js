@@ -14,7 +14,8 @@ var config = {
             debug: false
         }
 
-    }
+    },
+    autoCenter: true
     
 };
 

@@ -52,8 +52,16 @@ public class WebSocketAppHandler extends TextWebSocketHandler {
 	public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) throws Exception {
 		System.out.println("Sesion cerrada: " + session.getId());
 		// Se cierra la sesión correspondiente
-		if(session == sesionRiddle) {sesionRiddle = null;}
-		else if ( session == sesionWiggle) {sesionWiggle = null;}
+		if(session == sesionRiddle) {
+			sesionRiddle = null;
+			System.out.println("Riddle se ha desconectado");
+			EnviarMensaje(sesionWiggle, "ErrorConexion", "");
+		}
+		else if ( session == sesionWiggle) {
+			sesionWiggle = null;
+			System.out.println("Wiggle se ha desconectado");
+			EnviarMensaje(sesionRiddle, "ErrorConexion", "");		
+		}
 		
 	}
 

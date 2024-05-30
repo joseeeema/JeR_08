@@ -44,6 +44,12 @@ document.getElementById('mensaje').addEventListener('blur', function() {
     isTyping = false;
 });
 
+document.addEventListener('click', function(event) {
+    if (event.target.id !== "mensaje" && isTyping) {
+        isTyping = false;
+    }
+});
+
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
@@ -2608,6 +2614,11 @@ class SceneGame extends Phaser.Scene {
                     console.log(mensajeJSON)
                     informacionRecibida = {tipo: mensajeJSON.tipo, contenido: mensajeJSON.contenido};
                 }
+
+                conexionWS.onerror = function(){
+                    window.alert("Ha ocurrido un error, refresca la página y vuelve a comenzar");
+                    windown.location.reload();
+                }
             }
         }
         contador = 1;  
@@ -2622,6 +2633,7 @@ class SceneGame extends Phaser.Scene {
         this.teletransportando = this.time.addEvent({ delay: 100, callback: this.FinTP, callbackScope: this});
         this.teletransportando.paused = true;
     }
+
 
     update (time, delta)
     {
@@ -2862,6 +2874,11 @@ class SceneGame extends Phaser.Scene {
                         } else {
                             $('#mensajeChat').append('<p><span style="color: #abdbe3;">RIDDLE:</span> <span style="color: white;">' + mensajeChat + '</span></p>');
                         }
+                        break;
+                    
+                    case "ErrorConexion":
+                        window.alert("El otro jugador se ha desconectado, volverás a la pantalla de inicio.");
+                        window.location.reload();
                         break;
                     }             
     }
