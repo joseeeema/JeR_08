@@ -6010,6 +6010,7 @@ class SceneGame extends Phaser.Scene {
             // Gestión de records con el servidor
             this.victoria.visible = true;
             this.MostrarRecordsTiempo();
+            this.input.keyboard.on('keydown-ENTER', ReloadPage());
         }
 
         DerrotaFin() {
@@ -6023,6 +6024,10 @@ class SceneGame extends Phaser.Scene {
             this.camera2.stopFollow();
             this.camera2.centerOn(600, 400);
             this.derrota.visible = true;
+            this.input.keyboard.on('keydown-ENTER', ReloadPage());
+        }
+        ReloadPage() {
+            window.location.reload();
         }
         // Gestión de elementos con la API REST
         ReiniciarObjetos() {

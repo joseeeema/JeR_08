@@ -27,12 +27,10 @@ class SceneMenu extends Phaser.Scene {
 
     preload ()
     {
-
         this.load.image('titlescreen', 'Assets/title screen 2.png');
         this.load.image('pointer', 'Assets/pointer.png');
         this.load.image('exit', 'Assets/Fondo_Black.jpg');
-        this.load.image('textbox1', 'Assets/textbox1.png')
-
+        this.load.image('textbox1', 'Assets/textbox1.png');
     }
 
     create (data)
@@ -71,8 +69,8 @@ class SceneMenu extends Phaser.Scene {
     }
 
     update(){
-
-        if (this.cursors.down.isDown && this.pointer.y < 428 && this.nuevoIntento)
+        
+        if (this.cursors.down.isDown && this.pointer.y < 460 && this.nuevoIntento)
         {
             this.pointer.y += 40;
             this.temporizadorIntento.paused = false;
@@ -116,11 +114,17 @@ class SceneMenu extends Phaser.Scene {
                 } 
                 else if(this.pointer.y == 428)
                 {
-                    this.add.text(20, 480, 'Juan Coronado', { fontFamily: 'Times, serif',color: 'silver'});
-                    this.add.text(20, 500, 'Luis Fernando Rodríguez', { fontFamily: 'Times, serif',color: 'silver'});
-                    this.add.text(20, 520, 'Santiago Rubio', { fontFamily: 'Times, serif',color: 'silver'});
-                    this.add.text(20, 540, 'Jacobo Sánchez', { fontFamily: 'Times, serif',color: 'silver'});
-                    this.add.text(20, 560, 'Jose María Soriano', { fontFamily: 'Times, serif',color: 'silver'});
+                    this.opcion1.setText('');
+                    this.opcion2.setText('');
+                    this.opcion3.setText('');
+                    this.opcion4.setText('');
+                    this.pointer.visible = false;
+                    this.add.text(40, 340, 'Juan Coronado', { fontFamily: 'Times, serif',color: 'silver'});
+                    this.add.text(40, 360, 'Luis Fernando Rodríguez', { fontFamily: 'Times, serif',color: 'silver'});
+                    this.add.text(40, 380, 'Santiago Rubio', { fontFamily: 'Times, serif',color: 'silver'});
+                    this.add.text(40, 400, 'Jacobo Sánchez', { fontFamily: 'Times, serif',color: 'silver'});
+                    this.add.text(40, 420, 'Jose María Soriano', { fontFamily: 'Times, serif',color: 'silver'});
+                    
                 }            
                 else 
                 {
