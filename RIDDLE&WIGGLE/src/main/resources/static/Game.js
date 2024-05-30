@@ -32,7 +32,7 @@ function devolverJugador() {
     return jugadorAsignado;
 }
 export {devolverJugador};
-/*
+
 //Se controla si esta escribiendo o no 
 let isTyping = false;
 
@@ -49,7 +49,7 @@ document.addEventListener('click', function(event) {
         isTyping = false;
     }
 });
-*/
+
 class SceneGame extends Phaser.Scene {
 
     reiniciado = false;
