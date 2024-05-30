@@ -465,6 +465,7 @@ class SceneGame extends Phaser.Scene {
         this.load.image('demo1', 'Assets/demoEspera1.png');
         this.load.image('demo2', 'Assets/demoEspera2.png');
         this.load.image('pantallaCarga', 'Assets/pantallaCarga.png');
+
     }
 
     create (data)
@@ -2531,11 +2532,12 @@ class SceneGame extends Phaser.Scene {
             this.introduccion3 = this.add.image(400,300,'introduccion3r');
             this.introduccion2 = this.add.image(400,300,'introduccion2r');
             this.introduccion1 = this.add.image(400,300,'introduccion1r');
-            //Local
+
             this.introduccion1.visible = false;
             this.introduccion2.visible = false;
             this.introduccion3.visible = false;
             this.introduccion4.visible = false;
+
         }
         else{
 
@@ -2543,6 +2545,10 @@ class SceneGame extends Phaser.Scene {
             this.introduccion3 = this.add.image(400,300,'introduccion3');
             this.introduccion2 = this.add.image(400,300,'introduccion2');
             this.introduccion1 = this.add.image(400,300,'introduccion1');
+
+            // Cambiar el fondo de la página local
+            $('body').css('background-image', 'url("assets/bannerLocal.png")');
+            
         }
 
         // Imágenes de victoria y derrota
@@ -2683,7 +2689,8 @@ class SceneGame extends Phaser.Scene {
                     break;
                 case "EmpezarPartida":
                     var chat = document.getElementById('chat-container');
-                    chat.style.visibility = 'visible'; 
+                    chat.style.visibility = 'visible';
+                    $('body').css('background-image', 'url("assets/bannerRed.png")'); 
                         if(jugadorAsignado=="R") {
                             this.pantallaCarga.visible = false;
                         this.introduccion1.visible = true;
