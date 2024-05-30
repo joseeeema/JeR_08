@@ -17,67 +17,31 @@
             background-image: url('assets/bg_game.png');
             background-position: center;
             background-size: cover;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #game-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         canvas {
             border: 5px solid rgb(126, 96, 0);
             background-color: black; /* Fondo negro para el canvas */
+            max-width: 100%;
+            max-height: 100%;
         }
-
-        #chat-container {
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            background-color:rgb(126, 96, 0);
-            padding: 10px;
-            box-sizing: border-box;
-            height: 100vh;
-            overflow-y: auto;
-            visibility: visible;
-        }
-
-        #mensajeChat {
-            flex: 1;
-            overflow-y: auto;
-            margin-bottom: 10px;
-            border: 1px solid rgb(126, 96, 0);
-            padding: 10px;
-            background-color: rgb(77, 59, 2);
-            color: rgb(212, 212, 212); 
-        }
-
-        #formaMensaje {
-            display: flex;
-            background-color: rgb(77, 59, 2);
-        }
-
-        #mensaje {
-            flex: 1;
-            padding: 5px;
-            background-color: rgb(77, 59, 2);
-            color: rgb(212, 212, 212); 
-        }
-
-        #mensaje::placeholder {
-            color: rgb(212, 212, 212); 
-        }
-
-        #enviar {
-            padding: 5px;
-            background-color: rgb(56, 43, 2);
-            color: rgb(212, 212, 212); 
-        }
-
     </style>
 </head>
 <body>
-    <div id="chat-container">
-        <div id="mensajeChat"></div>
-        <form id="formaMensaje">
-            <input type="text" id="mensaje" placeholder="Escribe tu mensaje aquí" />
-            <button type="submit" id="enviar">Enviar</button>
-        </form>
+    <div id="game-container">
+        <!-- El canvas del juego estará aquí -->
     </div>
+<body>
 
     <script type="module">
         import {devolverWS} from "./Game.js";
@@ -107,6 +71,7 @@
     </script>
 </body>
 </html>
+
 
 
 

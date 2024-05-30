@@ -4,7 +4,7 @@ import SceneGame from './Game.js';
 
 var config = {
     type: Phaser.AUTO,
-    parent: 'null',
+    parent: "game-container",
     width: 800,
     height: 600,
     physics: {
@@ -14,8 +14,7 @@ var config = {
             debug: false
         }
 
-    },
-    autoCenter: true
+    }
     
 };
 
