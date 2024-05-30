@@ -41,16 +41,11 @@ class SceneMenu extends Phaser.Scene {
 
         this.opcion1 = this.add.text(120, 340, 'NUEVA PARTIDA LOCAL', { fontFamily: 'Times, serif',color: 'silver'});
         this.opcion2 = this.add.text(120, 380, 'NUEVA PARTIDA - DEMO ONLINE', { fontFamily: 'Times, serif',color: 'silver'});
-        this.opcion3 = this.add.text(120, 420, 'SALIR', { fontFamily: 'Times, serif',color: 'silver'});
+        this.opcion3 = this.add.text(120, 420, 'CRÉDITOS', { fontFamily: 'Times, serif',color: 'silver'});
+        this.opcion4 = this.add.text(120, 460, 'SALIR', { fontFamily: 'Times, serif',color: 'silver'});
         this.pointer = this.add.image(110, 348, 'pointer').setScale(0.55);
 
         this.cursors = this.input.keyboard.createCursorKeys();
-
-        this.add.text(20, 480, 'Juan Coronado', { fontFamily: 'Times, serif',color: 'silver'});
-        this.add.text(20, 500, 'Luis Fernando Rodríguez', { fontFamily: 'Times, serif',color: 'silver'});
-        this.add.text(20, 520, 'Santiago Rubio', { fontFamily: 'Times, serif',color: 'silver'});
-        this.add.text(20, 540, 'Jacobo Sánchez', { fontFamily: 'Times, serif',color: 'silver'});
-        this.add.text(20, 560, 'Jose María Soriano', { fontFamily: 'Times, serif',color: 'silver'});
 
         this.temporizadorIntento = this.time.addEvent({ delay: 200, callback: this.NuevoIntento, callbackScope: this});
         this.temporizadorIntento.paused = true;
@@ -102,6 +97,7 @@ class SceneMenu extends Phaser.Scene {
                     this.opcion1.setText('');
                     this.opcion2.setText('');
                     this.opcion3.setText('');
+                    this.opcion4.setText('');
                     this.pointer.visible = false;
                    this.nombreIntroducido = true;
                 }
@@ -114,9 +110,18 @@ class SceneMenu extends Phaser.Scene {
                     this.opcion1.setText('');
                     this.opcion2.setText('');
                     this.opcion3.setText('');
+                    this.opcion4.setText('');
                     this.pointer.visible = false;
                    this.nombreIntroducido = true;
-                }                
+                } 
+                else if(this.pointer.y == 428)
+                {
+                    this.add.text(20, 480, 'Juan Coronado', { fontFamily: 'Times, serif',color: 'silver'});
+                    this.add.text(20, 500, 'Luis Fernando Rodríguez', { fontFamily: 'Times, serif',color: 'silver'});
+                    this.add.text(20, 520, 'Santiago Rubio', { fontFamily: 'Times, serif',color: 'silver'});
+                    this.add.text(20, 540, 'Jacobo Sánchez', { fontFamily: 'Times, serif',color: 'silver'});
+                    this.add.text(20, 560, 'Jose María Soriano', { fontFamily: 'Times, serif',color: 'silver'});
+                }            
                 else 
                 {
                     this.exit = this.add.image(400, 300, 'exit').setScale(1.5);
