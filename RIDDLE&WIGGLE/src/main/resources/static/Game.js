@@ -36,19 +36,17 @@ export {devolverJugador};
 //Se controla si esta escribiendo o no 
 let isTyping = false;
 
-document.getElementById('mensaje').addEventListener('focus', function() {
-    isTyping = true;
-});
-
-document.getElementById('mensaje').addEventListener('blur', function() {
-    isTyping = false;
-});
-
 document.addEventListener('click', function(event) {
-    if (event.target.id !== "mensaje" && isTyping) {
+    if(event.target.id == "mensaje") {
+        isTyping = true;
+    }
+    else {
         isTyping = false;
     }
 });
+
+
+var lineaDivisoria =  document.getElementById('game-container');
 
 class SceneGame extends Phaser.Scene {
 
@@ -2580,6 +2578,9 @@ class SceneGame extends Phaser.Scene {
         this.derrota = this.add.image(400,300,'derrota');
         this.derrota.visible = false;
 
+        this.textoVolverJuego = this.add.text(500, 520, 'Pulsa ENTER para volver al menú' ,{ fontSize: '18px', fill: '#ffffff', fontFamily: 'Georgia, "Goudy Bookletter 1911", Times, serif' })
+        this.textoVolverJuego.setText('');
+
         // IMÁGENES DE LA DEMO - WEBSOCKETS
         this.intermedioDemo1 = this.add.image(400,300,'demo1');
         this.intermedioDemo1.visible = false;
@@ -2746,7 +2747,7 @@ class SceneGame extends Phaser.Scene {
                             this.nuevoIntento = false;
                             this.temporizadorNuevoIntento.paused = false;
                             break;
-                            case '"4"':
+                        case '"4"':
                                 this.introduccion4.visible = false;
                             this.juegoDetenidoRiddle = false;
                             this.juegoDetenidoWiggle = false;
@@ -2765,11 +2766,13 @@ class SceneGame extends Phaser.Scene {
                             this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                             this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                             this.camera2.startFollow(this.Riddle);
+
+                            lineaDivisoria.classList.add('mostrar-linea');
                             
                             this.comienzoEnvioPosicion.paused = false;
+                            break;
                         }
-                        break;
-                       
+                    break;   
                         
                     case "Caja":
                         this.caja.disableBody(true, true);
@@ -2817,6 +2820,9 @@ class SceneGame extends Phaser.Scene {
                             this.camera2.startFollow(this.Riddle);
                             this.teletransportando.paused = false;
                             this.envioPosicion.paused = false;
+
+                            lineaDivisoria.classList.add('mostrar-linea');
+
                             break; 
                         }
                         break;
@@ -2936,6 +2942,7 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.startFollow(this.Riddle); 
 
                 this.comienzoEnvioPosicion.paused = false;
+                lineaDivisoria.classList.add('mostrar-linea');
                 
             }
             if(this.intermedioDemo1.visible&&this.continuarDemo) {
@@ -2974,6 +2981,9 @@ class SceneGame extends Phaser.Scene {
                 this.camera2.setZoom(3); // Ajusta el valor según sea necesario
                 this.camera2.centerOn(this.Riddle.x, this.Riddle.y);
                 this.camera2.startFollow(this.Riddle); 
+
+                lineaDivisoria.classList.add('mostrar-linea');
+
                 this.envioPosicion.paused = false;
                 this.teletransportando.paused = false;
             }
@@ -5999,6 +6009,7 @@ class SceneGame extends Phaser.Scene {
 
         FinJuego() {
             // TRANSICIÓN A ESCENA DE VICTORIA
+            lineaDivisoria.classList.remove('mostrar-linea');
             this.juegoDetenidoRiddle = true;
             this.juegoDetenidoWiggle = true;
             this.camera1.setZoom(1);
@@ -6010,6 +6021,7 @@ class SceneGame extends Phaser.Scene {
             // Gestión de records con el servidor
             this.victoria.visible = true;
             this.MostrarRecordsTiempo();
+            this.textoVolverJuego.setText('Pulsa ENTER para volver al Menú');
             this.input.keyboard.on('keydown', event =>
                 {
                     if (event.keyCode === 13 )
@@ -6022,6 +6034,7 @@ class SceneGame extends Phaser.Scene {
 
         DerrotaFin() {
             // TRANSICIÓN A ESCENA DE DERROTA
+            lineaDivisoria.classList.remove('mostrar-linea');
             this.juegoDetenidoRiddle = true;
             this.juegoDetenidoWiggle = true;
             this.camera1.setZoom(1);
@@ -6031,6 +6044,7 @@ class SceneGame extends Phaser.Scene {
             this.camera2.stopFollow();
             this.camera2.centerOn(600, 400);
             this.derrota.visible = true;
+            this.textoVolverJuego.setText('Pulsa ENTER para volver al Menú');
             this.input.keyboard.on('keydown', event =>
                 {
                     if (event.keyCode === 13 )
@@ -6347,6 +6361,7 @@ class SceneGame extends Phaser.Scene {
                 this.juegoDemo = true;
                 this.continuarDemo = true;
                 this.intermedioDemo1.visible = true;
+                lineaDivisoria.classList.remove('mostrar-linea');
                 this.envioPosicion.paused = true;
                 // Se coloca a Riddle y Wiggle
                 this.NuevaPosicionJugadores();

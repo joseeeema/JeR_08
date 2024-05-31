@@ -29,6 +29,22 @@
             background-color: black; /* Fondo negro para el canvas */
         }
 
+        #game-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 49.5%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 100%;
+            background-color: rgb(126, 96, 0); /* Color de la línea divisoria */
+            visibility: hidden; /* Inicialmente oculto */
+        }
+
+        #game-container.mostrar-linea::before {
+            visibility: visible; /* Mostrar cuando se agrega la clase */
+        }
+
         #chat-container {
             width: 15vw;
             height: 99.5vh;
