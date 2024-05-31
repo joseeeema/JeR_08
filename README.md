@@ -744,7 +744,7 @@ Por último, en las mejoras de ambientación se ha añadido música acorde con e
 
 A continuación, se muestra el diagrama final de navegación tras las mejoras
 
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/AssetsGDD/Navegación_F5.png)
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/AssetsGDD/Navegación_F5.jpg)
 
 
 **16. PUBLICACIÓN DEL JUEGO**
