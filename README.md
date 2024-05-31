@@ -739,8 +739,12 @@ y se ha añadido una opción para volver al inicio desde las pantallas finales d
 
 Por último, en las mejoras de ambientación se ha añadido música acorde con el juego.
 
+
 **15.1 Diagrama final de navegación**
 
+A continuación, se muestra el diagrama final de navegación tras las mejoras
+
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/AssetsGDD/Navegación_F5.png)
 
 
 **16. PUBLICACIÓN DEL JUEGO**
