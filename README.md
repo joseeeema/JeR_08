@@ -58,13 +58,16 @@
     10.3 ESCENARIO
 
 11. MÚSICA Y EFECTOS DE SONIDO
+    
 12. MODIFICACIONES FASE 2
+    
+13. MODIFICACIONES FASE 3
 
+14. MODIFICACIONES FASE 4
 
+15. MEJORAS FINALES - FASE 5
 
-
-
-
+16. PUBLICACIÓN DEL JUEGO
 
 
 
@@ -662,6 +665,100 @@ de los inventarios no tiene mucho sentido.
 **13.3 Instrucciones para ejecutar la aplicación**
 
 Para ejecutar el servidor correctamente, se debe abrir la carpeta API REST desde un editor de código y seleccionar "Run Java Application". Después, con localhost:8080 en el navegador debería aparecer el juego.
+
+
+**14. MODIFICACIONES FASE 4**
+
+**14.1 Diagrama de navegación**
+
+Para llevar a cabo la demo online, se ha creado una versión reducida del juego, en la que para superarlo sólo se necesitan resolver el primer, penúltimo y último puzle.
+
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/AssetsGDD/Navegación_F4.png)
+
+**14.2 Diagrama de clases**
+
+Respecto al diagrama de clases mostrado en la Fase 3, no se han realizado modificaciones notorias, ya que, las funcionalidades de WebSockets se han implementado sobre las clases anteriores.
+
+**14.3 Funcionalidades con WebSockets**
+
+A continuación, se van a describir las funcionalidades que se han implementado mediante la comunicación por WebSockets y la forma de hacerlo
+
+- En primer lugar, en la función create se crean los websockets y su conexión para después en una función llamada onMessage,
+en ella, se crean dos variables, una variable booleana llamada informacionProcesada que inicialmente está definida en false
+para que así el cliente sepa que tiene información pero que no está procesada. Como segunda variable, se tiene informacionRecibida
+que recibe el mensaje dividido en las categortías tipo y contenido.
+
+- Ya en la función update, se gestionan todos los tipos de mensajes mediante una sentencia switch en la que si el jugador asignado 
+es Riddle, se gestionan los mensajes de Wiggle y viceversa.
+
+- El primer caso dentro de nuestra sentencia es el inicio en el que si eres Riddle,
+se detienen ambas pantallas de juego, se muestra una pantalla de carga y un mensaje en el que indica que hay que esperar a otro jugador.
+
+- En segundo lugar, hay dos casos para el nombre del equipo en el que se escribe dicho nombre, se envía al otro jugador y viceversa hasta que tienen el nombre los dos y para que al final se muestre la puntuación obtenida.
+
+- Ya en el siguiente caso, en el de empezar la partida, se muestra un mensaje de que ya hay dos jugadores y la partida va a empezar y se asigna a cada jugador las posiciones correspondientes.
+
+- En el siguiente case, se hace otro switch para la configuración de las pantallas, según se recibe la información enviada cuando se teclea el enter, se hacen varios case para ir mostrando de una en una todas las pantallas de 
+introducción y explicación del juego. Finalmente se muestran las cámaras con el mapa y los jugadores dentro.
+
+- Para el puzle de mover la caja, se manda en el mensaje de la interacción y se quita la caja del mapa, para ello primero hay que realizar la mecánica del teletransporte en la que también se manda un mensaje y se intercambia la posición de ambos jugadores.
+
+- En el caso "Intermedio", se realiza algo similar al caso de la pantalla, dentro de el case, se realiza un switch para gestionar unas pantallas que se muestran después de completar el puzle de la caja, se recibe el mensaje de que el puzle se ha completado,
+se muestran las pantallas mencionadas anteriormente y luego se vuelven a establecer los personajes con sus cámaras y posiciones correspondientes.
+
+- Otro caso es el de la estantería, en el que se recibe el mensaje de interacción y se vuelve a hacer un Switch para saber si se interactúa con una o con otra. Algo parecido se hace con el Elixir, se recibe la información y se muestran los calderos actualizados, mediante un switch
+dependiendo de si es el de zafiro o rubí y en caso de hacerlo correctamente se inicializa el final del juego y se muestran las pantallas correspondientes. Lo mismo ocurre si en vez de ganar, se acaba el tiempo y se pierde.
+
+- Con el tipo "Correccion", se recibe la posición del otro jugador, para poder actualizarla en la pantalla. Para crear un movimiento lo más fluido posible, sin sobrecargar al cliente con demasiados mensajes, se interpola la posición recibida,
+junto con la posición anterior, utilizando la función Phaser.Math.Linear.
+
+- Por último, para gestionar las posiciones al realizar el teletransporte se recibe un mensaje con la información de dichas posiciones y se intercambian.
+
+- Además, para gestionar los mensajes del chat, se recibe el mensaje con el contenido de dicho mensaje y se muestra por la pantalla, en la pantalla se muestra el nombre del jugador que lo envía con un color predeterminado y el contenido del mensaje.
+
+
+**14.4 Instrucciones de ejecución**
+
+
+A continuación, se detallan las instrucciones de ejecución:
+- Levantar el servidor en un ordenador, seleccionando Run en la DemoApplication.java
+- En ese mismo ordenador, escribir localhost:8080 en el navegador
+- Para acceder al juego en otro ordenador, se debe escribir la IP que aparece en consola en el servidor, ya que se imprime por pantalla, además del puerto :8080
+
+
+
+**15. MEJORAS FINALES FASE 5**
+
+En cuanto a las mejoras, las primeras realizadas fueron las mejoras visuales: la pantalla se ha centrado,
+se ha añadido un fondo pixel-art de acuerdo con la estética del juego, en los espacios vacíos a los lados se han colocado
+banners informativos con los controles, se ha añadido un ícono a la página del juego, se han modificado las pantallas de introducción para añadir los controles actualizados y se ha acabado de estilizar la página.
+
+En cuanto a mejoras técnicas, se ha añadido un botón en el menú principal para ver los créditos,
+se ha añadido una nueva pantalla de carga al esperar jugadores, se ha indicado claramente en las pantallas de introducción los controles, en el chat han habido mejoras de claridad para determinar de quién es el mensaje
+y se ha añadido una opción para volver al inicio desde las pantallas finales de victoria y derrota. 
+
+Por último, en las mejoras de ambientación se ha añadido música acorde con el juego.
+
+
+**15.1 Diagrama final de navegación**
+
+A continuación, se muestra el diagrama final de navegación tras las mejoras
+
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/AssetsGDD/Navegación_F5.jpg)
+
+
+**16. PUBLICACIÓN DEL JUEGO**
+
+
+
+
+
+
+
+
+
+
+
 
 
 
