@@ -726,3 +726,35 @@ A continuación, se detallan las instrucciones de ejecución:
 - Para acceder al juego en otro ordenador, se debe escribir la IP que aparece en consola en el servidor, ya que se imprime por pantalla, además del puerto :8080
 
 
+
+**15. MEJORAS FINALES FASE 5**
+
+En cuanto a las mejoras, las primeras realizadas fueron las mejoras visuales: la pantalla se ha centrado,
+se ha añadido un fondo pixel-art de acuerdo con la estética del juego, en los espacios vacíos a los lados se han colocado
+banners informativos con los controles, se ha añadido un ícono a la página del juego, se han modificado las pantallas de introducción para añadir los controles actualizados y se ha acabado de estilizar la página.
+
+En cuanto a mejoras técnicas, se ha añadido un botón en el menú principal para ver los créditos,
+se ha añadido una nueva pantalla de carga al esperar jugadores, se ha indicado claramente en las pantallas de introducción los controles, en el chat han habido mejoras de claridad para determinar de quién es el mensaje
+y se ha añadido una opción para volver al inicio desde las pantallas finales de victoria y derrota. 
+
+Por último, en las mejoras de ambientación se ha añadido música acorde con el juego.
+
+**15.1 Diagrama final de navegación**
+
+
+
+**16. PUBLICACIÓN DEL JUEGO**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
