@@ -2645,7 +2645,6 @@ class SceneGame extends Phaser.Scene {
             this.input.keyboard.enabled = true;
         }
 
-
         // INTERPOLACIÓN DEL MOVIMIENTO DE LOS PERSONAJES //
         const lerpFactor = 0.3 * (delta / 16.67);
         const now = performance.now();
@@ -6463,9 +6462,7 @@ class SceneGame extends Phaser.Scene {
             }
             if (!juegoLocal){
                 conexionWS.send(JSON.stringify(mensaje));
-            }
-
-             
+            }             
         }
 }
 export default SceneGame;
