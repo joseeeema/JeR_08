@@ -669,10 +669,18 @@ Para ejecutar el servidor correctamente, se debe abrir la carpeta API REST desde
 
 **14. MODIFICACIONES FASE 4**
 
-**14.1 Diagrama de clases**
+**14.1 Diagrama de navegación**
+
+Para llevar a cabo la demo online, se ha creado una versión reducida del juego, en la que para superarlo sólo se necesitan resolver el primer, penúltimo y último puzle.
+
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/AssetsGDD/Tablero_en_blanco.png)
+
+**14.2 Diagrama de clases**
+
 Respecto al diagrama de clases mostrado en la Fase 3, no se han realizado modificaciones notorias, ya que, las funcionalidades de WebSockets se han implementado sobre las clases anteriores.
 
-**14.2 Funcionalidades con WebSockets**
+**14.3 Funcionalidades con WebSockets**
+
 A continuación, se van a describir las funcionalidades que se han implementado mediante la comunicación por WebSockets y la forma de hacerlo
 
 - En primer lugar, en la función create se crean los websockets y su conexión para después en una función llamada onMessage,
@@ -708,7 +716,9 @@ junto con la posición anterior, utilizando la función Phaser.Math.Linear.
 
 - Además, para gestionar los mensajes del chat, se recibe el mensaje con el contenido de dicho mensaje y se muestra por la pantalla, en la pantalla se muestra el nombre del jugador que lo envía con un color predeterminado y el contenido del mensaje.
 
-**14.3 Instrucciones de ejecución**
+
+**14.4 Instrucciones de ejecución**
+
 
 A continuación, se detallan las instrucciones de ejecución:
 - Levantar el servidor en un ordenador, seleccionando Run en la DemoApplication.java
