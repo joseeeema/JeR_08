@@ -673,7 +673,7 @@ Para ejecutar el servidor correctamente, se debe abrir la carpeta API REST desde
 
 Para llevar a cabo la demo online, se ha creado una versión reducida del juego, en la que para superarlo sólo se necesitan resolver el primer, penúltimo y último puzle.
 
-![Image text](https://github.com/joseeeema/JeR_08/blob/main/AssetsGDD/Tablero_en_blanco.png)
+![Image text](https://github.com/joseeeema/JeR_08/blob/main/AssetsGDD/Navegación_F4.png)
 
 **14.2 Diagrama de clases**
 
