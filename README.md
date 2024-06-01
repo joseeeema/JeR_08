@@ -755,9 +755,12 @@ A continuación, se muestra el diagrama final de navegación tras las mejoras
 **16. PUBLICACIÓN DEL JUEGO**
 
 Se ha publicado el juego en distintas páginas:
+
 - Itch.io: https://wildcardstudiosoficial.itch.io/riddle-wiggle
 - Game Jolt: https://gamejolt.com/games/RIDDLE_WIGGLE/900661
 - Isotopic Games: https://isotopic.io/game-edit-page/?game=Riddle_Wiggle
+- Indiexpo: https://www.indiexpo.net/es/games/riddle-wiggle
+- Newgrounds: https://www.newgrounds.com/portal/view/932777
 
 
 
