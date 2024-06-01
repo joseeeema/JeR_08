@@ -1,6 +1,11 @@
 # JeR_08
 # RIDDLE & WIGGLE
 
+***Enlace para acceder al video del gameplay comentado mostrando las funcionalidades de WebSockets:***
+
+https://youtu.be/FlRUTiCntGw
+
+
 ***Documento de diseño del videojuego***
 
 *Juegos en Red - Grado en Diseño y Desarrollo de Videojuegos*
@@ -748,6 +753,11 @@ A continuación, se muestra el diagrama final de navegación tras las mejoras
 
 
 **16. PUBLICACIÓN DEL JUEGO**
+
+Se ha publicado el juego en distintas páginas:
+- Itch.io: https://wildcardstudiosoficial.itch.io/riddle-wiggle
+- Game Jolt: https://gamejolt.com/games/RIDDLE_WIGGLE/900661
+- Isotopic Games: https://isotopic.io/game-edit-page/?game=Riddle_Wiggle
 
 
 
